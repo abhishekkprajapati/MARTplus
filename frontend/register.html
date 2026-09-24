@@ -957,6 +957,60 @@
 
                 <!-- EMAIL -->
                 <div class="form-group">
+                    <!-- ACCOUNT TYPE -->
+<div class="role-selector-wrapper">
+
+    <span class="role-selector-label">
+        Account Type
+    </span>
+
+    <div class="role-pills">
+
+        <label class="role-pill-option active" id="buyerRoleOption">
+
+            <input
+                type="radio"
+                name="role"
+                id="buyerRole"
+                value="BUYER"
+                checked
+            >
+
+            <span class="role-pill-icon">🛍️</span>
+
+            <span class="role-pill-details">
+                <span class="role-pill-title">Buyer</span>
+                <span class="role-pill-sub">Shop & order products</span>
+            </span>
+
+        </label>
+
+
+        <label class="role-pill-option" id="sellerRoleOption">
+
+            <input
+                type="radio"
+                name="role"
+                id="sellerRole"
+                value="SELLER"
+            >
+
+            <span class="role-pill-icon">🏪</span>
+
+            <span class="role-pill-details">
+                <span class="role-pill-title">Seller</span>
+                <span class="role-pill-sub">Sell & manage products</span>
+            </span>
+
+        </label>
+
+    </div>
+
+    <div class="role-notice-tip">
+        💡 You can choose your account type now.
+    </div>
+
+</div>
                     <label for="email">Email Address</label>
                     <input
                         type="email"
@@ -1254,6 +1308,29 @@ document.addEventListener("DOMContentLoaded", function () {
     const finishVerificationBtn = document.getElementById("finishVerificationBtn");
     const verificationGlobalAlert = document.getElementById("verificationGlobalAlert");
     const verificationGlobalSuccess = document.getElementById("verificationGlobalSuccess");
+
+const roleOptions = document.querySelectorAll(".role-pill-option");
+
+roleOptions.forEach(function (option) {
+
+    option.addEventListener("click", function () {
+
+        roleOptions.forEach(function (item) {
+            item.classList.remove("active");
+        });
+
+        option.classList.add("active");
+
+        const radio = option.querySelector(
+            'input[type="radio"]'
+        );
+
+        radio.checked = true;
+
+    });
+
+});
+
 
     let currentRegisteredEmail = "";
     let currentRegisteredPhone = "";
@@ -1588,7 +1665,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const phoneVal = phone.value.trim();
         const passwordVal = password.value;
         const confirmPasswordVal = confirmPassword.value;
-        const roleVal = "BUYER";
+        const roleVal = document.querySelector(
+           'input[name="role"]:checked'
+        ).value;
 
         // Validations
         if (!firstNameVal || !lastNameVal) {
@@ -1634,7 +1713,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 email: emailVal,
                 phone: phoneVal,
                 password: passwordVal,
-                role: "BUYER"
+                role: roleVal
             };
 
             let regRes = null;
