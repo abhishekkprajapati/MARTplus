@@ -6,9 +6,9 @@
 (function () {
     "use strict";
 
-    const API_BASE = "http://localhost:8080/api";
+    const API_BASE = "https://martplus-backend.onrender.com/api";
     const AUTH_KEY = "shopsphere_user";
-
+    
     function getToken() {
         try {
             const user = JSON.parse(localStorage.getItem(AUTH_KEY) || "null");
