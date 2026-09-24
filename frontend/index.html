@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MARTplus | Discover. Shop. Enjoy.</title>
+
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+
+    <meta
+        name="description"
+        content="MARTplus is a modern multi-vendor e-commerce platform where you can discover, compare and shop products from trusted sellers."
+    >
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Responsive Stylesheet -->
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <!-- =========================================================
+         TOP ANNOUNCEMENT BAR
+    ========================================================== -->
+    <div class="announcement-bar">
+        <div class="container announcement-content">
+            <p>🚚 Free shipping on orders over ₹999</p>
+
+            <div class="announcement-links">
+                <a href="#">Track Order</a>
+                <span>|</span>
+                <a href="#">Help Center</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+         MAIN HEADER
+    ========================================================== -->
+    <header class="main-header">
+
+        <div class="header-main-bar">
+            <div class="container header-content">
+
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <img src="assets/icons/mplus-logo.png" alt="MARTplus" class="logo-img">
+                    <span class="logo-text">MART<span>plus</span></span>
+                </a>
+
+
+                <!-- Search -->
+                <div class="search-container">
+
+                    <form class="search-box" id="searchForm">
+
+                        <span class="search-icon">⌕</span>
+
+                        <input
+                            type="search"
+                            id="searchInput"
+                            placeholder="Search for products, brands and more..."
+                            autocomplete="off"
+                        >
+
+                        <button type="submit">
+                            Search
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <!-- Header Actions -->
+                <div class="header-actions">
+
+                    <!-- Wishlist -->
+                    <a href="wishlist.html" class="header-action">
+                        <span class="action-icon">♡</span>
+
+                        <span class="action-text">
+                            <small>My</small>
+                            <strong>Wishlist</strong>
+                        </span>
+
+                        <span class="action-badge" id="wishlistCount">0</span>
+                    </a>
+
+
+                    <!-- Cart -->
+                    <a href="cart.html" class="header-action cart-action">
+
+                        <span class="action-icon">🛒</span>
+
+                        <span class="action-text">
+                            <small>My</small>
+                            <strong>Cart</strong>
+                        </span>
+
+                        <span class="action-badge" id="cartCount">0</span>
+
+                    </a>
+
+
+                    <!-- Account -->
+                    <a href="login.html" class="header-action header-account-btn" id="headerAccountAction" aria-label="Account">
+                        <span class="action-icon">👤</span>
+
+                        <span class="action-text">
+                            <small>Hello, Sign in</small>
+                            <strong>Account</strong>
+                        </span>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- =====================================================
+             CATEGORY NAVIGATION — ROUNDED CARD CONTAINER
+        ====================================================== -->
+        <nav class="main-navigation" aria-label="Category Navigation">
+            <div class="container nav-card-container">
+                <div class="navigation-card">
+
+                    <button class="category-menu-btn" id="categoryMenuBtn" type="button" aria-label="All Categories">
+                        <span class="category-menu-icon">☰</span>
+                        <span class="category-menu-text">All Categories</span>
+                        <span class="category-dropdown-arrow">▾</span>
+                    </button>
+
+                    <div class="nav-divider" aria-hidden="true"></div>
+
+                    <div class="nav-links">
+                        <a href="index.html" class="active">Home</a>
+                        <a href="products.html">All Products</a>
+                        <a href="category.html?category=Electronics">Electronics</a>
+                        <a href="category.html?category=Fashion">Fashion</a>
+                        <a href="category.html?category=Home%20%26%20Living">Home & Living</a>
+                        <a href="category.html?category=Beauty">Beauty</a>
+                        <a href="category.html?category=Sports">Sports</a>
+                        <a href="category.html?category=Deals">Deals</a>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================================
+         CATEGORY DRAWER
+    ========================================================== -->
+    <aside class="category-drawer" id="categoryDrawer">
+
+        <div class="drawer-header">
+            <h3>Shop by Category</h3>
+
+            <button id="closeCategoryDrawer">
+                ×
+            </button>
+        </div>
+
+
+        <div class="drawer-content">
+
+            <a href="category.html?category=Electronics">
+                <span>📱</span>
+                Electronics
+            </a>
+
+            <a href="category.html?category=Fashion">
+                <span>👕</span>
+                Fashion
+            </a>
+
+            <a href="category.html?category=Home%20%26%20Living">
+                <span>🏠</span>
+                Home & Living
+            </a>
+
+            <a href="category.html?category=Beauty">
+                <span>💄</span>
+                Beauty
+            </a>
+
+            <a href="category.html?category=Sports">
+                <span>⚽</span>
+                Sports & Fitness
+            </a>
+
+            <a href="category.html?category=books">
+                <span>📚</span>
+                Books
+            </a>
+
+            <a href="category.html?category=grocery">
+                <span>🛒</span>
+                Grocery
+            </a>
+
+            <a href="category.html?category=accessories">
+                <span>⌚</span>
+                Accessories
+            </a>
+
+        </div>
+
+    </aside>
+
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================== -->
+    <main>
+
+
+        <!-- =====================================================
+             HERO SECTION
+        ====================================================== -->
+        <section class="hero-section">
+
+            <div class="container hero-grid">
+
+                <!-- Hero Content -->
+                <div class="hero-content">
+
+                    <span class="hero-eyebrow">
+                        ✨ THE SMARTER WAY TO SHOP
+                    </span>
+
+                    <h1>
+                        Everything you want.
+                        <span>All in one place.</span>
+                    </h1>
+
+                    <p>
+                        Discover thousands of products from trusted sellers,
+                        amazing deals, and everything you need — delivered to
+                        your doorstep.
+                    </p>
+
+
+                    <div class="hero-buttons">
+
+                        <a href="products.html" class="btn btn-primary">
+                            Shop Now
+                            <span>→</span>
+                        </a>
+
+                        <a href="category.html?category=deals" class="btn btn-secondary">
+                            Explore Deals
+                        </a>
+
+                    </div>
+
+
+                    <!-- Hero Trust Indicators -->
+                    <div class="hero-trust">
+
+                        <div class="trust-item">
+                            <strong>10K+</strong>
+                            <span>Products</span>
+                        </div>
+
+                        <div class="trust-item">
+                            <strong>500+</strong>
+                            <span>Verified Sellers</span>
+                        </div>
+
+                        <div class="trust-item">
+                            <strong>50K+</strong>
+                            <span>Happy Buyers</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Hero Visual -->
+                <div class="hero-visual">
+
+                    <div class="hero-card main-hero-card">
+
+                        <div class="hero-card-glow"></div>
+
+                        <span class="hero-floating-label">
+                            🔥 Trending Now
+                        </span>
+
+                        <div class="hero-product-placeholder">
+                            <span>🛍️</span>
+                        </div>
+
+                        <div class="hero-card-info">
+
+                            <span>Featured Collection</span>
+
+                            <strong>
+                                Discover What's New
+                            </strong>
+
+                            <a href="products.html">
+                                Explore Collection →
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Floating Card -->
+                    <div class="floating-card floating-card-one">
+
+                        <span class="floating-icon">⚡</span>
+
+                        <div>
+                            <small>Today's Deal</small>
+                            <strong>Up to 70% OFF</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="floating-card floating-card-two">
+
+                        <span class="floating-icon">✓</span>
+
+                        <div>
+                            <small>Trusted Shopping</small>
+                            <strong>Verified Sellers</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             BENEFITS
+        ====================================================== -->
+        <section class="benefits-section">
+
+            <div class="container benefits-grid">
+
+                <div class="benefit-card">
+
+                    <span class="benefit-icon">🚚</span>
+
+                    <div>
+                        <h3>Fast Delivery</h3>
+                        <p>Quick and reliable doorstep delivery.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="benefit-card">
+
+                    <span class="benefit-icon">🔒</span>
+
+                    <div>
+                        <h3>Secure Payments</h3>
+                        <p>Your payments are always protected.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="benefit-card">
+
+                    <span class="benefit-icon">↩️</span>
+
+                    <div>
+                        <h3>Easy Returns</h3>
+                        <p>Simple and hassle-free return process.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="benefit-card">
+
+                    <span class="benefit-icon">✓</span>
+
+                    <div>
+                        <h3>Verified Sellers</h3>
+                        <p>Shop confidently from trusted sellers.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CATEGORIES
+        ====================================================== -->
+        <section class="categories-section section">
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div>
+                        <span class="section-eyebrow">
+                            EXPLORE
+                        </span>
+
+                        <h2>
+                            Shop by Category
+                        </h2>
+
+                        <p>
+                            Find exactly what you're looking for.
+                        </p>
+                    </div>
+
+                    <a href="products.html" class="view-all-link">
+                        View All →
+                    </a>
+
+                </div>
+
+
+                <div class="category-grid">
+
+                    <a href="category.html?category=electronics" class="category-card">
+                        <div class="category-image electronics-category">
+                            <span>📱</span>
+                        </div>
+
+                        <h3>Electronics</h3>
+                        <p>2,450+ Products</p>
+                    </a>
+
+
+                    <a href="category.html?category=fashion" class="category-card">
+                        <div class="category-image fashion-category">
+                            <span>👕</span>
+                        </div>
+
+                        <h3>Fashion</h3>
+                        <p>5,200+ Products</p>
+                    </a>
+
+
+                    <a href="category.html?category=home" class="category-card">
+                        <div class="category-image home-category">
+                            <span>🏠</span>
+                        </div>
+
+                        <h3>Home & Living</h3>
+                        <p>3,100+ Products</p>
+                    </a>
+
+
+                    <a href="category.html?category=beauty" class="category-card">
+                        <div class="category-image beauty-category">
+                            <span>💄</span>
+                        </div>
+
+                        <h3>Beauty</h3>
+                        <p>1,850+ Products</p>
+                    </a>
+
+
+                    <a href="category.html?category=sports" class="category-card">
+                        <div class="category-image sports-category">
+                            <span>⚽</span>
+                        </div>
+
+                        <h3>Sports</h3>
+                        <p>1,420+ Products</p>
+                    </a>
+
+
+                    <a href="category.html?category=books" class="category-card">
+                        <div class="category-image books-category">
+                            <span>📚</span>
+                        </div>
+
+                        <h3>Books</h3>
+                        <p>4,600+ Products</p>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FLASH DEALS
+        ====================================================== -->
+        <section class="deals-section section">
+
+            <div class="container">
+
+                <div class="section-header deals-header">
+
+                    <div>
+                        <span class="section-eyebrow">
+                            LIMITED TIME
+                        </span>
+
+                        <h2>
+                            🔥 Flash Deals
+                        </h2>
+
+                        <p>
+                            Grab these deals before they're gone.
+                        </p>
+                    </div>
+
+
+                    <div class="deal-timer">
+
+                        <span>Ends in</span>
+
+                        <div class="timer-box">
+                            <strong id="hours">08</strong>
+                            <small>HRS</small>
+                        </div>
+
+                        <span>:</span>
+
+                        <div class="timer-box">
+                            <strong id="minutes">42</strong>
+                            <small>MIN</small>
+                        </div>
+
+                        <span>:</span>
+
+                        <div class="timer-box">
+                            <strong id="seconds">19</strong>
+                            <small>SEC</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="product-grid" id="flashDealsGrid">
+
+                    <!-- Product cards will be rendered by JavaScript -->
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             TRENDING PRODUCTS
+        ====================================================== -->
+        <section class="products-section section">
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div>
+                        <span class="section-eyebrow">
+                            CUSTOMER FAVORITES
+                        </span>
+
+                        <h2>
+                            Trending Products
+                        </h2>
+
+                        <p>
+                            Products everyone is talking about.
+                        </p>
+                    </div>
+
+                    <a href="products.html" class="view-all-link">
+                        View All →
+                    </a>
+
+                </div>
+
+
+                <div class="product-grid" id="trendingProductsGrid">
+
+                    <!-- Product cards will be rendered by JavaScript -->
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PROMOTIONAL BANNER
+        ====================================================== -->
+        <section class="promo-section section">
+
+            <div class="container">
+
+                <div class="promo-banner">
+
+                    <div class="promo-content">
+
+                        <span class="promo-label">
+                            MEMBER EXCLUSIVE
+                        </span>
+
+                        <h2>
+                            Get ₹500 OFF
+                            <br>
+                            Your First Order
+                        </h2>
+
+                        <p>
+                            Sign up today and unlock exclusive deals,
+                            early access and more.
+                        </p>
+
+                        <a href="register.html" class="btn btn-light">
+                            Create Account →
+                        </a>
+
+                    </div>
+
+
+                    <div class="promo-visual">
+
+                        <div class="promo-circle">
+                            ₹500
+                        </div>
+
+                        <span class="promo-spark spark-one">✦</span>
+                        <span class="promo-spark spark-two">✦</span>
+                        <span class="promo-spark spark-three">✦</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             BEST SELLERS
+        ====================================================== -->
+        <section class="products-section section">
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div>
+                        <span class="section-eyebrow">
+                            TOP PICKS
+                        </span>
+
+                        <h2>
+                            Best Sellers
+                        </h2>
+
+                        <p>
+                            Loved and purchased by our community.
+                        </p>
+                    </div>
+
+                    <a href="products.html" class="view-all-link">
+                        View All →
+                    </a>
+
+                </div>
+
+
+                <div class="product-grid" id="bestSellersGrid">
+
+                    <!-- Product cards will be rendered by JavaScript -->
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SELLER CTA
+        ====================================================== -->
+        <section class="seller-section section">
+
+            <div class="container">
+
+                <div class="seller-banner">
+
+                    <div class="seller-content">
+
+                        <span class="section-eyebrow">
+                            FOR BUSINESS OWNERS
+                        </span>
+
+                        <h2>
+                            Turn your products
+                            into a business.
+                        </h2>
+
+                        <p>
+                            Join thousands of sellers and reach customers
+                            across the country with MARTplus.
+                        </p>
+
+                        <a href="register.html?role=seller" class="btn btn-primary">
+                            Start Selling →
+                        </a>
+
+                    </div>
+
+
+                    <div class="seller-stats">
+
+                        <div>
+                            <strong>500+</strong>
+                            <span>Active Sellers</span>
+                        </div>
+
+                        <div>
+                            <strong>10K+</strong>
+                            <span>Products Listed</span>
+                        </div>
+
+                        <div>
+                            <strong>₹2Cr+</strong>
+                            <span>Seller Sales</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             NEWSLETTER
+        ====================================================== -->
+        <section class="newsletter-section">
+
+            <div class="container newsletter-content">
+
+                <div>
+                    <span class="section-eyebrow">
+                        STAY IN THE LOOP
+                    </span>
+
+                    <h2>
+                        Get the latest deals in your inbox.
+                    </h2>
+
+                    <p>
+                        Subscribe to receive new arrivals, exclusive offers
+                        and shopping inspiration.
+                    </p>
+                </div>
+
+
+                <form class="newsletter-form" id="newsletterForm">
+
+                    <input
+                        type="email"
+                        id="newsletterEmail"
+                        placeholder="Enter your email address"
+                        required
+                    >
+
+                    <button type="submit" class="btn btn-primary">
+                        Subscribe
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+    <footer class="main-footer">
+
+        <div class="container footer-grid">
+
+            <!-- Brand -->
+            <div class="footer-brand">
+
+                <a href="index.html" class="logo footer-logo">
+                    <img src="assets/icons/mplus-logo.png" alt="MARTplus" class="footer-logo-img">
+                    <span class="logo-text">MART<span>plus</span></span>
+                </a>
+
+                <p>
+                    A smarter way to discover, shop and sell.
+                    Connecting buyers with trusted sellers.
+                </p>
+
+
+                <div class="social-links">
+
+                    <a href="#" aria-label="Instagram">◎</a>
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Twitter">𝕏</a>
+                    <a href="#" aria-label="LinkedIn">in</a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Shop -->
+            <div class="footer-column">
+
+                <h3>Shop</h3>
+
+                <a href="products.html">All Products</a>
+                <a href="category.html?category=electronics">Electronics</a>
+                <a href="category.html?category=fashion">Fashion</a>
+                <a href="category.html?category=home">Home & Living</a>
+                <a href="category.html?category=beauty">Beauty</a>
+                <a href="category.html?category=deals">Deals</a>
+
+            </div>
+
+
+            <!-- Customer -->
+            <div class="footer-column">
+
+                <h3>Customer</h3>
+
+                <a href="account.html">My Account</a>
+                <a href="orders.html">Order History</a>
+                <a href="wishlist.html">Wishlist</a>
+                <a href="#">Track Order</a>
+                <a href="#">Help Center</a>
+                <a href="#">Returns</a>
+
+            </div>
+
+
+            <!-- Seller -->
+            <div class="footer-column">
+
+                <h3>Sell With Us</h3>
+
+                <a href="register.html?role=seller">Become a Seller</a>
+                <a href="seller/dashboard.html">Seller Dashboard</a>
+                <a href="#">Seller Guidelines</a>
+                <a href="#">Seller Support</a>
+                <a href="#">Pricing</a>
+
+            </div>
+
+
+            <!-- Contact -->
+            <div class="footer-column">
+
+                <h3>Contact</h3>
+
+                <a href="mailto:support@martplus.com">
+                    support@martplus.com
+                </a>
+
+                <a href="tel:+919999999999">
+                    +91 99999 99999
+                </a>
+
+                <p class="footer-address">
+                    Mon – Sat, 9 AM – 6 PM
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+
+            <div class="container footer-bottom-content">
+
+                <p>
+                    © 2026 MARTplus. All rights reserved.
+                </p>
+
+                <div>
+
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         TOAST NOTIFICATION
+    ========================================================== -->
+    <div class="toast-container" id="toastContainer">
+
+        <div class="toast" id="toast">
+
+            <span class="toast-icon">✓</span>
+
+            <div class="toast-content">
+
+                <strong id="toastTitle">
+                    Success
+                </strong>
+
+                <p id="toastMessage">
+                    Action completed successfully.
+                </p>
+
+            </div>
+
+            <button id="closeToast">
+                ×
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Main JavaScript -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MARTplus | Categories</title>
+
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+
+    <meta
+        name="description"
+        content="Browse products by category on MARTplus."
+    >
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <style>
+        /* =========================================
+           CATEGORY PAGE
+        ========================================= */
+
+        .category-page {
+            padding: 40px 0 80px;
+        }
+
+        .category-hero {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 35px;
+            padding: 38px 42px;
+            border-radius: 20px;
+            background: linear-gradient(
+                135deg,
+                #eef2ff,
+                #f8fafc
+            );
+            border: 1px solid var(--gray-200);
+        }
+
+        .category-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 650px;
+        }
+
+        .category-eyebrow {
+            display: inline-block;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .category-hero h1 {
+            margin: 0 0 10px;
+            color: var(--dark);
+            font-size: 38px;
+            line-height: 1.2;
+        }
+
+        .category-hero p {
+            margin: 0;
+            color: var(--gray-600);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .category-hero-icon {
+            position: absolute;
+            right: 60px;
+            bottom: -25px;
+            font-size: 150px;
+            opacity: .12;
+        }
+
+        /* =========================================
+           CATEGORY NAV
+        ========================================= */
+
+        .category-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 30px;
+            scrollbar-width: thin;
+        }
+
+        .category-nav-btn {
+            flex: 0 0 auto;
+            padding: 10px 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 9px;
+            background: #fff;
+            color: var(--gray-600);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: .2s ease;
+        }
+
+        .category-nav-btn:hover,
+        .category-nav-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* =========================================
+           TOOLBAR
+        ========================================= */
+
+        .category-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .category-results {
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+
+        .category-results strong {
+            color: var(--dark);
+        }
+
+        .category-sort {
+            min-width: 180px;
+            padding: 10px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            background: #fff;
+            color: var(--dark);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .category-sort:focus {
+            border-color: var(--primary);
+        }
+
+        /* =========================================
+           PRODUCT GRID
+        ========================================= */
+
+        .category-products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        /* =========================================
+           EMPTY
+        ========================================= */
+
+        .category-empty {
+            display: none;
+            padding: 70px 20px;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            background: #fff;
+        }
+
+        .category-empty.show {
+            display: block;
+        }
+
+        .category-empty-icon {
+            margin-bottom: 15px;
+            font-size: 55px;
+        }
+
+        .category-empty h2 {
+            margin: 0 0 8px;
+            color: var(--dark);
+            font-size: 22px;
+        }
+
+        .category-empty p {
+            margin: 0 0 20px;
+            color: var(--gray-500);
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 1100px) {
+            .category-products-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .category-page {
+                padding-top: 25px;
+            }
+
+            .category-hero {
+                padding: 30px 25px;
+            }
+
+            .category-hero h1 {
+                font-size: 30px;
+            }
+
+            .category-hero-icon {
+                right: 20px;
+                font-size: 110px;
+            }
+
+            .category-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .category-sort {
+                width: 100%;
+            }
+
+            .category-products-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .category-hero {
+                padding: 25px 20px;
+            }
+
+            .category-hero h1 {
+                font-size: 26px;
+            }
+
+            .category-hero-icon {
+                display: none;
+            }
+
+            .category-products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================
+         ANNOUNCEMENT BAR
+    ========================================== -->
+
+    <div class="announcement-bar">
+
+        <div class="container announcement-content">
+
+            <span>
+                🚚 Free shipping on orders above ₹999
+            </span>
+
+            <span class="announcement-divider"></span>
+
+            <span>
+                ⚡ Flash Deals Live Now
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="main-header site-header">
+
+        <div class="header-main-bar">
+            <div class="container header-content">
+
+                <a href="index.html" class="logo">
+                    <img src="assets/icons/mplus-logo.png" alt="MARTplus" class="logo-img">
+                    <span class="logo-text">MART<span>plus</span></span>
+                </a>
+
+                <div class="search-container search-wrapper">
+                    <form class="search-box search-form" id="categorySearchForm">
+                        <span class="search-icon">⌕</span>
+
+                        <input
+                            type="search"
+                            id="categorySearchInput"
+                            placeholder="Search products, brands and categories..."
+                            autocomplete="off"
+                        >
+
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+
+                <div class="header-actions">
+
+                    <a href="wishlist.html" class="header-action" aria-label="Wishlist">
+                        <span class="action-icon">♡</span>
+                        <span class="action-text">
+                            <small>My</small>
+                            <strong>Wishlist</strong>
+                        </span>
+                        <span class="action-badge wishlist-count" id="wishlistCount">0</span>
+                    </a>
+
+                    <a href="cart.html" class="header-action cart-action" aria-label="Cart">
+                        <span class="action-icon">🛒</span>
+                        <span class="action-text">
+                            <small>My</small>
+                            <strong>Cart</strong>
+                        </span>
+                        <span class="action-badge cart-count" id="cartCount">0</span>
+                    </a>
+
+                    <a href="login.html" class="header-action header-account-btn" id="headerAccountAction" aria-label="Account">
+                        <span class="action-icon">👤</span>
+                        <span class="action-text">
+                            <small>Hello, Sign in</small>
+                            <strong>Account</strong>
+                        </span>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- =====================================================
+             CATEGORY NAVIGATION — ROUNDED CARD CONTAINER
+        ====================================================== -->
+        <nav class="main-navigation" aria-label="Category Navigation">
+            <div class="container nav-card-container">
+                <div class="navigation-card">
+
+                    <button class="category-menu-btn" id="categoryMenuBtn" type="button" aria-label="All Categories">
+                        <span class="category-menu-icon">☰</span>
+                        <span class="category-menu-text">All Categories</span>
+                        <span class="category-dropdown-arrow">▾</span>
+                    </button>
+
+                    <div class="nav-divider" aria-hidden="true"></div>
+
+                    <div class="nav-links">
+                        <a href="index.html">Home</a>
+                        <a href="products.html">All Products</a>
+                        <a href="category.html?category=Electronics">Electronics</a>
+                        <a href="category.html?category=Fashion">Fashion</a>
+                        <a href="category.html?category=Home%20%26%20Living">Home & Living</a>
+                        <a href="category.html?category=Beauty">Beauty</a>
+                        <a href="category.html?category=Sports">Sports</a>
+                        <a href="category.html?category=Deals">Deals</a>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================
+         CATEGORY DRAWER
+    ========================================== -->
+
+    <div
+        class="category-drawer"
+        id="categoryDrawer"
+    >
+
+        <div class="drawer-header">
+
+            <h3>
+                Shop by Category
+            </h3>
+
+            <button
+                type="button"
+                class="drawer-close"
+                id="drawerClose"
+                aria-label="Close categories"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="drawer-content">
+
+            <a href="category.html?category=Electronics">
+                <span>📱</span>
+                Electronics
+            </a>
+
+            <a href="category.html?category=Fashion">
+                <span>👕</span>
+                Fashion
+            </a>
+
+            <a href="category.html?category=Home%20%26%20Living">
+                <span>🏠</span>
+                Home & Living
+            </a>
+
+            <a href="category.html?category=Beauty">
+                <span>💄</span>
+                Beauty
+            </a>
+
+            <a href="category.html?category=Sports">
+                <span>⚽</span>
+                Sports
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="drawer-overlay"
+        id="drawerOverlay"
+    ></div>
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="category-page">
+
+        <div class="container">
+
+
+            <!-- =====================================
+                 CATEGORY HERO
+            ====================================== -->
+
+            <section class="category-hero">
+
+                <div class="category-hero-content">
+
+                    <span
+                        class="category-eyebrow"
+                        id="categoryEyebrow"
+                    >
+                        SHOP CATEGORY
+                    </span>
+
+                    <h1 id="categoryTitle">
+                        Electronics
+                    </h1>
+
+                    <p id="categoryDescription">
+                        Explore the latest electronics,
+                        smart devices, accessories and
+                        technology products from trusted sellers.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="category-hero-icon"
+                    id="categoryHeroIcon"
+                >
+                    📱
+                </div>
+
+            </section>
+
+
+            <!-- =====================================
+                 CATEGORY NAVIGATION
+            ====================================== -->
+
+            <div class="category-nav">
+
+                <a
+                    href="category.html?category=Electronics"
+                    class="category-nav-btn"
+                    data-category="Electronics"
+                >
+                    📱 Electronics
+                </a>
+
+                <a
+                    href="category.html?category=Fashion"
+                    class="category-nav-btn"
+                    data-category="Fashion"
+                >
+                    👕 Fashion
+                </a>
+
+                <a
+                    href="category.html?category=Home%20%26%20Living"
+                    class="category-nav-btn"
+                    data-category="Home & Living"
+                >
+                    🏠 Home & Living
+                </a>
+
+                <a
+                    href="category.html?category=Beauty"
+                    class="category-nav-btn"
+                    data-category="Beauty"
+                >
+                    💄 Beauty
+                </a>
+
+                <a
+                    href="category.html?category=Sports"
+                    class="category-nav-btn"
+                    data-category="Sports"
+                >
+                    ⚽ Sports
+                </a>
+
+                <a
+                    href="category.html?category=Deals"
+                    class="category-nav-btn"
+                    data-category="Deals"
+                >
+                    🔥 Deals
+                </a>
+
+            </div>
+
+
+            <!-- =====================================
+                 TOOLBAR
+            ====================================== -->
+
+            <div class="category-toolbar">
+
+                <div class="category-results">
+
+                    Showing
+                    <strong id="categoryProductCount">
+                        0
+                    </strong>
+                    products
+
+                </div>
+
+
+                <select
+                    class="category-sort"
+                    id="categorySort"
+                >
+
+                    <option value="default">
+                        Recommended
+                    </option>
+
+                    <option value="price-low">
+                        Price: Low to High
+                    </option>
+
+                    <option value="price-high">
+                        Price: High to Low
+                    </option>
+
+                    <option value="rating">
+                        Customer Rating
+                    </option>
+
+                    <option value="discount">
+                        Biggest Discount
+                    </option>
+
+                    <option value="reviews">
+                        Most Reviewed
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- =====================================
+                 PRODUCTS
+            ====================================== -->
+
+            <div
+                class="category-products-grid"
+                id="categoryProductsGrid"
+            ></div>
+
+
+            <!-- =====================================
+                 EMPTY STATE
+            ====================================== -->
+
+            <div
+                class="category-empty"
+                id="categoryEmpty"
+            >
+
+                <div class="category-empty-icon">
+                    🛍️
+                </div>
+
+                <h2>
+                    No products found
+                </h2>
+
+                <p>
+                    There are no products available in this category yet.
+                </p>
+
+                <a
+                    href="products.html"
+                    class="btn btn-primary"
+                >
+                    Browse All Products
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="site-footer">
+
+        <div class="container footer-grid">
+
+
+            <div class="footer-column footer-brand">
+
+                <a
+                    href="index.html"
+                    class="logo footer-logo"
+                >
+                    <img src="assets/icons/mplus-logo.png" alt="MARTplus" class="footer-logo-img">
+                    <span class="logo-text">MART<span>plus</span></span>
+                </a>
+
+                <p>
+                    Your trusted multi-vendor marketplace for quality
+                    products, great deals and a seamless shopping experience.
+                </p>
+
+
+                <div class="footer-socials">
+
+                    <a href="#" aria-label="Facebook">
+                        f
+                    </a>
+
+                    <a href="#" aria-label="Instagram">
+                        ◎
+                    </a>
+
+                    <a href="#" aria-label="Twitter">
+                        𝕏
+                    </a>
+
+                    <a href="#" aria-label="LinkedIn">
+                        in
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    Shop
+                </h3>
+
+                <a href="products.html">
+                    All Products
+                </a>
+
+                <a href="category.html?category=Electronics">
+                    Electronics
+                </a>
+
+                <a href="category.html?category=Fashion">
+                    Fashion
+                </a>
+
+                <a href="category.html?category=Home%20%26%20Living">
+                    Home & Living
+                </a>
+
+                <a href="category.html?category=Beauty">
+                    Beauty
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    Customer Service
+                </h3>
+
+                <a href="buyer/orders.html">
+                    My Orders
+                </a>
+
+                <a href="buyer/tracking.html">
+                    Track Order
+                </a>
+
+                <a href="wishlist.html">
+                    Wishlist
+                </a>
+
+                <a href="buyer/profile.html">
+                    My Account
+                </a>
+
+                <a href="#">
+                    Help Center
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    Sell With Us
+                </h3>
+
+                <a href="seller/dashboard.html">
+                    Seller Dashboard
+                </a>
+
+                <a href="seller/add-product.html">
+                    Add Product
+                </a>
+
+                <a href="seller/inventory.html">
+                    Manage Inventory
+                </a>
+
+                <a href="seller/analytics.html">
+                    Sales Analytics
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <div class="container footer-bottom-content">
+
+                <p>
+                    © 2026 MARTplus. All rights reserved.
+                </p>
+
+                <div>
+
+                    <a href="#">
+                        Privacy Policy
+                    </a>
+
+                    <a href="#">
+                        Terms & Conditions
+                    </a>
+
+                    <a href="#">
+                        Refund Policy
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================
+         TOAST
+    ========================================== -->
+
+    <div class="toast-container" id="toastContainer">
+
+        <div
+            class="toast"
+            id="toast"
+            role="status"
+            aria-live="polite"
+        >
+
+            <span class="toast-icon">✓</span>
+
+            <div class="toast-content">
+
+                <strong id="toastTitle">
+                    Success
+                </strong>
+
+                <p id="toastMessage">
+                    Action completed successfully.
+                </p>
+
+            </div>
+
+            <button
+                id="closeToast"
+                type="button"
+                aria-label="Close notification"
+            >
+                ×
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const params = new URLSearchParams(window.location.search);
+
+        const categoryAliases = {
+            "electronics": "Electronics",
+            "fashion": "Fashion",
+            "home": "Home & Living",
+            "home-living": "Home & Living",
+            "home & living": "Home & Living",
+            "beauty": "Beauty",
+            "sports": "Sports",
+            "deals": "Deals"
+        };
+
+        const rawCategory = params.get("category") || "Electronics";
+        const requestedCategory =
+            categoryAliases[rawCategory.toLowerCase()] ||
+            categoryAliases[decodeURIComponent(rawCategory).toLowerCase()] ||
+            rawCategory;
+
+        const categoryTitle =
+            document.getElementById("categoryTitle");
+
+        const categoryDescription =
+            document.getElementById("categoryDescription");
+
+        const categoryHeroIcon =
+            document.getElementById("categoryHeroIcon");
+
+        const productGrid =
+            document.getElementById("categoryProductsGrid");
+
+        const emptyState =
+            document.getElementById("categoryEmpty");
+
+        const productCount =
+            document.getElementById("categoryProductCount");
+
+        const sortSelect =
+            document.getElementById("categorySort");
+
+        let products = [];
+        let categoryProducts = [];
+
+
+        /* =========================================
+           CATEGORY INFORMATION
+        ========================================== */
+
+        const categoryInfo = {
+
+            "Electronics": {
+                icon: "📱",
+                description:
+                    "Explore the latest electronics, smart devices, accessories and technology products from trusted sellers."
+            },
+
+            "Fashion": {
+                icon: "👕",
+                description:
+                    "Discover trending fashion, footwear, accessories and everyday styles for every occasion."
+            },
+
+            "Home & Living": {
+                icon: "🏠",
+                description:
+                    "Transform your home with beautiful furniture, décor, lighting and useful everyday essentials."
+            },
+
+            "Beauty": {
+                icon: "💄",
+                description:
+                    "Find skincare, beauty essentials and personal care products from trusted marketplace sellers."
+            },
+
+            "Sports": {
+                icon: "⚽",
+                description:
+                    "Gear up with fitness equipment, sports accessories and products designed for an active lifestyle."
+            },
+
+            "Deals": {
+                icon: "🔥",
+                description:
+                    "Save more with MARTplus's best deals, biggest discounts and limited-time offers."
+            }
+
+        };
+
+
+        /* =========================================
+           LOAD PRODUCTS
+        ========================================== */
+
+        if (
+            window.ShopSphereProducts &&
+            Array.isArray(window.ShopSphereProducts.products)
+        ) {
+            products = [...window.ShopSphereProducts.products];
+        }
+
+        if (window.ShopSphereProducts && typeof window.ShopSphereProducts.loadProductsFromBackend === "function") {
+            window.ShopSphereProducts.loadProductsFromBackend().then(loaded => {
+                if (Array.isArray(loaded) && loaded.length) {
+                    products = [...loaded];
+                    categoryProducts = getCategoryProducts();
+                    sortProducts(categoryProducts);
+                }
+            });
+        }
+
+        window.addEventListener("shopsphere:productsLoaded", (event) => {
+            if (Array.isArray(event.detail) && event.detail.length) {
+                products = [...event.detail];
+                categoryProducts = getCategoryProducts();
+                sortProducts(categoryProducts);
+            }
+        });
+
+
+        /* =========================================
+           UPDATE CATEGORY UI
+        ========================================== */
+
+        const info =
+            categoryInfo[requestedCategory] ||
+            categoryInfo["Electronics"];
+
+        categoryTitle.textContent = requestedCategory;
+
+        categoryDescription.textContent =
+            info.description;
+
+        categoryHeroIcon.textContent =
+            info.icon;
+
+        document.title =
+            `${requestedCategory} | MARTplus`;
+
+
+        /* =========================================
+           ACTIVE CATEGORY
+        ========================================== */
+
+        document
+            .querySelectorAll(".category-nav-btn")
+            .forEach(button => {
+
+                if (
+                    button.dataset.category?.toLowerCase() ===
+                    requestedCategory.toLowerCase()
+                ) {
+                    button.classList.add("active");
+                }
+
+            });
+
+
+        /* =========================================
+           FILTER CATEGORY
+        ========================================== */
+
+        function getCategoryProducts() {
+
+            if (requestedCategory.toLowerCase() === "deals") {
+
+                return products.filter(
+                    product =>
+                        Number(product.discount) >= 25
+                );
+
+            }
+
+            return products.filter(
+                product =>
+                    product.category?.toLowerCase() === requestedCategory.toLowerCase() ||
+                    (product.categorySlug && product.categorySlug.toLowerCase() === requestedCategory.toLowerCase())
+            );
+
+        }
+
+
+        /* =========================================
+           SORT PRODUCTS
+        ========================================== */
+
+        function sortProducts(list) {
+
+            const sorted = [...list];
+
+            switch (sortSelect.value) {
+
+                case "price-low":
+
+                    sorted.sort(
+                        (a, b) =>
+                            Number(a.price) -
+                            Number(b.price)
+                    );
+
+                    break;
+
+
+                case "price-high":
+
+                    sorted.sort(
+                        (a, b) =>
+                            Number(b.price) -
+                            Number(a.price)
+                    );
+
+                    break;
+
+
+                case "rating":
+
+                    sorted.sort(
+                        (a, b) =>
+                            Number(b.rating) -
+                            Number(a.rating)
+                    );
+
+                    break;
+
+
+                case "discount":
+
+                    sorted.sort(
+                        (a, b) =>
+                            Number(b.discount) -
+                            Number(a.discount)
+                    );
+
+                    break;
+
+
+                case "reviews":
+
+                    sorted.sort(
+                        (a, b) =>
+                            Number(b.reviews) -
+                            Number(a.reviews)
+                    );
+
+                    break;
+
+            }
+
+            renderProducts(sorted);
+
+        }
+
+
+        /* =========================================
+           GET WISHLIST
+        ========================================== */
+
+        function getWishlistIds() {
+
+            try {
+
+                const data =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "shopsphere_wishlist"
+                        ) || "[]"
+                    );
+
+                if (!Array.isArray(data)) {
+                    return [];
+                }
+
+                return data
+                    .map(item => {
+
+                        if (
+                            typeof item === "object" &&
+                            item !== null
+                        ) {
+                            return Number(
+                                item.productId ??
+                                item.id
+                            );
+                        }
+
+                        return Number(item);
+
+                    })
+                    .filter(id => !Number.isNaN(id));
+
+            } catch (error) {
+
+                console.error(
+                    "Wishlist read error:",
+                    error
+                );
+
+                return [];
+
+            }
+
+        }
+
+
+        /* =========================================
+           RENDER PRODUCTS
+        ========================================== */
+
+        function renderProducts(list) {
+
+            productGrid.innerHTML = "";
+
+            productCount.textContent =
+                list.length;
+
+            if (!list.length) {
+
+                emptyState.classList.add("show");
+
+                return;
+
+            }
+
+            emptyState.classList.remove("show");
+
+
+            list.forEach(product => {
+
+                if (
+                    !window.ShopSphereProducts ||
+                    typeof window.ShopSphereProducts
+                        .createProductCard !== "function"
+                ) {
+                    return;
+                }
+
+                /*
+                 * IMPORTANT:
+                 * createProductCard() returns an HTMLElement,
+                 * not an HTML string.
+                 *
+                 * Therefore appendChild() must be used.
+                 */
+
+                const card =
+                    window.ShopSphereProducts
+                        .createProductCard(product);
+
+                productGrid.appendChild(card);
+
+            });
+
+
+            syncWishlistButtons();
+
+        }
+
+
+        /* =========================================
+           SYNC WISHLIST BUTTONS
+        ========================================== */
+
+        function syncWishlistButtons() {
+
+            const wishlistIds =
+                getWishlistIds();
+
+            document
+                .querySelectorAll(
+                    "#categoryProductsGrid .product-wishlist"
+                )
+                .forEach(button => {
+
+                    const id =
+                        Number(
+                            button.dataset.productId
+                        );
+
+                    if (wishlistIds.includes(id)) {
+
+                        button.classList.add("active");
+
+                        button.innerHTML = "♥";
+
+                    } else {
+
+                        button.classList.remove("active");
+
+                        button.innerHTML = "♡";
+
+                    }
+
+                });
+
+        }
+
+
+        /* =========================================
+           PRODUCT CARD EVENTS
+        ========================================== */
+
+        productGrid.addEventListener(
+            "click",
+            event => {
+
+                const addButton =
+                    event.target.closest(
+                        ".add-to-cart-btn"
+                    );
+
+                const wishlistButton =
+                    event.target.closest(
+                        ".product-wishlist"
+                    );
+
+                const productCard =
+                    event.target.closest(
+                        ".product-card"
+                    );
+
+
+                /* ADD TO CART */
+
+                if (
+                    addButton &&
+                    window.ShopSphereProducts
+                ) {
+
+                    event.stopPropagation();
+
+                    window.ShopSphereProducts.addToCart(
+                        Number(
+                            addButton.dataset.productId
+                        )
+                    );
+
+                    return;
+
+                }
+
+
+                /* WISHLIST */
+
+                if (
+                    wishlistButton &&
+                    window.ShopSphereProducts
+                ) {
+
+                    event.stopPropagation();
+
+                    const productId =
+                        Number(
+                            wishlistButton.dataset.productId
+                        );
+
+                    window.ShopSphereProducts
+                        .toggleWishlist(productId);
+
+                    setTimeout(
+                        syncWishlistButtons,
+                        50
+                    );
+
+                    return;
+
+                }
+
+
+                /* PRODUCT DETAILS */
+
+                if (productCard) {
+
+                    const id =
+                        productCard.dataset.productId;
+
+                    if (id) {
+
+                        window.location.href =
+                            `product-details.html?id=${id}`;
+
+                    }
+
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           SORT
+        ========================================== */
+
+        sortSelect.addEventListener(
+            "change",
+            () => {
+
+                sortProducts(categoryProducts);
+
+            }
+        );
+
+
+        /* =========================================
+           SEARCH
+        ========================================== */
+
+        const searchForm =
+            document.getElementById(
+                "categorySearchForm"
+            );
+
+        searchForm.addEventListener(
+            "submit",
+            event => {
+
+                event.preventDefault();
+
+                const search =
+                    document
+                        .getElementById(
+                            "categorySearchInput"
+                        )
+                        .value
+                        .trim();
+
+                if (search) {
+
+                    window.location.href =
+                        `products.html?search=${encodeURIComponent(search)}`;
+
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           INITIALIZE
+        ========================================== */
+
+        categoryProducts =
+            getCategoryProducts();
+
+        sortProducts(categoryProducts);
+
+    });
+
+</script>
+
+</body>
+</html>

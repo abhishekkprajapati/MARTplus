@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MARTplus | Login</title>
+
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/responsive.css"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f8fafc;
+            color: #111827;
+        }
+
+
+        /* =====================================
+           AUTH PAGE
+        ====================================== */
+
+        .auth-page {
+            min-height: 100vh;
+            background: #f8fafc;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 40px 20px;
+        }
+
+
+        .auth-wrapper {
+            width: 100%;
+            max-width: 1050px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            background: #ffffff;
+
+            border-radius: 24px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 60px rgba(
+                    15,
+                    23,
+                    42,
+                    0.12
+                );
+        }
+
+
+        /* =====================================
+           LEFT BRAND
+        ====================================== */
+
+        .auth-brand {
+            position: relative;
+
+            padding: 55px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #635bff,
+                    #4f46e5
+                );
+
+            color: #ffffff;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            min-height: 650px;
+        }
+
+
+        .auth-logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+
+        .auth-logo span {
+            opacity: 0.75;
+        }
+
+
+        .auth-brand-content {
+            max-width: 430px;
+        }
+
+
+        .auth-brand-content h1 {
+            font-size: 44px;
+            line-height: 1.1;
+
+            margin: 0 0 20px;
+
+            letter-spacing: -1.5px;
+        }
+
+
+        .auth-brand-content p {
+            font-size: 17px;
+            line-height: 1.7;
+
+            margin: 0;
+
+            opacity: 0.9;
+        }
+
+
+        /* =====================================
+           FEATURES
+        ====================================== */
+
+        .auth-features {
+            display: grid;
+
+            gap: 16px;
+
+            margin-top: 35px;
+        }
+
+
+        .auth-feature {
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            font-size: 15px;
+        }
+
+
+        .auth-feature-icon {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 10px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.15
+                );
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+        }
+
+
+        /* =====================================
+           FORM SECTION
+        ====================================== */
+
+        .auth-form-section {
+            position: relative;
+
+            padding: 55px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+        }
+
+
+        .back-home {
+            position: absolute;
+
+            top: 25px;
+            right: 30px;
+
+            color: #6b7280;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .back-home:hover {
+            color: #635bff;
+        }
+
+
+        /* =====================================
+           FORM HEADER
+        ====================================== */
+
+        .auth-form-header {
+            margin-bottom: 30px;
+        }
+
+
+        .auth-form-header h2 {
+            font-size: 32px;
+
+            color: #111827;
+
+            margin: 0 0 8px;
+        }
+
+
+        .auth-form-header p {
+            color: #6b7280;
+
+            font-size: 15px;
+
+            margin: 0;
+        }
+
+
+        /* =====================================
+           FORM
+        ====================================== */
+
+        .auth-form {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 20px;
+        }
+
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+
+        .form-group label {
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #374151;
+        }
+
+
+        .input-wrapper {
+            position: relative;
+
+            width: 100%;
+        }
+
+
+        .form-input {
+            width: 100%;
+
+            height: 52px;
+
+            padding:
+                0 16px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            font-size: 15px;
+
+            color: #111827;
+
+            background: #ffffff;
+
+            transition: 0.2s ease;
+        }
+
+
+        .form-input:focus {
+            border-color: #635bff;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(
+                    99,
+                    91,
+                    255,
+                    0.1
+                );
+        }
+
+
+        /* =====================================
+           PASSWORD
+        ====================================== */
+
+        .password-input {
+            padding-right: 58px;
+        }
+
+
+        .password-toggle {
+            position: absolute;
+
+            right: 8px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            width: 42px;
+            height: 42px;
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+
+            color: #6b7280;
+
+            border-radius: 8px;
+
+            z-index: 10;
+        }
+
+
+        .password-toggle:hover {
+            background: #f3f4f6;
+        }
+
+
+        /* =====================================
+           OPTIONS
+        ====================================== */
+
+        .auth-options {
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-top: -3px;
+        }
+
+
+        .remember-me {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 14px;
+
+            color: #6b7280;
+
+            cursor: pointer;
+        }
+
+
+        .remember-me input {
+            width: 16px;
+            height: 16px;
+
+            accent-color: #635bff;
+
+            cursor: pointer;
+        }
+
+
+        .forgot-password {
+            color: #635bff;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+            cursor: pointer;
+        }
+
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =====================================
+           ERROR
+        ====================================== */
+
+        .form-error {
+            display: none;
+
+            padding:
+                12px 14px;
+
+            border-radius: 10px;
+
+            background: #fef2f2;
+
+            color: #dc2626;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            border:
+                1px solid #fecaca;
+        }
+
+
+        /* =====================================
+           LOGIN BUTTON
+        ====================================== */
+
+        .login-btn {
+            width: 100%;
+
+            height: 52px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #635bff;
+
+            color: #ffffff;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+
+        .login-btn:hover {
+            background: #5149e8;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        .login-btn:disabled {
+            opacity: 0.65;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        /* =====================================
+           DIVIDER
+        ====================================== */
+
+        .auth-divider {
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            margin: 5px 0;
+
+            color: #9ca3af;
+
+            font-size: 13px;
+        }
+
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: "";
+
+            flex: 1;
+
+            height: 1px;
+
+            background: #e5e7eb;
+        }
+
+
+        /* =====================================
+           DEMO BOX
+        ====================================== */
+
+        .demo-login {
+            padding:
+                14px 16px;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            background: #f9fafb;
+        }
+
+
+        .demo-login-title {
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #374151;
+
+            margin-bottom: 5px;
+        }
+
+
+        .demo-login-text {
+            font-size: 12px;
+
+            color: #6b7280;
+
+            line-height: 1.5;
+
+            margin: 0;
+        }
+
+
+        /* =====================================
+           REGISTER LINK
+        ====================================== */
+
+        .register-link {
+            text-align: center;
+
+            margin-top: 25px;
+
+            font-size: 14px;
+
+            color: #6b7280;
+        }
+
+
+        .register-link a {
+            color: #635bff;
+
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =====================================
+           RESPONSIVE
+        ====================================== */
+
+        @media (max-width: 800px) {
+
+            .auth-wrapper {
+                grid-template-columns: 1fr;
+
+                max-width: 520px;
+            }
+
+
+            .auth-brand {
+                min-height: auto;
+
+                padding: 40px;
+            }
+
+
+            .auth-brand-content {
+                margin-top: 40px;
+            }
+
+
+            .auth-brand-content h1 {
+                font-size: 34px;
+            }
+
+
+            .auth-features {
+                display: none;
+            }
+
+
+            .auth-form-section {
+                padding: 40px;
+            }
+        }
+
+
+        @media (max-width: 480px) {
+
+            .auth-page {
+                padding: 20px 15px;
+            }
+
+
+            .auth-brand {
+                padding:
+                    30px 24px;
+            }
+
+
+            .auth-form-section {
+                padding:
+                    40px 24px 30px;
+            }
+
+
+            .auth-brand-content h1 {
+                font-size: 30px;
+            }
+
+
+            .auth-form-header h2 {
+                font-size: 27px;
+            }
+
+
+            .auth-options {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .back-home {
+                top: 18px;
+
+                right: 20px;
+            }
+        }
+
+        /* =====================================
+           PASSWORD RECOVERY SECTION
+        ====================================== */
+        .recovery-state-card {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .recovery-icon-badge {
+            width: 56px;
+            height: 56px;
+            background: #ede9fe;
+            color: #635bff;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 12px;
+        }
+
+        .back-to-login-link {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.2s;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-to-login-link:hover {
+            color: #635bff;
+            background: #f1f5f9;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.6); opacity: 0; }
+            70% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<main class="auth-page">
+
+    <div class="auth-wrapper">
+
+
+        <!-- =====================================
+             LEFT SIDE
+        ====================================== -->
+
+        <section class="auth-brand">
+
+
+            <div class="auth-logo" style="display: inline-flex; align-items: center; gap: 10px;">
+                <img src="assets/icons/mplus-logo.png" alt="MARTplus" style="width: 38px; height: 38px; border-radius: 9px; object-fit: contain;">
+                <span>MART<span style="opacity: 0.9;">plus</span></span>
+            </div>
+
+
+            <div class="auth-brand-content">
+
+                <h1>
+
+                    Welcome back to
+                    MARTplus.
+
+                </h1>
+
+
+                <p>
+
+                    Sign in to continue shopping,
+                    manage your orders, track
+                    deliveries and discover amazing
+                    products from multiple sellers.
+
+                </p>
+
+
+                <div class="auth-features">
+
+
+                    <div class="auth-feature">
+
+                        <div class="auth-feature-icon">
+                            🛍️
+                        </div>
+
+                        <span>
+                            Thousands of products
+                        </span>
+
+                    </div>
+
+
+                    <div class="auth-feature">
+
+                        <div class="auth-feature-icon">
+                            🚚
+                        </div>
+
+                        <span>
+                            Easy order tracking
+                        </span>
+
+                    </div>
+
+
+                    <div class="auth-feature">
+
+                        <div class="auth-feature-icon">
+                            🏪
+                        </div>
+
+                        <span>
+                            Seller marketplace
+                        </span>
+
+                    </div>
+
+
+                    <div class="auth-feature">
+
+                        <div class="auth-feature-icon">
+                            🔒
+                        </div>
+
+                        <span>
+                            Secure shopping experience
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    © 2026 MARTplus
+                </small>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================================
+             RIGHT SIDE
+        ====================================== -->
+
+        <section class="auth-form-section">
+
+
+            <a
+                href="index.html"
+                class="back-home"
+            >
+                ← Back to Home
+            </a>
+
+
+            <div class="auth-form-brand">
+                <img src="assets/icons/mplus-logo.png" alt="MARTplus" class="auth-header-logo">
+                <div class="auth-header-brand-name">MART<span>plus</span></div>
+            </div>
+
+
+            <div class="auth-form-header">
+
+                <h2>
+                    Sign in
+                </h2>
+
+                <p>
+                    Enter your credentials to access your account.
+                </p>
+
+            </div>
+
+
+            <!-- =================================
+                 LOGIN FORM
+            ================================== -->
+
+            <form
+                class="auth-form"
+                id="loginForm"
+                method="POST"
+                novalidate
+                onsubmit="return false;"
+            >
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        class="form-input"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+
+                        <input
+                            type="password"
+                            id="password"
+                            class="form-input password-input"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword"
+                            aria-label="Show password"
+                        >
+                            👁️
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPTIONS -->
+
+                <div class="auth-options">
+
+
+                    <label class="remember-me">
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                        >
+
+                        Remember me
+
+                    </label>
+
+
+                    <a
+                        href="#"
+                        class="forgot-password"
+                        id="forgotPassword"
+                    >
+                        Forgot password?
+                    </a>
+
+
+                </div>
+
+
+                <!-- ERROR -->
+
+                <div
+                    class="form-error"
+                    id="loginError"
+                ></div>
+
+
+                <!-- BUTTON -->
+
+                <button
+                    type="button"
+                    class="login-btn"
+                    id="loginBtn"
+                >
+                    Sign In
+                </button>
+
+
+            </form>
+
+            <!-- =================================
+                 LOGIN OTP CHALLENGE SECTION
+            ================================== -->
+            <div id="loginOtpSection" style="display: none;">
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 56px; height: 56px; background: #e0e7ff; color: #4f46e5; border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 12px;">
+                        📱
+                    </div>
+                    <h2 style="font-size: 24px; font-weight: 700; margin: 0 0 8px; color: #0f172a;">Two-Factor Verification</h2>
+                    <p style="font-size: 14px; color: #64748b; margin: 0; line-height: 1.5;">
+                        We sent a 6-digit security code via SMS to your registered mobile number: <strong id="otpMaskedPhone" style="color: #0f172a;">+91******XXXX</strong>
+                    </p>
+                </div>
+
+                <form id="loginOtpForm" novalidate>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="loginOtpInput" style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 13px; color: #475569;">Enter Verification Code</label>
+                        <input
+                            type="text"
+                            id="loginOtpInput"
+                            class="form-input"
+                            maxlength="6"
+                            placeholder="• • • • • •"
+                            autocomplete="one-time-code"
+                            inputmode="numeric"
+                            style="text-align: center; font-size: 24px; letter-spacing: 10px; font-weight: 800; padding: 14px; border: 2px solid #cbd5e1; border-radius: 12px;"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-error" id="loginOtpError" style="display: none; margin-bottom: 16px;"></div>
+                    <div class="form-success" id="loginOtpSuccess" style="display: none; margin-bottom: 16px; color: #10b981; font-weight: 600; font-size: 14px; text-align: center;"></div>
+
+                    <button type="submit" class="login-btn" id="verifyLoginOtpBtn" style="width: 100%;">
+                        Verify & Sign In
+                    </button>
+                </form>
+
+                <div style="margin-top: 20px; text-align: center; font-size: 14px; color: #64748b;">
+                    Didn't receive code?
+                    <button type="button" id="resendLoginOtpBtn" style="background: none; border: none; color: #635bff; font-weight: 600; cursor: pointer; padding: 0 4px; text-decoration: underline;">
+                        Resend OTP
+                    </button>
+                    <span id="loginResendTimer" style="display: none; color: #94a3b8; font-weight: 500;">(60s)</span>
+                </div>
+
+                <div style="margin-top: 18px; text-align: center;">
+                    <button type="button" id="backToLoginBtn" style="background: none; border: none; color: #64748b; font-size: 13px; cursor: pointer; font-weight: 500;">
+                        ← Back to Sign In
+                    </button>
+                </div>
+            </div>
+
+            <!-- =================================
+                 PASSWORD RECOVERY SECTION
+            ================================== -->
+            <div id="passwordRecoverySection" style="display: none;">
+                
+                <!-- STATE 1: REQUEST CODE -->
+                <div id="recoveryState1" class="recovery-state-card">
+                    <div style="text-align: center; margin-bottom: 24px;">
+                        <div class="recovery-icon-badge">
+                            🔑
+                        </div>
+                        <h2 style="font-size: 26px; font-weight: 800; margin: 0 0 8px; color: #0f172a; letter-spacing: -0.5px;">Reset Your Password</h2>
+                        <p style="font-size: 14px; color: #64748b; margin: 0; line-height: 1.5;">
+                            Enter the email address associated with your MARTplus account.
+                        </p>
+                    </div>
+
+                    <form id="recoveryEmailForm" novalidate>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label for="recoveryEmailInput" style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 13px; color: #334155;">Email Address</label>
+                            <input
+                                type="email"
+                                id="recoveryEmailInput"
+                                class="form-input"
+                                placeholder="you@example.com"
+                                autocomplete="email"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-error" id="recoveryEmailError" style="display: none; margin-bottom: 16px;"></div>
+
+                        <button type="submit" class="login-btn" id="sendRecoveryCodeBtn" style="width: 100%;">
+                            Send Verification Code
+                        </button>
+                    </form>
+
+                    <div style="margin-top: 20px; text-align: center;">
+                        <button type="button" class="back-to-login-link" id="cancelRecoveryBtn1">
+                            ← Back to Sign In
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STATE 2: VERIFY CODE -->
+                <div id="recoveryState2" class="recovery-state-card" style="display: none;">
+                    <div style="text-align: center; margin-bottom: 24px;">
+                        <div class="recovery-icon-badge">
+                            ✉️
+                        </div>
+                        <h2 style="font-size: 26px; font-weight: 800; margin: 0 0 8px; color: #0f172a; letter-spacing: -0.5px;">Verify Your Email</h2>
+                        <p style="font-size: 14px; color: #64748b; margin: 0; line-height: 1.5;">
+                            We sent a verification code to:<br>
+                            <strong id="recoveryMaskedEmailDisplay" style="color: #0f172a; font-size: 15px;">u***@example.com</strong>
+                        </p>
+                    </div>
+
+                    <form id="recoveryOtpForm" novalidate>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label for="recoveryOtpInput" style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 13px; color: #334155;">Verification Code</label>
+                            <input
+                                type="text"
+                                id="recoveryOtpInput"
+                                class="form-input"
+                                maxlength="6"
+                                placeholder="• • • • • •"
+                                autocomplete="one-time-code"
+                                inputmode="numeric"
+                                style="text-align: center; font-size: 26px; letter-spacing: 12px; font-weight: 800; padding: 14px; border: 2px solid #cbd5e1; border-radius: 12px;"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-error" id="recoveryOtpError" style="display: none; margin-bottom: 16px;"></div>
+                        <div class="form-success" id="recoveryOtpSuccess" style="display: none; margin-bottom: 16px; color: #10b981; font-weight: 600; font-size: 14px; text-align: center;"></div>
+
+                        <button type="submit" class="login-btn" id="verifyRecoveryOtpBtn" style="width: 100%;">
+                            Verify Code
+                        </button>
+                    </form>
+
+                    <div style="margin-top: 20px; text-align: center; font-size: 14px; color: #64748b;">
+                        Didn't receive code?
+                        <button type="button" id="resendRecoveryOtpBtn" style="background: none; border: none; color: #635bff; font-weight: 600; cursor: pointer; padding: 0 4px; text-decoration: underline;">
+                            Resend Code
+                        </button>
+                        <span id="recoveryResendTimer" style="display: none; color: #94a3b8; font-weight: 500;">(60s)</span>
+                    </div>
+
+                    <div style="margin-top: 18px; text-align: center;">
+                        <button type="button" class="back-to-login-link" id="cancelRecoveryBtn2">
+                            ← Back to Sign In
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STATE 3: CREATE NEW PASSWORD -->
+                <div id="recoveryState3" class="recovery-state-card" style="display: none;">
+                    <div style="text-align: center; margin-bottom: 24px;">
+                        <div class="recovery-icon-badge">
+                            🔒
+                        </div>
+                        <h2 style="font-size: 26px; font-weight: 800; margin: 0 0 8px; color: #0f172a; letter-spacing: -0.5px;">Create New Password</h2>
+                        <p style="font-size: 14px; color: #64748b; margin: 0; line-height: 1.5;">
+                            Choose a strong password (minimum 8 characters).
+                        </p>
+                    </div>
+
+                    <form id="recoveryNewPasswordForm" novalidate>
+                        <!-- NEW PASSWORD -->
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label for="newPasswordInput" style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; color: #334155;">New Password</label>
+                            <div class="input-wrapper" style="position: relative;">
+                                <input
+                                    type="password"
+                                    id="newPasswordInput"
+                                    class="form-input password-input"
+                                    placeholder="Enter new password (min. 8 chars)"
+                                    autocomplete="new-password"
+                                    required
+                                >
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    id="toggleNewPassword"
+                                    aria-label="Show password"
+                                >
+                                    👁️
+                                </button>
+                            </div>
+
+                            <!-- Strength Meter -->
+                            <div class="recovery-password-strength" style="margin-top: 8px;">
+                                <div class="recovery-strength-bar" style="width: 100%; height: 4px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
+                                    <div id="recoveryStrengthFill" style="width: 0%; height: 100%; transition: width 0.3s ease, background-color 0.3s ease; background-color: #ef4444;"></div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-size: 11px; color: #64748b;">
+                                    <span id="recoveryStrengthText">Enter at least 8 characters</span>
+                                    <span id="recoveryStrengthScore"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CONFIRM PASSWORD -->
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label for="confirmNewPasswordInput" style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; color: #334155;">Confirm Password</label>
+                            <div class="input-wrapper" style="position: relative;">
+                                <input
+                                    type="password"
+                                    id="confirmNewPasswordInput"
+                                    class="form-input password-input"
+                                    placeholder="Confirm new password"
+                                    autocomplete="new-password"
+                                    required
+                                >
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    id="toggleConfirmNewPassword"
+                                    aria-label="Show password"
+                                >
+                                    👁️
+                                </button>
+                            </div>
+                            <div id="recoveryMatchBadge" style="display: none; font-size: 12px; font-weight: 600; margin-top: 4px;"></div>
+                        </div>
+
+                        <div class="form-error" id="recoveryPasswordError" style="display: none; margin-bottom: 16px;"></div>
+
+                        <button type="submit" class="login-btn" id="submitNewPasswordBtn" style="width: 100%;">
+                            Reset Password
+                        </button>
+                    </form>
+
+                    <div style="margin-top: 20px; text-align: center;">
+                        <button type="button" class="back-to-login-link" id="cancelRecoveryBtn3">
+                            ← Back to Sign In
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STATE 4: SUCCESS -->
+                <div id="recoveryState4" class="recovery-state-card" style="display: none; text-align: center; padding: 20px 0;">
+                    <div style="width: 64px; height: 64px; background: #ecfdf5; color: #059669; border: 2px solid #a7f3d0; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 16px; animation: popIn 0.4s ease;">
+                        ✓
+                    </div>
+                    <h2 style="font-size: 26px; font-weight: 800; margin: 0 0 10px; color: #0f172a; letter-spacing: -0.5px;">Password Reset Successful</h2>
+                    <p style="font-size: 15px; color: #64748b; margin: 0 0 26px; line-height: 1.6; max-width: 360px; margin-left: auto; margin-right: auto;">
+                        Your password has been updated securely. You can now sign in with your new password.
+                    </p>
+
+                    <button type="button" class="login-btn" id="returnToLoginSuccessBtn" style="width: 100%;">
+                        Back to Sign In
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- DIVIDER -->
+
+            <div class="auth-divider" id="authDivider">
+
+                OR
+
+            </div>
+
+
+            <!-- DEMO -->
+
+            <div class="demo-login">
+
+                <div class="demo-login-title">
+
+                    Welcome
+
+                </div>
+
+
+                <p class="demo-login-text">
+
+                    Create a Buyer or Seller account first.
+                    Login will then open the dashboard
+                    according to the registered role.
+
+                </p>
+
+            </div>
+
+
+            <!-- REGISTER -->
+
+            <div class="register-link">
+
+                Don't have an account?
+
+                <a href="register.html">
+                    Create an account
+                </a>
+
+            </div>
+
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<!-- =========================================
+     AUTH JS & API
+========================================== -->
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+
+
+<script>
+
+function initLoginPage() {
+
+
+        console.log(
+            "MARTplus Login Loaded"
+        );
+
+        try {
+            localStorage.removeItem("shopsphere_user");
+        } catch (e) {}
+
+
+        /* =================================
+           ELEMENTS
+        ================================== */
+
+        const passwordInput =
+            document.getElementById(
+                "password"
+            );
+
+
+        const togglePassword =
+            document.getElementById(
+                "togglePassword"
+            );
+
+
+        const loginForm =
+            document.getElementById(
+                "loginForm"
+            );
+
+
+        const loginError =
+            document.getElementById(
+                "loginError"
+            );
+
+
+        const loginBtn =
+            document.getElementById(
+                "loginBtn"
+            );
+
+
+        const forgotPassword =
+            document.getElementById(
+                "forgotPassword"
+            );
+
+
+        /* =================================
+           ERROR
+        ================================== */
+
+        function showError(message) {
+
+            loginError.textContent =
+                message;
+
+            loginError.style.display =
+                "block";
+
+        }
+
+
+        function hideError() {
+
+            loginError.textContent = "";
+
+            loginError.style.display =
+                "none";
+
+        }
+
+
+        /* =================================
+           PASSWORD TOGGLE
+        ================================== */
+
+        if (
+            togglePassword &&
+            passwordInput
+        ) {
+
+            togglePassword.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+
+                    if (
+                        passwordInput.type ===
+                        "password"
+                    ) {
+
+                        passwordInput.type =
+                            "text";
+
+                        togglePassword.textContent =
+                            "🙈";
+
+                        togglePassword.setAttribute(
+                            "aria-label",
+                            "Hide password"
+                        );
+
+                    } else {
+
+                        passwordInput.type =
+                            "password";
+
+                        togglePassword.textContent =
+                            "👁️";
+
+                        togglePassword.setAttribute(
+                            "aria-label",
+                            "Show password"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =================================
+           PASSWORD RECOVERY CONTROLLER
+        ================================== */
+        const passwordRecoverySection = document.getElementById("passwordRecoverySection");
+        const recoveryState1 = document.getElementById("recoveryState1");
+        const recoveryState2 = document.getElementById("recoveryState2");
+        const recoveryState3 = document.getElementById("recoveryState3");
+        const recoveryState4 = document.getElementById("recoveryState4");
+
+        const recoveryEmailForm = document.getElementById("recoveryEmailForm");
+        const recoveryEmailInput = document.getElementById("recoveryEmailInput");
+        const recoveryEmailError = document.getElementById("recoveryEmailError");
+        const sendRecoveryCodeBtn = document.getElementById("sendRecoveryCodeBtn");
+
+        const recoveryOtpForm = document.getElementById("recoveryOtpForm");
+        const recoveryOtpInput = document.getElementById("recoveryOtpInput");
+        const recoveryOtpError = document.getElementById("recoveryOtpError");
+        const recoveryOtpSuccess = document.getElementById("recoveryOtpSuccess");
+        const verifyRecoveryOtpBtn = document.getElementById("verifyRecoveryOtpBtn");
+        const resendRecoveryOtpBtn = document.getElementById("resendRecoveryOtpBtn");
+        const recoveryResendTimer = document.getElementById("recoveryResendTimer");
+        const recoveryMaskedEmailDisplay = document.getElementById("recoveryMaskedEmailDisplay");
+
+        const recoveryNewPasswordForm = document.getElementById("recoveryNewPasswordForm");
+        const newPasswordInput = document.getElementById("newPasswordInput");
+        const confirmNewPasswordInput = document.getElementById("confirmNewPasswordInput");
+        const toggleNewPassword = document.getElementById("toggleNewPassword");
+        const toggleConfirmNewPassword = document.getElementById("toggleConfirmNewPassword");
+        const recoveryPasswordError = document.getElementById("recoveryPasswordError");
+        const submitNewPasswordBtn = document.getElementById("submitNewPasswordBtn");
+        const recoveryStrengthFill = document.getElementById("recoveryStrengthFill");
+        const recoveryStrengthText = document.getElementById("recoveryStrengthText");
+        const recoveryStrengthScore = document.getElementById("recoveryStrengthScore");
+        const recoveryMatchBadge = document.getElementById("recoveryMatchBadge");
+
+        const returnToLoginSuccessBtn = document.getElementById("returnToLoginSuccessBtn");
+        const cancelRecoveryBtn1 = document.getElementById("cancelRecoveryBtn1");
+        const cancelRecoveryBtn2 = document.getElementById("cancelRecoveryBtn2");
+        const cancelRecoveryBtn3 = document.getElementById("cancelRecoveryBtn3");
+
+        let recoveryEmail = "";
+        let recoveryResetToken = "";
+        let recoveryResendInterval = null;
+
+        function showRecoveryState(stateNum) {
+            if (recoveryState1) recoveryState1.style.display = stateNum === 1 ? "block" : "none";
+            if (recoveryState2) recoveryState2.style.display = stateNum === 2 ? "block" : "none";
+            if (recoveryState3) recoveryState3.style.display = stateNum === 3 ? "block" : "none";
+            if (recoveryState4) recoveryState4.style.display = stateNum === 4 ? "block" : "none";
+        }
+
+        function openPasswordRecovery() {
+            // Hide main login elements
+            loginForm.style.display = "none";
+            document.getElementById("authDivider").style.display = "none";
+            const demoLogin = document.querySelector(".demo-login");
+            if (demoLogin) demoLogin.style.display = "none";
+            const registerLink = document.querySelector(".register-link");
+            if (registerLink) registerLink.style.display = "none";
+            const header = document.querySelector(".auth-form-header");
+            if (header) header.style.display = "none";
+            document.getElementById("loginOtpSection").style.display = "none";
+
+            // Pre-fill email if user already entered it in login form
+            const typedEmail = document.getElementById("email").value.trim();
+            if (typedEmail) {
+                recoveryEmailInput.value = typedEmail;
+            }
+
+            // Show recovery section in State 1
+            passwordRecoverySection.style.display = "block";
+            showRecoveryState(1);
+            hideError();
+            if (recoveryEmailError) recoveryEmailError.style.display = "none";
+            if (recoveryEmailInput) recoveryEmailInput.focus();
+        }
+
+        function closePasswordRecovery() {
+            passwordRecoverySection.style.display = "none";
+            loginForm.style.display = "block";
+            document.getElementById("authDivider").style.display = "flex";
+            const demoLogin = document.querySelector(".demo-login");
+            if (demoLogin) demoLogin.style.display = "block";
+            const registerLink = document.querySelector(".register-link");
+            if (registerLink) registerLink.style.display = "block";
+            const header = document.querySelector(".auth-form-header");
+            if (header) header.style.display = "block";
+
+            if (recoveryResendInterval) {
+                clearInterval(recoveryResendInterval);
+                recoveryResendInterval = null;
+            }
+            hideError();
+        }
+
+        if (forgotPassword) {
+            forgotPassword.addEventListener("click", function (event) {
+                event.preventDefault();
+                openPasswordRecovery();
+            });
+        }
+
+        if (cancelRecoveryBtn1) cancelRecoveryBtn1.addEventListener("click", closePasswordRecovery);
+        if (cancelRecoveryBtn2) cancelRecoveryBtn2.addEventListener("click", closePasswordRecovery);
+        if (cancelRecoveryBtn3) cancelRecoveryBtn3.addEventListener("click", closePasswordRecovery);
+
+        // Helper to mask email (e.g. u***@example.com)
+        function maskEmailAddress(emailStr) {
+            if (!emailStr || !emailStr.includes("@")) return emailStr;
+            const parts = emailStr.split("@");
+            const name = parts[0];
+            const domain = parts[1];
+            if (name.length <= 1) {
+                return name + "***@" + domain;
+            } else if (name.length <= 3) {
+                return name[0] + "***@" + domain;
+            } else {
+                return name.slice(0, 2) + "***" + name.slice(-1) + "@" + domain;
+            }
+        }
+
+        function startRecoveryResendTimer(seconds) {
+            if (recoveryResendInterval) clearInterval(recoveryResendInterval);
+            resendRecoveryOtpBtn.disabled = true;
+            recoveryResendTimer.style.display = "inline";
+            let remaining = seconds;
+            recoveryResendTimer.textContent = "(" + remaining + "s)";
+
+            recoveryResendInterval = setInterval(() => {
+                remaining--;
+                if (remaining <= 0) {
+                    clearInterval(recoveryResendInterval);
+                    recoveryResendInterval = null;
+                    resendRecoveryOtpBtn.disabled = false;
+                    recoveryResendTimer.style.display = "none";
+                } else {
+                    recoveryResendTimer.textContent = "(" + remaining + "s)";
+                }
+            }, 1000);
+        }
+
+        // STATE 1 SUBMIT: Send Verification Code
+        if (recoveryEmailForm) {
+            recoveryEmailForm.addEventListener("submit", async function (e) {
+                e.preventDefault();
+                const emailVal = recoveryEmailInput.value.trim().toLowerCase();
+                recoveryEmailError.style.display = "none";
+
+                if (!emailVal) {
+                    recoveryEmailError.textContent = "Please enter your email address.";
+                    recoveryEmailError.style.display = "block";
+                    return;
+                }
+
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+                    recoveryEmailError.textContent = "Please enter a valid email address.";
+                    recoveryEmailError.style.display = "block";
+                    return;
+                }
+
+                sendRecoveryCodeBtn.disabled = true;
+                sendRecoveryCodeBtn.textContent = "Sending code...";
+
+                try {
+                    const api = window.ShopSphereApi;
+                    if (api && api.auth && api.auth.forgotPassword) {
+                        await api.auth.forgotPassword(emailVal);
+                    } else {
+                        const res = await fetch("http://localhost:8080/api/auth/forgot-password", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ email: emailVal })
+                        });
+                        if (!res.ok) {
+                            const data = await res.json().catch(() => ({}));
+                            throw new Error(data.message || "Failed to process request");
+                        }
+                    }
+
+                    recoveryEmail = emailVal;
+                    recoveryMaskedEmailDisplay.textContent = maskEmailAddress(emailVal);
+                    showRecoveryState(2);
+                    recoveryOtpInput.value = "";
+                    recoveryOtpError.style.display = "none";
+                    recoveryOtpSuccess.style.display = "none";
+                    startRecoveryResendTimer(60);
+                    recoveryOtpInput.focus();
+                } catch (err) {
+                    recoveryEmailError.textContent = err.message || "Unable to process request. Please try again.";
+                    recoveryEmailError.style.display = "block";
+                } finally {
+                    sendRecoveryCodeBtn.disabled = false;
+                    sendRecoveryCodeBtn.textContent = "Send Verification Code";
+                }
+            });
+        }
+
+        // STATE 2 SUBMIT: Verify OTP Code
+        if (recoveryOtpForm) {
+            recoveryOtpForm.addEventListener("submit", async function (e) {
+                e.preventDefault();
+                const otpVal = recoveryOtpInput.value.trim();
+                recoveryOtpError.style.display = "none";
+                recoveryOtpSuccess.style.display = "none";
+
+                if (!otpVal || otpVal.length !== 6 || !/^\d{6}$/.test(otpVal)) {
+                    recoveryOtpError.textContent = "Please enter a valid 6-digit verification code.";
+                    recoveryOtpError.style.display = "block";
+                    return;
+                }
+
+                verifyRecoveryOtpBtn.disabled = true;
+                verifyRecoveryOtpBtn.textContent = "Verifying...";
+
+                try {
+                    const api = window.ShopSphereApi;
+                    let result;
+                    if (api && api.auth && api.auth.verifyPasswordReset) {
+                        result = await api.auth.verifyPasswordReset(recoveryEmail, otpVal);
+                    } else {
+                        const res = await fetch("http://localhost:8080/api/auth/verify-password-reset", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ email: recoveryEmail, otp: otpVal })
+                        });
+                        if (!res.ok) {
+                            const data = await res.json().catch(() => ({}));
+                            throw new Error(data.message || "Invalid verification code.");
+                        }
+                        result = await res.json();
+                    }
+
+                    recoveryResetToken = result.resetToken;
+                    if (recoveryResendInterval) clearInterval(recoveryResendInterval);
+
+                    showRecoveryState(3);
+                    newPasswordInput.value = "";
+                    confirmNewPasswordInput.value = "";
+                    recoveryPasswordError.style.display = "none";
+                    updateRecoveryStrengthMeter();
+                    newPasswordInput.focus();
+                } catch (err) {
+                    recoveryOtpError.textContent = err.message || "Invalid verification code.";
+                    recoveryOtpError.style.display = "block";
+                } finally {
+                    verifyRecoveryOtpBtn.disabled = false;
+                    verifyRecoveryOtpBtn.textContent = "Verify Code";
+                }
+            });
+        }
+
+        // STATE 2: Resend Code
+        if (resendRecoveryOtpBtn) {
+            resendRecoveryOtpBtn.addEventListener("click", async function () {
+                resendRecoveryOtpBtn.disabled = true;
+                recoveryOtpError.style.display = "none";
+                recoveryOtpSuccess.style.display = "none";
+
+                try {
+                    const api = window.ShopSphereApi;
+                    if (api && api.auth && api.auth.resendPasswordReset) {
+                        await api.auth.resendPasswordReset(recoveryEmail);
+                    } else {
+                        const res = await fetch("http://localhost:8080/api/auth/resend-password-reset", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ email: recoveryEmail })
+                        });
+                        if (!res.ok) {
+                            const data = await res.json().catch(() => ({}));
+                            throw new Error(data.message || "Failed to resend code.");
+                        }
+                    }
+
+                    recoveryOtpSuccess.textContent = "A new verification code has been sent.";
+                    recoveryOtpSuccess.style.display = "block";
+                    startRecoveryResendTimer(60);
+                } catch (err) {
+                    recoveryOtpError.textContent = err.message || "Please wait before requesting another code.";
+                    recoveryOtpError.style.display = "block";
+                    resendRecoveryOtpBtn.disabled = false;
+                }
+            });
+        }
+
+        // Toggle password buttons for recovery
+        function setupRecoveryToggle(inputEl, btnEl) {
+            if (!inputEl || !btnEl) return;
+            btnEl.addEventListener("click", function () {
+                if (inputEl.type === "password") {
+                    inputEl.type = "text";
+                    btnEl.textContent = "🙈";
+                } else {
+                    inputEl.type = "password";
+                    btnEl.textContent = "👁️";
+                }
+            });
+        }
+        setupRecoveryToggle(newPasswordInput, toggleNewPassword);
+        setupRecoveryToggle(confirmNewPasswordInput, toggleConfirmNewPassword);
+
+        // Password strength meter in recovery
+        function updateRecoveryStrengthMeter() {
+            const val = newPasswordInput ? newPasswordInput.value : "";
+            let score = 0;
+            if (val.length >= 8) score++;
+            if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            let pct = 0;
+            let color = "#ef4444";
+            let label = "Enter at least 8 characters";
+
+            if (val.length === 0) {
+                pct = 0;
+                label = "Enter at least 8 characters";
+            } else if (val.length < 8) {
+                pct = 25;
+                color = "#ef4444";
+                label = "Too short (min. 8 chars)";
+            } else if (score <= 2) {
+                pct = 50;
+                color = "#f97316";
+                label = "Weak";
+            } else if (score === 3) {
+                pct = 75;
+                color = "#eab308";
+                label = "Medium";
+            } else {
+                pct = 100;
+                color = "#10b981";
+                label = "Strong password";
+            }
+
+            if (recoveryStrengthFill) {
+                recoveryStrengthFill.style.width = pct + "%";
+                recoveryStrengthFill.style.backgroundColor = color;
+            }
+            if (recoveryStrengthText) recoveryStrengthText.textContent = label;
+            if (recoveryStrengthScore) recoveryStrengthScore.textContent = pct > 0 ? pct + "%" : "";
+
+            checkRecoveryMatch();
+        }
+
+        function checkRecoveryMatch() {
+            if (!confirmNewPasswordInput || !recoveryMatchBadge) return;
+            const p1 = newPasswordInput.value;
+            const p2 = confirmNewPasswordInput.value;
+
+            if (!p2) {
+                recoveryMatchBadge.style.display = "none";
+                return;
+            }
+
+            recoveryMatchBadge.style.display = "block";
+            if (p1 === p2) {
+                recoveryMatchBadge.textContent = "✓ Passwords match";
+                recoveryMatchBadge.style.color = "#16a34a";
+            } else {
+                recoveryMatchBadge.textContent = "✕ Passwords do not match";
+                recoveryMatchBadge.style.color = "#dc2626";
+            }
+        }
+
+        if (newPasswordInput) newPasswordInput.addEventListener("input", updateRecoveryStrengthMeter);
+        if (confirmNewPasswordInput) confirmNewPasswordInput.addEventListener("input", checkRecoveryMatch);
+
+        // STATE 3 SUBMIT: Reset Password
+        if (recoveryNewPasswordForm) {
+            recoveryNewPasswordForm.addEventListener("submit", async function (e) {
+                e.preventDefault();
+                const p1 = newPasswordInput.value;
+                const p2 = confirmNewPasswordInput.value;
+                recoveryPasswordError.style.display = "none";
+
+                if (!p1) {
+                    recoveryPasswordError.textContent = "Please enter a new password.";
+                    recoveryPasswordError.style.display = "block";
+                    return;
+                }
+
+                if (p1.length < 8) {
+                    recoveryPasswordError.textContent = "Password must be at least 8 characters long.";
+                    recoveryPasswordError.style.display = "block";
+                    return;
+                }
+
+                if (p1 !== p2) {
+                    recoveryPasswordError.textContent = "Passwords do not match. Please re-enter.";
+                    recoveryPasswordError.style.display = "block";
+                    return;
+                }
+
+                submitNewPasswordBtn.disabled = true;
+                submitNewPasswordBtn.textContent = "Updating password...";
+
+                try {
+                    const api = window.ShopSphereApi;
+                    if (api && api.auth && api.auth.resetPassword) {
+                        await api.auth.resetPassword(recoveryEmail, recoveryResetToken, p1, p2);
+                    } else {
+                        const res = await fetch("http://localhost:8080/api/auth/reset-password", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                email: recoveryEmail,
+                                resetToken: recoveryResetToken,
+                                newPassword: p1,
+                                confirmPassword: p2
+                            })
+                        });
+                        if (!res.ok) {
+                            const data = await res.json().catch(() => ({}));
+                            throw new Error(data.message || "Failed to reset password.");
+                        }
+                    }
+
+                    showRecoveryState(4);
+                } catch (err) {
+                    recoveryPasswordError.textContent = err.message || "Failed to reset password. Please try again.";
+                    recoveryPasswordError.style.display = "block";
+                } finally {
+                    submitNewPasswordBtn.disabled = false;
+                    submitNewPasswordBtn.textContent = "Reset Password";
+                }
+            });
+        }
+
+        // STATE 4: Back to Sign In
+        if (returnToLoginSuccessBtn) {
+            returnToLoginSuccessBtn.addEventListener("click", function () {
+                closePasswordRecovery();
+                document.getElementById("email").value = recoveryEmail;
+                passwordInput.value = "";
+                passwordInput.focus();
+            });
+        }
+
+
+        /* =================================
+           LOGIN
+        ================================== */
+
+        async function doLogin(event) {
+            if (event) {
+                event.preventDefault();
+            }
+
+            hideError();
+
+            const email = document
+                .getElementById("email")
+                .value
+                .trim()
+                .toLowerCase();
+
+            const password = passwordInput.value;
+
+            /* =========================
+               BASIC VALIDATION
+            ========================== */
+
+            if (!email) {
+                showError("Please enter your email address.");
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showError("Please enter a valid email address.");
+                return;
+            }
+
+            if (!password) {
+                showError("Please enter your password.");
+                return;
+            }
+
+            /* =========================
+               AUTHENTICATE VIA API
+            ========================== */
+            loginBtn.disabled = true;
+            loginBtn.textContent = "Signing in...";
+
+            try {
+                const api = window.ShopSphereApi || (window.ShopSphereAuth && window.ShopSphereAuth.request ? { auth: { login: (e, p) => window.ShopSphereAuth.request("/auth/login", { method: "POST", body: { email: e, password: p } }) } } : null);
+                
+                if (!api) {
+                    throw new Error("Unable to connect to server. API client not available.");
+                }
+
+                const response = await api.auth.login(email, password);
+
+                if (!response || !response.token) {
+                    throw new Error("Invalid response from server. No token received.");
+                }
+
+                // Successful direct authentication (OTP bypassed)
+                handleSuccessfulLogin(response);
+            } catch (error) {
+                console.error("Login failed:", error);
+                showError(error.message || "Invalid email or password. Please try again.");
+                loginBtn.disabled = false;
+                loginBtn.textContent = "Sign In";
+            }
+        }
+
+        loginForm.addEventListener("submit", doLogin);
+
+        if (loginBtn) {
+            loginBtn.addEventListener("click", doLogin);
+        }
+
+        const emailInput = document.getElementById("email");
+        if (emailInput) {
+            emailInput.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    doLogin(e);
+                }
+            });
+        }
+        if (passwordInput) {
+            passwordInput.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    doLogin(e);
+                }
+            });
+        }
+
+        function handleSuccessfulLogin(response) {
+            let sessionData = null;
+            if (window.ShopSphereAuth && typeof window.ShopSphereAuth.createSession === "function") {
+                sessionData = window.ShopSphereAuth.createSession(response);
+            }
+
+            const roleUpper = (response.role || "BUYER").toUpperCase();
+            const roleLower = roleUpper.toLowerCase();
+            const id = response.userId || response.id;
+            const name = response.name || (
+                ((response.firstName || "") + " " + (response.lastName || "")).trim() ||
+                response.email ||
+                "User"
+            );
+
+            if (!sessionData) {
+                sessionData = {
+                    ...response,
+                    id: id,
+                    userId: id,
+                    name: name,
+                    role: roleLower,
+                    roleUpper: roleUpper,
+                    loggedIn: true,
+                    token: response.token,
+                    loginTime: new Date().toISOString()
+                };
+            }
+
+            // Guarantee localStorage persistence
+            try {
+                localStorage.setItem("shopsphere_user", JSON.stringify({
+                    ...sessionData,
+                    id: id,
+                    userId: id,
+                    token: response.token,
+                    role: roleLower,
+                    roleUpper: roleUpper,
+                    name: name,
+                    loggedIn: true
+                }));
+            } catch (e) {
+                console.error("Failed to write to localStorage:", e);
+            }
+
+            setTimeout(function () {
+                if (roleUpper === "ADMIN") {
+                    window.location.href = "admin/dashboard.html";
+                } else if (roleUpper === "SELLER") {
+                    window.location.href = "seller/dashboard.html";
+                } else {
+                    // BUYER redirect: products.html (never buyer/dashboard.html)
+                    const redirectPage = sessionStorage.getItem("shopsphere_redirect_after_login");
+                    if (redirectPage) {
+                        sessionStorage.removeItem("shopsphere_redirect_after_login");
+                        if (
+                            redirectPage !== "buyer/dashboard.html" &&
+                            redirectPage !== "dashboard.html" &&
+                            redirectPage !== "seller/dashboard.html" &&
+                            redirectPage !== "admin/dashboard.html" &&
+                            redirectPage.endsWith(".html")
+                        ) {
+                            window.location.href = redirectPage;
+                            return;
+                        }
+                    }
+                    window.location.href = "products.html";
+                }
+            }, 250);
+        }
+
+
+}
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initLoginPage);
+} else {
+    initLoginPage();
+}
+
+</script>
+
+
+</body>
+
+</html>

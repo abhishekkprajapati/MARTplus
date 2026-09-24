@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MARTplus | System Activity</title>
+
+    <link rel="icon" type="image/png" href="../assets/icons/favicon.png">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <style>
+        body {
+            background: #f6f7fb;
+        }
+
+        .admin-layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .admin-sidebar {
+            width: 250px;
+            background: #111827;
+            color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .admin-brand {
+            height: 76px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 22px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        .sidebar-brand-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            object-fit: contain;
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .admin-brand-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: #635bff;
+            font-size: 20px;
+        }
+
+        .admin-brand strong {
+            font-size: 18px;
+        }
+
+        .admin-brand span {
+            display: block;
+            color: #9ca3af;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .admin-nav {
+            padding: 20px 12px;
+        }
+
+        .admin-nav-title {
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            padding: 0 12px 10px;
+        }
+
+        .admin-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 12px;
+            margin-bottom: 4px;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: rgba(99,91,255,.18);
+            color: #fff;
+        }
+
+        .admin-nav a.active {
+            box-shadow: inset 3px 0 #635bff;
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .admin-main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-width: 0;
+        }
+
+        .admin-topbar {
+            height: 76px;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .admin-topbar-left h1 {
+            margin: 0;
+            font-size: 21px;
+            color: #111827;
+        }
+
+        .admin-topbar-left p {
+            margin: 4px 0 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .admin-topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: #ecfdf5;
+            color: #047857;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #ede9fe;
+            color: #635bff;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+        }
+
+        .admin-user-info strong {
+            display: block;
+            font-size: 13px;
+            color: #111827;
+        }
+
+        .admin-user-info span {
+            display: block;
+            color: #6b7280;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .activity-content {
+            padding: 30px;
+        }
+
+        .page-heading {
+            margin-bottom: 24px;
+        }
+
+        .page-heading h2 {
+            margin: 0;
+            font-size: 25px;
+            color: #111827;
+        }
+
+        .page-heading p {
+            margin: 7px 0 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .activity-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .activity-stat {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .activity-stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            background: #f3f4f6;
+        }
+
+        .activity-stat strong {
+            display: block;
+            font-size: 22px;
+            color: #111827;
+        }
+
+        .activity-stat span {
+            display: block;
+            margin-top: 3px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .activity-toolbar {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .activity-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .activity-search {
+            position: relative;
+        }
+
+        .activity-search input {
+            width: 280px;
+            height: 42px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            padding: 0 14px 0 40px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .activity-search input:focus {
+            border-color: #635bff;
+            box-shadow: 0 0 0 3px rgba(99,91,255,.1);
+        }
+
+        .activity-search span {
+            position: absolute;
+            left: 14px;
+            top: 11px;
+        }
+
+        .filter-select {
+            height: 42px;
+            min-width: 145px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            padding: 0 12px;
+            background: #fff;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .filter-select:focus {
+            border-color: #635bff;
+        }
+
+        .clear-btn {
+            height: 42px;
+            border: 1px solid #e5e7eb;
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 0 15px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .clear-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .activity-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(280px, .8fr);
+            gap: 20px;
+        }
+
+        .activity-panel {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #111827;
+        }
+
+        .panel-header span {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .activity-list {
+            padding: 4px 20px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 14px;
+            padding: 17px 0;
+            border-bottom: 1px solid #f0f1f4;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            border-radius: 11px;
+            display: grid;
+            place-items: center;
+            background: #f3f4f6;
+            font-size: 17px;
+        }
+
+        .activity-body {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .activity-title {
+            color: #111827;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .activity-description {
+            margin-top: 4px;
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .activity-meta {
+            margin-top: 6px;
+            color: #9ca3af;
+            font-size: 11px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .activity-type {
+            display: inline-flex;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        .type-user {
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .type-product {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .type-order {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .type-system {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .type-security {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .health-list {
+            padding: 8px 20px 20px;
+        }
+
+        .health-row {
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f1f4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .health-row:last-child {
+            border-bottom: none;
+        }
+
+        .health-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .health-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: #f3f4f6;
+            display: grid;
+            place-items: center;
+            font-size: 15px;
+        }
+
+        .health-info strong {
+            display: block;
+            font-size: 12px;
+            color: #111827;
+        }
+
+        .health-info span {
+            display: block;
+            font-size: 10px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+
+        .health-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #047857;
+        }
+
+        .health-status .status-dot {
+            width: 7px;
+            height: 7px;
+        }
+
+        .quick-actions {
+            padding: 10px 20px 20px;
+        }
+
+        .quick-action {
+            width: 100%;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 9px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 12px;
+            color: #374151;
+            transition: .2s;
+        }
+
+        .quick-action:hover {
+            border-color: #c7c4ff;
+            background: #fafaff;
+        }
+
+        .quick-action-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: #f3f4f6;
+            display: grid;
+            place-items: center;
+        }
+
+        .empty-activity {
+            padding: 50px 20px;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        .empty-activity div {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .empty-activity p {
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .toast-message {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            background: #111827;
+            color: #fff;
+            padding: 13px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            box-shadow: 0 12px 30px rgba(0,0,0,.18);
+            opacity: 0;
+            transform: translateY(15px);
+            pointer-events: none;
+            transition: .25s;
+            z-index: 5000;
+        }
+
+        .toast-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1100px) {
+            .activity-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .activity-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                width: 72px;
+            }
+
+            .admin-brand {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .admin-brand-text,
+            .admin-nav-title,
+            .admin-nav a span:not(.nav-icon) {
+                display: none;
+            }
+
+            .admin-nav a {
+                justify-content: center;
+            }
+
+            .admin-main {
+                margin-left: 72px;
+                width: calc(100% - 72px);
+            }
+
+            .admin-topbar {
+                padding: 0 18px;
+            }
+
+            .admin-topbar-left p {
+                display: none;
+            }
+
+            .admin-user-info {
+                display: none;
+            }
+
+            .activity-content {
+                padding: 20px 16px;
+            }
+
+            .activity-search,
+            .activity-search input {
+                width: 100%;
+            }
+
+            .activity-toolbar {
+                align-items: stretch;
+            }
+
+            .activity-filters {
+                width: 100%;
+            }
+
+            .filter-select {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .activity-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .page-heading h2 {
+                font-size: 21px;
+            }
+
+            .system-status {
+                display: none;
+            }
+
+            .admin-topbar {
+                height: 68px;
+            }
+
+            .activity-item {
+                gap: 10px;
+            }
+
+            .activity-icon {
+                width: 34px;
+                height: 34px;
+                flex-basis: 34px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+
+        <div class="admin-brand">
+            <img src="../assets/icons/mplus-logo.png" alt="MARTplus" class="sidebar-brand-img">
+
+            <div class="admin-brand-text">
+                <strong>MART<span style="color: #635bff;">plus</span></strong>
+                <span>Admin Panel</span>
+            </div>
+        </div>
+
+        <nav class="admin-nav">
+
+            <div class="admin-nav-title">Management</div>
+
+            <a href="dashboard.html">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="users.html">
+                <span class="nav-icon">👥</span>
+                <span>Users</span>
+            </a>
+
+            <a href="products.html">
+                <span class="nav-icon">📦</span>
+                <span>Products</span>
+            </a>
+
+            <a href="orders.html">
+                <span class="nav-icon">🛒</span>
+                <span>Orders</span>
+            </a>
+
+            <a href="activity.html" class="active">
+                <span class="nav-icon">⚡</span>
+                <span>Activity</span>
+            </a>
+
+            <div class="admin-nav-title" style="margin-top:20px;">Store</div>
+
+            <a href="../index.html">
+                <span class="nav-icon">🏪</span>
+                <span>View Store</span>
+            </a>
+
+            <a href="../login.html" id="logoutLink">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+
+        </nav>
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="admin-main">
+
+        <!-- TOPBAR -->
+        <header class="admin-topbar">
+
+            <div class="admin-topbar-left">
+                <h1>System Activity</h1>
+                <p>Monitor important events and platform health</p>
+            </div>
+
+            <div class="admin-topbar-right">
+
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    All Systems Operational
+                </div>
+
+                <div class="admin-user">
+
+                    <div class="admin-avatar" id="adminAvatar">
+                        A
+                    </div>
+
+                    <div class="admin-user-info">
+                        <strong id="adminName">Administrator</strong>
+                        <span>Super Admin</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="activity-content">
+
+            <div class="page-heading">
+                <h2>Activity Monitor</h2>
+                <p>Track user actions, product updates, orders and system events.</p>
+            </div>
+
+
+            <!-- STATS -->
+            <div class="activity-stats">
+
+                <div class="activity-stat">
+                    <div class="activity-stat-icon">⚡</div>
+                    <div>
+                        <strong id="totalActivities">0</strong>
+                        <span>Total Activities</span>
+                    </div>
+                </div>
+
+                <div class="activity-stat">
+                    <div class="activity-stat-icon">👥</div>
+                    <div>
+                        <strong id="userActivities">0</strong>
+                        <span>User Events</span>
+                    </div>
+                </div>
+
+                <div class="activity-stat">
+                    <div class="activity-stat-icon">📦</div>
+                    <div>
+                        <strong id="productActivities">0</strong>
+                        <span>Product Events</span>
+                    </div>
+                </div>
+
+                <div class="activity-stat">
+                    <div class="activity-stat-icon">🛒</div>
+                    <div>
+                        <strong id="orderActivities">0</strong>
+                        <span>Order Events</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- TOOLBAR -->
+            <div class="activity-toolbar">
+
+                <div class="activity-search">
+                    <span>🔎</span>
+                    <input
+                        type="search"
+                        id="activitySearch"
+                        placeholder="Search activity..."
+                    >
+                </div>
+
+                <div class="activity-filters">
+
+                    <select id="activityType" class="filter-select">
+                        <option value="all">All Activity</option>
+                        <option value="user">User</option>
+                        <option value="product">Product</option>
+                        <option value="order">Order</option>
+                        <option value="system">System</option>
+                        <option value="security">Security</option>
+                    </select>
+
+                    <select id="activityTime" class="filter-select">
+                        <option value="all">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">Last 7 Days</option>
+                        <option value="month">Last 30 Days</option>
+                    </select>
+
+                    <button class="clear-btn" id="clearFilters">
+                        Reset
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIVITY + RIGHT PANEL -->
+            <div class="activity-layout">
+
+                <!-- ACTIVITY LIST -->
+                <div class="activity-panel">
+
+                    <div class="panel-header">
+                        <h3>Recent Activity</h3>
+                        <span id="activityResultCount">0 events</span>
+                    </div>
+
+                    <div class="activity-list" id="activityList"></div>
+
+                </div>
+
+
+                <!-- RIGHT -->
+                <div class="right-panel">
+
+                    <!-- SYSTEM HEALTH -->
+                    <div class="activity-panel">
+
+                        <div class="panel-header">
+                            <h3>System Health</h3>
+                            <span>Live</span>
+                        </div>
+
+                        <div class="health-list">
+
+                            <div class="health-row">
+                                <div class="health-info">
+                                    <div class="health-icon">🖥️</div>
+                                    <div>
+                                        <strong>Application Server</strong>
+                                        <span>Core services</span>
+                                    </div>
+                                </div>
+
+                                <div class="health-status">
+                                    <span class="status-dot"></span>
+                                    Healthy
+                                </div>
+                            </div>
+
+                            <div class="health-row">
+                                <div class="health-info">
+                                    <div class="health-icon">🗄️</div>
+                                    <div>
+                                        <strong>Database</strong>
+                                        <span>Data storage</span>
+                                    </div>
+                                </div>
+
+                                <div class="health-status">
+                                    <span class="status-dot"></span>
+                                    Healthy
+                                </div>
+                            </div>
+
+                            <div class="health-row">
+                                <div class="health-info">
+                                    <div class="health-icon">🔐</div>
+                                    <div>
+                                        <strong>Authentication</strong>
+                                        <span>Login service</span>
+                                    </div>
+                                </div>
+
+                                <div class="health-status">
+                                    <span class="status-dot"></span>
+                                    Healthy
+                                </div>
+                            </div>
+
+                            <div class="health-row">
+                                <div class="health-info">
+                                    <div class="health-icon">💳</div>
+                                    <div>
+                                        <strong>Payments</strong>
+                                        <span>Payment gateway</span>
+                                    </div>
+                                </div>
+
+                                <div class="health-status">
+                                    <span class="status-dot"></span>
+                                    Healthy
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUICK ACTIONS -->
+                    <div class="activity-panel">
+
+                        <div class="panel-header">
+                            <h3>Quick Actions</h3>
+                        </div>
+
+                        <div class="quick-actions">
+
+                            <button
+                                class="quick-action"
+                                onclick="location.href='users.html'"
+                            >
+                                <span class="quick-action-icon">👥</span>
+                                <span>Manage Users</span>
+                            </button>
+
+                            <button
+                                class="quick-action"
+                                onclick="location.href='products.html'"
+                            >
+                                <span class="quick-action-icon">📦</span>
+                                <span>Manage Products</span>
+                            </button>
+
+                            <button
+                                class="quick-action"
+                                onclick="location.href='orders.html'"
+                            >
+                                <span class="quick-action-icon">🛒</span>
+                                <span>Manage Orders</span>
+                            </button>
+
+                            <button
+                                class="quick-action"
+                                id="refreshActivity"
+                            >
+                                <span class="quick-action-icon">🔄</span>
+                                <span>Refresh Activity</span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<div class="toast-message" id="toastMessage"></div>
+
+
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const AUTH_KEY = "shopsphere_user";
+    const USERS_KEY = "shopsphere_users";
+    const ORDERS_KEY = "shopsphere_orders";
+    const PRODUCTS_KEY = "shopsphere_seller_products";
+
+    const searchInput = document.getElementById("activitySearch");
+    const typeSelect = document.getElementById("activityType");
+    const timeSelect = document.getElementById("activityTime");
+    const activityList = document.getElementById("activityList");
+
+    let activities = [];
+
+
+    function readStorage(key, fallback) {
+        try {
+            const value = JSON.parse(localStorage.getItem(key));
+
+            if (value === null || value === undefined) {
+                return fallback;
+            }
+
+            return value;
+
+        } catch (error) {
+            return fallback;
+        }
+    }
+
+
+    function getCurrentUser() {
+        return readStorage(AUTH_KEY, {});
+    }
+
+
+    function setupAdmin() {
+
+        const user = getCurrentUser();
+
+        if (
+            window.ShopSphereAuth &&
+            typeof window.ShopSphereAuth.isLoggedIn === "function"
+        ) {
+            if (!window.ShopSphereAuth.isLoggedIn()) {
+                window.location.href = "../login.html";
+                return;
+            }
+
+            if (
+                typeof window.ShopSphereAuth.getUserRole === "function" &&
+                window.ShopSphereAuth.getUserRole() &&
+                window.ShopSphereAuth.getUserRole() !== "admin"
+            ) {
+                window.ShopSphereAuth.redirectToDashboard();
+                return;
+            }
+        }
+
+        const name =
+            user.name ||
+            (
+                (user.firstName || "") +
+                " " +
+                (user.lastName || "")
+            ).trim() ||
+            "Administrator";
+
+        document.getElementById("adminName").textContent = name;
+
+        document.getElementById("adminAvatar").textContent =
+            name.charAt(0).toUpperCase();
+    }
+
+
+    function addActivity(type, title, description, user, date) {
+
+        activities.push({
+            type: type,
+            title: title,
+            description: description,
+            user: user || "System",
+            date: date ? new Date(date) : new Date()
+        });
+    }
+
+
+    function buildActivities() {
+
+        activities = [];
+
+        const storedLogs = readStorage("shopsphere_admin_activity", []);
+        if (Array.isArray(storedLogs) && storedLogs.length) {
+            storedLogs.forEach(function (log) {
+                addActivity(
+                    log.type || "system",
+                    log.title || log.action || "Activity",
+                    log.description || "",
+                    log.user || "Admin",
+                    log.createdAt || log.date
+                );
+            });
+        }
+
+        const users = readStorage(USERS_KEY, []);
+        const orders = readStorage(ORDERS_KEY, []);
+        const sellerProducts = readStorage(PRODUCTS_KEY, []);
+
+
+        /* USERS */
+
+        users.forEach(function (user) {
+
+            const name =
+                user.name ||
+                (
+                    (user.firstName || "") +
+                    " " +
+                    (user.lastName || "")
+                ).trim() ||
+                user.email ||
+                "User";
+
+            const createdAt =
+                user.createdAt ||
+                user.date ||
+                user.updatedAt;
+
+            addActivity(
+                "user",
+                "User account created",
+                name + " joined MARTplus as " +
+                (user.role || "buyer") + ".",
+                name,
+                createdAt
+            );
+
+        });
+
+
+        /* PRODUCTS */
+
+        sellerProducts.forEach(function (product) {
+
+            addActivity(
+                "product",
+                "Product added",
+                (product.name || "New product") +
+                " was added to the marketplace.",
+                product.seller || "Seller",
+                product.createdAt
+            );
+
+        });
+
+
+        /* ORDERS */
+
+        orders.forEach(function (order) {
+
+            const orderId =
+                order.orderId ||
+                order.id ||
+                "Order";
+
+            const customer =
+                order.customerName ||
+                order.buyerName ||
+                order.name ||
+                "Customer";
+
+            const status =
+                order.status ||
+                "Processing";
+
+            const date =
+                order.createdAt ||
+                order.orderDate ||
+                order.date;
+
+            addActivity(
+                "order",
+                "Order " + status.toLowerCase(),
+                orderId +
+                " for " +
+                customer +
+                " is currently " +
+                status + ".",
+                customer,
+                date
+            );
+
+        });
+
+
+        /* SYSTEM */
+
+        addActivity(
+            "system",
+            "System activity monitor opened",
+            "Admin activity monitoring page was loaded.",
+            "Administrator",
+            new Date()
+        );
+
+        addActivity(
+            "system",
+            "Application services healthy",
+            "Core application services are operating normally.",
+            "System",
+            new Date()
+        );
+
+
+        /* SECURITY */
+
+        const currentUser = getCurrentUser();
+
+        if (currentUser && currentUser.loginTime) {
+
+            addActivity(
+                "security",
+                "Administrator login detected",
+                "A recent administrator session was detected.",
+                currentUser.email || "Administrator",
+                currentUser.loginTime
+            );
+
+        }
+
+
+        activities.sort(function (a, b) {
+            return b.date - a.date;
+        });
+
+        updateStats();
+        renderActivities();
+    }
+
+
+    function updateStats() {
+
+        document.getElementById("totalActivities").textContent =
+            activities.length;
+
+        document.getElementById("userActivities").textContent =
+            activities.filter(function (item) {
+                return item.type === "user";
+            }).length;
+
+        document.getElementById("productActivities").textContent =
+            activities.filter(function (item) {
+                return item.type === "product";
+            }).length;
+
+        document.getElementById("orderActivities").textContent =
+            activities.filter(function (item) {
+                return item.type === "order";
+            }).length;
+    }
+
+
+    function getIcon(type) {
+
+        const icons = {
+            user: "👤",
+            product: "📦",
+            order: "🛒",
+            system: "⚙️",
+            security: "🔐"
+        };
+
+        return icons[type] || "⚡";
+    }
+
+
+    function getTypeClass(type) {
+
+        return "type-" + type;
+    }
+
+
+    function timeAgo(date) {
+
+        const now = new Date();
+        const diff = Math.floor((now - date) / 1000);
+
+        if (diff < 60) {
+            return "Just now";
+        }
+
+        if (diff < 3600) {
+            const minutes = Math.floor(diff / 60);
+            return minutes + " min ago";
+        }
+
+        if (diff < 86400) {
+            const hours = Math.floor(diff / 3600);
+            return hours + " hr ago";
+        }
+
+        if (diff < 604800) {
+            const days = Math.floor(diff / 86400);
+            return days + " day" + (days > 1 ? "s" : "") + " ago";
+        }
+
+        return date.toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+    }
+
+
+    function isWithinTime(date, filter) {
+
+        if (filter === "all") {
+            return true;
+        }
+
+        const now = new Date();
+        const difference = now - date;
+
+        if (filter === "today") {
+            return (
+                date.toDateString() === now.toDateString()
+            );
+        }
+
+        if (filter === "week") {
+            return difference <= 7 * 24 * 60 * 60 * 1000;
+        }
+
+        if (filter === "month") {
+            return difference <= 30 * 24 * 60 * 60 * 1000;
+        }
+
+        return true;
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    function renderActivities() {
+
+        const search =
+            searchInput.value.trim().toLowerCase();
+
+        const type =
+            typeSelect.value;
+
+        const time =
+            timeSelect.value;
+
+
+        const filtered = activities.filter(function (activity) {
+
+            const searchableText = (
+                activity.title +
+                " " +
+                activity.description +
+                " " +
+                activity.user
+            ).toLowerCase();
+
+            const matchesSearch =
+                !search ||
+                searchableText.includes(search);
+
+            const matchesType =
+                type === "all" ||
+                activity.type === type;
+
+            const matchesTime =
+                isWithinTime(activity.date, time);
+
+            return (
+                matchesSearch &&
+                matchesType &&
+                matchesTime
+            );
+
+        });
+
+
+        document.getElementById("activityResultCount").textContent =
+            filtered.length +
+            (filtered.length === 1 ? " event" : " events");
+
+
+        if (!filtered.length) {
+
+            activityList.innerHTML = `
+                <div class="empty-activity">
+                    <div>🔎</div>
+                    <p>No activity found for the selected filters.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+
+        activityList.innerHTML = filtered.map(function (activity) {
+
+            return `
+                <div class="activity-item">
+
+                    <div class="activity-icon">
+                        ${getIcon(activity.type)}
+                    </div>
+
+                    <div class="activity-body">
+
+                        <div class="activity-title">
+                            ${escapeHtml(activity.title)}
+                        </div>
+
+                        <div class="activity-description">
+                            ${escapeHtml(activity.description)}
+                        </div>
+
+                        <div class="activity-meta">
+
+                            <span class="activity-type ${getTypeClass(activity.type)}">
+                                ${escapeHtml(activity.type)}
+                            </span>
+
+                            <span>
+                                ${escapeHtml(activity.user)}
+                            </span>
+
+                            <span>
+                                ${timeAgo(activity.date)}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+    }
+
+
+    function showToast(message) {
+
+        const toast =
+            document.getElementById("toastMessage");
+
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        setTimeout(function () {
+            toast.classList.remove("show");
+        }, 2200);
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        renderActivities
+    );
+
+    typeSelect.addEventListener(
+        "change",
+        renderActivities
+    );
+
+    timeSelect.addEventListener(
+        "change",
+        renderActivities
+    );
+
+
+    document
+        .getElementById("clearFilters")
+        .addEventListener("click", function () {
+
+            searchInput.value = "";
+            typeSelect.value = "all";
+            timeSelect.value = "all";
+
+            renderActivities();
+        });
+
+
+    document
+        .getElementById("refreshActivity")
+        .addEventListener("click", function () {
+
+            buildActivities();
+            showToast("Activity refreshed successfully.");
+        });
+
+
+    document
+        .getElementById("logoutLink")
+        .addEventListener("click", function (event) {
+
+            event.preventDefault();
+
+            if (
+                window.ShopSphereAuth &&
+                typeof window.ShopSphereAuth.logout === "function"
+            ) {
+                window.ShopSphereAuth.logout();
+            } else {
+
+                localStorage.removeItem(AUTH_KEY);
+                window.location.href = "../login.html";
+            }
+        });
+
+
+    window.buildActivities = buildActivities;
+
+    setupAdmin();
+    buildActivities();
+
+    if (window.ShopSphereAdmin && typeof window.ShopSphereAdmin.syncAdminFromBackend === "function") {
+        window.ShopSphereAdmin.syncAdminFromBackend();
+    }
+
+});
+</script>
+
+</body>
+</html>

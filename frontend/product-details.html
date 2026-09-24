@@ -1,0 +1,2281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MARTplus | Product Details</title>
+
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+
+    <meta
+        name="description"
+        content="View product details, pricing, ratings and purchase options on MARTplus."
+    >
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <style>
+        /* =========================================
+           PRODUCT DETAILS PAGE
+        ========================================= */
+
+        .product-details-page {
+            padding: 42px 0 80px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 28px;
+            color: var(--gray-500);
+            font-size: 13px;
+        }
+
+        .breadcrumb a {
+            color: var(--gray-500);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+
+        .breadcrumb-current {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        /* =========================================
+           PRODUCT MAIN
+        ========================================= */
+
+        .product-detail-main {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 48px;
+            margin-bottom: 60px;
+        }
+
+        /* =========================================
+           IMAGE SECTION
+        ========================================= */
+
+        .product-gallery {
+            min-width: 0;
+        }
+
+        .product-main-image {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 460px;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .main-product-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80%;
+            height: 80%;
+            font-size: 150px;
+            border-radius: 20px;
+            background: #fff;
+        }
+
+        .detail-badge {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            z-index: 2;
+            padding: 7px 12px;
+            border-radius: 6px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .3px;
+        }
+
+        .detail-wishlist {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--gray-200);
+            border-radius: 50%;
+            background: #fff;
+            color: var(--gray-600);
+            font-size: 23px;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .detail-wishlist:hover,
+        .detail-wishlist.active {
+            color: #ef4444;
+            border-color: #fecaca;
+            background: #fff5f5;
+        }
+
+        .thumbnail-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .thumbnail {
+            width: 76px;
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            background: #fff;
+            font-size: 30px;
+            cursor: pointer;
+            .thumbnail {
+    overflow: hidden;
+    padding: 0;
+}
+        }
+
+        .thumbnail.active {
+            border: 2px solid var(--primary);
+        }
+
+        /* =========================================
+           PRODUCT INFO
+        ========================================= */
+
+        .product-detail-info {
+            min-width: 0;
+            padding-top: 5px;
+        }
+
+        .detail-category {
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .detail-title {
+            margin: 0 0 14px;
+            color: var(--dark);
+            font-size: 36px;
+            line-height: 1.2;
+        }
+
+        .detail-rating-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .detail-rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 5px 9px;
+            border-radius: 6px;
+            background: #fff7ed;
+            color: #c2410c;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .detail-stars {
+            color: #f59e0b;
+            letter-spacing: 1px;
+        }
+
+        .detail-reviews {
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+
+        .detail-price-section {
+            padding: 20px 0;
+            border-top: 1px solid var(--gray-200);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .detail-price-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .detail-price {
+            color: var(--dark);
+            font-size: 34px;
+            font-weight: 800;
+        }
+
+        .detail-old-price {
+            color: var(--gray-400);
+            font-size: 17px;
+            text-decoration: line-through;
+        }
+
+        .detail-discount {
+            padding: 5px 9px;
+            border-radius: 5px;
+            background: #dcfce7;
+            color: #15803d;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .tax-note {
+            margin: 0;
+            color: var(--gray-500);
+            font-size: 12px;
+        }
+
+        /* =========================================
+           SELLER
+        ========================================= */
+
+        .seller-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+        }
+
+        .seller-avatar {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--gray-100);
+            font-size: 18px;
+        }
+
+        .seller-details {
+            flex: 1;
+        }
+
+        .seller-details small {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--gray-500);
+            font-size: 11px;
+        }
+
+        .seller-details strong {
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .seller-rating {
+            color: #15803d;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* =========================================
+           STOCK
+        ========================================= */
+
+        .stock-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .stock-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+
+        .stock-low {
+            color: #dc2626;
+        }
+
+        .stock-low .stock-dot {
+            background: #ef4444;
+        }
+
+        .stock-good {
+            color: #15803d;
+        }
+
+        /* =========================================
+           PURCHASE
+        ========================================= */
+
+        .purchase-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--gray-300);
+            border-radius: 9px;
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            width: 38px;
+            height: 44px;
+            border: 0;
+            background: var(--gray-50);
+            color: var(--dark);
+            font-size: 19px;
+            cursor: pointer;
+        }
+
+        .quantity-btn:hover {
+            background: var(--gray-100);
+        }
+
+        .quantity-value {
+            min-width: 42px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .detail-add-cart {
+            flex: 1;
+            height: 46px;
+            border: 0;
+            border-radius: 9px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .detail-add-cart:hover {
+            background: var(--primary-dark, #5148d9);
+            transform: translateY(-1px);
+        }
+
+        .buy-now-btn {
+            width: 100%;
+            height: 46px;
+            border: 1px solid var(--dark);
+            border-radius: 9px;
+            background: var(--dark);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .buy-now-btn:hover {
+            opacity: .92;
+        }
+
+        /* =========================================
+           DELIVERY FEATURES
+        ========================================= */
+
+        .delivery-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .delivery-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px;
+            border: 1px solid var(--gray-200);
+            border-radius: 9px;
+        }
+
+        .delivery-feature-icon {
+            font-size: 20px;
+        }
+
+        .delivery-feature-text strong {
+            display: block;
+            margin-bottom: 2px;
+            color: var(--dark);
+            font-size: 12px;
+        }
+
+        .delivery-feature-text span {
+            color: var(--gray-500);
+            font-size: 11px;
+        }
+
+        /* =========================================
+           DESCRIPTION
+        ========================================= */
+
+        .product-description-section {
+            padding: 30px 0;
+            border-top: 1px solid var(--gray-200);
+            border-bottom: 1px solid var(--gray-200);
+            margin-bottom: 55px;
+        }
+
+        .detail-section-title {
+            margin: 0 0 20px;
+            color: var(--dark);
+            font-size: 22px;
+        }
+
+        .description-text {
+            max-width: 850px;
+            color: var(--gray-600);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        /* =========================================
+           SPECIFICATIONS
+        ========================================= */
+
+        .specifications {
+            max-width: 850px;
+            margin-top: 25px;
+        }
+
+        .spec-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            padding: 13px 0;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 14px;
+        }
+
+        .spec-label {
+            color: var(--gray-500);
+        }
+
+        .spec-value {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        /* =========================================
+           RELATED PRODUCTS
+        ========================================= */
+
+        .related-products {
+            margin-top: 55px;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        /* =========================================
+           NOT FOUND
+        ========================================= */
+
+        .product-not-found {
+            display: none;
+            text-align: center;
+            padding: 90px 20px;
+        }
+
+        .product-not-found.show {
+            display: block;
+        }
+
+        .product-not-found-icon {
+            margin-bottom: 15px;
+            font-size: 60px;
+        }
+
+        .product-not-found h1 {
+            margin: 0 0 8px;
+            color: var(--dark);
+        }
+
+        .product-not-found p {
+            margin: 0 0 22px;
+            color: var(--gray-500);
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 992px) {
+
+            .product-detail-main {
+                gap: 28px;
+            }
+
+            .product-main-image {
+                min-height: 380px;
+            }
+
+            .main-product-placeholder {
+                font-size: 110px;
+            }
+
+            .detail-title {
+                font-size: 29px;
+            }
+
+            .related-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+        }
+
+        @media (max-width: 768px) {
+
+            .product-details-page {
+                padding-top: 25px;
+            }
+
+            .product-detail-main {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .product-main-image {
+                min-height: 340px;
+            }
+
+            .detail-title {
+                font-size: 27px;
+            }
+
+            .detail-price {
+                font-size: 30px;
+            }
+
+            .related-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 480px) {
+
+            .product-main-image {
+                min-height: 290px;
+            }
+
+            .main-product-placeholder {
+                font-size: 90px;
+            }
+
+            .thumbnail {
+                width: 60px;
+                height: 60px;
+            }
+
+            .purchase-row {
+                flex-direction: column;
+            }
+
+            .quantity-control {
+                width: fit-content;
+            }
+
+            .delivery-features {
+                grid-template-columns: 1fr;
+            }
+
+            .spec-row {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================
+         ANNOUNCEMENT BAR
+    ========================================== -->
+
+    <div class="announcement-bar">
+        <div class="container announcement-content">
+            <span>🚚 Free shipping on orders above ₹999</span>
+            <span class="announcement-divider"></span>
+            <span>⚡ Flash Deals Live Now</span>
+        </div>
+    </div>
+
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="main-header site-header">
+
+        <div class="header-main-bar">
+            <div class="container header-content">
+
+                <a href="index.html" class="logo">
+                    <img src="assets/icons/mplus-logo.png" alt="MARTplus" class="logo-img">
+                    <span class="logo-text">MART<span>plus</span></span>
+                </a>
+
+                <div class="search-container search-wrapper">
+                    <form class="search-box search-form" id="detailSearchForm">
+                        <span class="search-icon">⌕</span>
+
+                        <input
+                            type="search"
+                            id="detailSearchInput"
+                            placeholder="Search products, brands and categories..."
+                            autocomplete="off"
+                        >
+
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+
+                <div class="header-actions">
+
+                    <a href="wishlist.html" class="header-action" aria-label="Wishlist">
+                        <span class="action-icon">♡</span>
+                        <span class="action-text">
+                            <small>My</small>
+                            <strong>Wishlist</strong>
+                        </span>
+                        <span class="action-badge wishlist-count" id="wishlistCount">0</span>
+                    </a>
+
+                    <a href="cart.html" class="header-action cart-action" aria-label="Cart">
+                        <span class="action-icon">🛒</span>
+                        <span class="action-text">
+                            <small>My</small>
+                            <strong>Cart</strong>
+                        </span>
+                        <span class="action-badge cart-count" id="cartCount">0</span>
+                    </a>
+
+                    <a href="login.html" class="header-action header-account-btn" id="headerAccountAction" aria-label="Account">
+                        <span class="action-icon">👤</span>
+                        <span class="action-text">
+                            <small>Hello, Sign in</small>
+                            <strong>Account</strong>
+                        </span>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- =====================================================
+             CATEGORY NAVIGATION — ROUNDED CARD CONTAINER
+        ====================================================== -->
+        <nav class="main-navigation" aria-label="Category Navigation">
+            <div class="container nav-card-container">
+                <div class="navigation-card">
+
+                    <button class="category-menu-btn" id="categoryMenuBtn" type="button" aria-label="All Categories">
+                        <span class="category-menu-icon">☰</span>
+                        <span class="category-menu-text">All Categories</span>
+                        <span class="category-dropdown-arrow">▾</span>
+                    </button>
+
+                    <div class="nav-divider" aria-hidden="true"></div>
+
+                    <div class="nav-links">
+                        <a href="index.html">Home</a>
+                        <a href="products.html">All Products</a>
+                        <a href="category.html?category=Electronics">Electronics</a>
+                        <a href="category.html?category=Fashion">Fashion</a>
+                        <a href="category.html?category=Home%20%26%20Living">Home & Living</a>
+                        <a href="category.html?category=Beauty">Beauty</a>
+                        <a href="category.html?category=Sports">Sports</a>
+                        <a href="category.html?category=Deals">Deals</a>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================
+         CATEGORY DRAWER
+    ========================================== -->
+
+    <div class="category-drawer" id="categoryDrawer">
+
+        <div class="drawer-header">
+
+            <h3>Shop by Category</h3>
+
+            <button
+                type="button"
+                class="drawer-close"
+                id="drawerClose"
+                aria-label="Close categories"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="drawer-content">
+
+            <a href="category.html?category=Electronics">
+                <span>📱</span>
+                Electronics
+            </a>
+
+            <a href="category.html?category=Fashion">
+                <span>👕</span>
+                Fashion
+            </a>
+
+            <a href="category.html?category=Home%20%26%20Living">
+                <span>🏠</span>
+                Home & Living
+            </a>
+
+            <a href="category.html?category=Beauty">
+                <span>💄</span>
+                Beauty
+            </a>
+
+            <a href="category.html?category=Sports">
+                <span>⚽</span>
+                Sports
+            </a>
+
+        </div>
+
+    </div>
+
+    <div
+        class="drawer-overlay"
+        id="drawerOverlay"
+    ></div>
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="product-details-page">
+
+        <div class="container">
+
+            <!-- =====================================
+                 BREADCRUMB
+            ====================================== -->
+
+            <div class="breadcrumb">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <span>›</span>
+
+                <a href="products.html">
+                    Products
+                </a>
+
+                <span>›</span>
+
+                <span
+                    class="breadcrumb-current"
+                    id="breadcrumbProduct"
+                >
+                    Product
+                </span>
+
+            </div>
+
+
+            <!-- =====================================
+                 PRODUCT NOT FOUND
+            ====================================== -->
+
+            <div
+                class="product-not-found"
+                id="productNotFound"
+            >
+
+                <div class="product-not-found-icon">
+                    🔍
+                </div>
+
+                <h1>Product Not Found</h1>
+
+                <p>
+                    Sorry, we couldn't find the product you're looking for.
+                </p>
+
+                <a
+                    href="products.html"
+                    class="btn btn-primary"
+                >
+                    Browse Products
+                </a>
+
+            </div>
+
+
+            <!-- =====================================
+                 PRODUCT DETAILS
+            ====================================== -->
+
+            <div
+                class="product-detail-main"
+                id="productDetailMain"
+            >
+
+                <!-- IMAGE -->
+
+                <div class="product-gallery">
+
+                    <div class="product-main-image">
+
+                        <span
+                            class="detail-badge"
+                            id="detailBadge"
+                        >
+                            DEAL
+                        </span>
+
+                        <button
+                            type="button"
+                            class="detail-wishlist"
+                            id="detailWishlist"
+                            aria-label="Add to wishlist"
+                        >
+                            ♡
+                        </button>
+
+                        <div
+                            class="main-product-placeholder"
+                            id="mainProductImage"
+                        >
+                            📱
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="thumbnail-row"
+                        id="thumbnailRow"
+                    ></div>
+
+                </div>
+
+
+                <!-- PRODUCT INFORMATION -->
+
+                <div class="product-detail-info">
+
+                    <div
+                        class="detail-category"
+                        id="detailCategory"
+                    >
+                        Electronics
+                    </div>
+
+                    <h1
+                        class="detail-title"
+                        id="detailTitle"
+                    >
+                        Product Name
+                    </h1>
+
+
+                    <div class="detail-rating-row">
+
+                        <span
+                            class="detail-rating"
+                            id="detailRating"
+                        >
+                            ★ 4.8
+                        </span>
+
+                        <span
+                            class="detail-stars"
+                            id="detailStars"
+                        >
+                            ★★★★★
+                        </span>
+
+                        <span
+                            class="detail-reviews"
+                            id="detailReviews"
+                        >
+                            1,248 reviews
+                        </span>
+
+                    </div>
+
+
+                    <!-- PRICE -->
+
+                    <div class="detail-price-section">
+
+                        <div class="detail-price-row">
+
+                            <span
+                                class="detail-price"
+                                id="detailPrice"
+                            >
+                                ₹69,999
+                            </span>
+
+                            <span
+                                class="detail-old-price"
+                                id="detailOldPrice"
+                            >
+                                ₹79,999
+                            </span>
+
+                            <span
+                                class="detail-discount"
+                                id="detailDiscount"
+                            >
+                                13% OFF
+                            </span>
+
+                        </div>
+
+                        <p class="tax-note">
+                            Inclusive of all applicable taxes
+                        </p>
+
+                    </div>
+
+
+                    <!-- SELLER -->
+
+                    <div class="seller-info">
+
+                        <div class="seller-avatar">
+                            🏪
+                        </div>
+
+                        <div class="seller-details">
+
+                            <small>
+                                Sold by
+                            </small>
+
+                            <strong id="detailSeller">
+                                TechWorld
+                            </strong>
+
+                        </div>
+
+                        <span class="seller-rating">
+                            ✓ Trusted Seller
+                        </span>
+
+                    </div>
+
+
+                    <!-- STOCK -->
+
+                    <div
+                        class="stock-status stock-good"
+                        id="stockStatus"
+                    >
+
+                        <span class="stock-dot"></span>
+
+                        <span id="stockText">
+                            In Stock
+                        </span>
+
+                    </div>
+
+
+                    <!-- PURCHASE -->
+
+                    <div class="purchase-row">
+
+                        <div class="quantity-control">
+
+                            <button
+                                type="button"
+                                class="quantity-btn"
+                                id="decreaseQty"
+                            >
+                                −
+                            </button>
+
+                            <span
+                                class="quantity-value"
+                                id="quantityValue"
+                            >
+                                1
+                            </span>
+
+                            <button
+                                type="button"
+                                class="quantity-btn"
+                                id="increaseQty"
+                            >
+                                +
+                            </button>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="detail-add-cart"
+                            id="detailAddCart"
+                        >
+                            🛒 Add to Cart
+                        </button>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="buy-now-btn"
+                        id="buyNowBtn"
+                    >
+                        Buy Now
+                    </button>
+
+
+                    <!-- DELIVERY -->
+
+                    <div class="delivery-features">
+
+                        <div class="delivery-feature">
+
+                            <span class="delivery-feature-icon">
+                                🚚
+                            </span>
+
+                            <div class="delivery-feature-text">
+
+                                <strong>
+                                    Free Delivery
+                                </strong>
+
+                                <span>
+                                    On orders above ₹999
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="delivery-feature">
+
+                            <span class="delivery-feature-icon">
+                                ↩️
+                            </span>
+
+                            <div class="delivery-feature-text">
+
+                                <strong>
+                                    Easy Returns
+                                </strong>
+
+                                <span>
+                                    7-day return policy
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="delivery-feature">
+
+                            <span class="delivery-feature-icon">
+                                🔒
+                            </span>
+
+                            <div class="delivery-feature-text">
+
+                                <strong>
+                                    Secure Payment
+                                </strong>
+
+                                <span>
+                                    100% secure checkout
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="delivery-feature">
+
+                            <span class="delivery-feature-icon">
+                                ✓
+                            </span>
+
+                            <div class="delivery-feature-text">
+
+                                <strong>
+                                    Genuine Product
+                                </strong>
+
+                                <span>
+                                    Verified sellers
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================
+                 DESCRIPTION
+            ====================================== -->
+
+            <section class="product-description-section">
+
+                <h2 class="detail-section-title">
+                    Product Description
+                </h2>
+
+                <p
+                    class="description-text"
+                    id="productDescription"
+                >
+                    Experience premium quality and reliable performance
+                    with this product from a trusted MARTplus seller.
+                    Designed for everyday use with excellent build quality
+                    and customer satisfaction.
+                </p>
+
+
+                <div class="specifications">
+
+                    <div class="spec-row">
+
+                        <span class="spec-label">
+                            Category
+                        </span>
+
+                        <span
+                            class="spec-value"
+                            id="specCategory"
+                        >
+                            Electronics
+                        </span>
+
+                    </div>
+
+                    <div class="spec-row">
+
+                        <span class="spec-label">
+                            Seller
+                        </span>
+
+                        <span
+                            class="spec-value"
+                            id="specSeller"
+                        >
+                            TechWorld
+                        </span>
+
+                    </div>
+
+                    <div class="spec-row">
+
+                        <span class="spec-label">
+                            Customer Rating
+                        </span>
+
+                        <span
+                            class="spec-value"
+                            id="specRating"
+                        >
+                            4.8 / 5
+                        </span>
+
+                    </div>
+
+                    <div class="spec-row">
+
+                        <span class="spec-label">
+                            Availability
+                        </span>
+
+                        <span
+                            class="spec-value"
+                            id="specStock"
+                        >
+                            In Stock
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =====================================
+                 RELATED PRODUCTS
+            ====================================== -->
+
+            <section class="related-products">
+
+                <div class="section-header">
+
+                    <div>
+                        <span class="section-eyebrow">
+                            YOU MAY ALSO LIKE
+                        </span>
+
+                        <h2>
+                            Related Products
+                        </h2>
+                    </div>
+
+                    <a
+                        href="products.html"
+                        class="section-link"
+                    >
+                        View All →
+                    </a>
+
+                </div>
+
+
+                <div
+                    class="related-grid"
+                    id="relatedProducts"
+                ></div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="site-footer">
+
+        <div class="container footer-grid">
+
+            <div class="footer-column footer-brand">
+
+                <a
+                    href="index.html"
+                    class="logo footer-logo"
+                >
+                    <img src="assets/icons/mplus-logo.png" alt="MARTplus" class="footer-logo-img">
+                    <span class="logo-text">MART<span>plus</span></span>
+                </a>
+
+                <p>
+                    Your trusted multi-vendor marketplace for quality
+                    products, great deals and a seamless shopping experience.
+                </p>
+
+                <div class="footer-socials">
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Instagram">◎</a>
+                    <a href="#" aria-label="Twitter">𝕏</a>
+                    <a href="#" aria-label="LinkedIn">in</a>
+                </div>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>Shop</h3>
+
+                <a href="products.html">
+                    All Products
+                </a>
+
+                <a href="category.html?category=Electronics">
+                    Electronics
+                </a>
+
+                <a href="category.html?category=Fashion">
+                    Fashion
+                </a>
+
+                <a href="category.html?category=Home%20%26%20Living">
+                    Home & Living
+                </a>
+
+                <a href="category.html?category=Beauty">
+                    Beauty
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>Customer Service</h3>
+
+                <a href="buyer/orders.html">
+                    My Orders
+                </a>
+
+                <a href="buyer/tracking.html">
+                    Track Order
+                </a>
+
+                <a href="wishlist.html">
+                    Wishlist
+                </a>
+
+                <a href="buyer/profile.html">
+                    My Account
+                </a>
+
+                <a href="#">
+                    Help Center
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>Sell With Us</h3>
+
+                <a href="seller/dashboard.html">
+                    Seller Dashboard
+                </a>
+
+                <a href="seller/add-product.html">
+                    Add Product
+                </a>
+
+                <a href="seller/inventory.html">
+                    Manage Inventory
+                </a>
+
+                <a href="seller/analytics.html">
+                    Sales Analytics
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <div class="container footer-bottom-content">
+
+                <p>
+                    © 2026 MARTplus. All rights reserved.
+                </p>
+
+                <div>
+                    <a href="#">
+                        Privacy Policy
+                    </a>
+
+                    <a href="#">
+                        Terms & Conditions
+                    </a>
+
+                    <a href="#">
+                        Refund Policy
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================
+         TOAST
+    ========================================== -->
+
+    <div
+        class="toast"
+        id="toast"
+        role="status"
+        aria-live="polite"
+    ></div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+    /* =========================================
+       GET PRODUCT ID
+    ========================================== */
+
+    const params = new URLSearchParams(window.location.search);
+    const idParam = params.get("id");
+    const productId = idParam !== null && idParam !== "" ? Number(idParam) : null;
+
+    const detailMain = document.getElementById("productDetailMain");
+    const notFound = document.getElementById("productNotFound");
+
+    function showNotFound() {
+        if (detailMain) detailMain.style.display = "none";
+        if (notFound) notFound.classList.add("show");
+    }
+
+    if (!productId || isNaN(productId) || productId <= 0) {
+        showNotFound();
+        return;
+    }
+
+    let product = null;
+
+    /* 1. Authoritative Backend Database Fetch (GET /api/products/{id}) */
+    if (window.ShopSphereApi?.products?.getById) {
+        try {
+            const p = await window.ShopSphereApi.products.getById(productId);
+            if (p && p.id) {
+                if (window.ShopSphereProducts?.mapBackendProduct) {
+                    product = window.ShopSphereProducts.mapBackendProduct(p);
+                } else {
+                    const catSlug = (p.category || "general").toLowerCase().replace(/[^a-z0-9]/g, "-");
+                    product = {
+                        id: p.id,
+                        name: p.name,
+                        category: p.category || "General",
+                        categorySlug: catSlug,
+                        price: Number(p.price) || 0,
+                        oldPrice: Math.round((Number(p.price) || 0) * 1.2),
+                        discount: 15,
+                        rating: 4.8,
+                        reviews: 120,
+                        badge: (p.stock <= 5 && p.stock > 0) ? "LOW STOCK" : (p.stock === 0 ? "OUT OF STOCK" : "POPULAR"),
+                        emoji: "📦",
+                        imageUrl: p.imageUrl || "",
+                        image: p.imageUrl || "",
+                        images: p.imageUrl ? [p.imageUrl] : [],
+                        stock: p.stock !== undefined ? p.stock : 10,
+                        seller: p.seller?.fullName || p.seller?.email || p.sellerName || p.sellerEmail || "MARTplus Seller",
+                        description: p.description || ""
+                    };
+                }
+            }
+        } catch (err) {
+            console.warn("Backend GET /api/products/" + productId + " error:", err?.message || err);
+        }
+    }
+
+    /* 2. Fallback to in-memory/seed catalog */
+    if (!product && window.ShopSphereProducts?.getProductById) {
+        product = window.ShopSphereProducts.getProductById(productId);
+    }
+
+    /* 3. If product not found anywhere */
+    if (!product) {
+        showNotFound();
+        return;
+    }
+
+    if (notFound) notFound.classList.remove("show");
+    if (detailMain) detailMain.style.display = "";
+
+    /* =========================================
+       ELEMENTS
+    ========================================== */
+
+    const title = document.getElementById("detailTitle");
+    const category = document.getElementById("detailCategory");
+    const price = document.getElementById("detailPrice");
+    const oldPrice = document.getElementById("detailOldPrice");
+    const discount = document.getElementById("detailDiscount");
+
+    const rating = document.getElementById("detailRating");
+    const stars = document.getElementById("detailStars");
+    const reviews = document.getElementById("detailReviews");
+
+    const seller = document.getElementById("detailSeller");
+    const badge = document.getElementById("detailBadge");
+
+    const mainImage = document.getElementById("mainProductImage");
+    const breadcrumb = document.getElementById("breadcrumbProduct");
+
+    const stockText = document.getElementById("stockText");
+    const stockStatus = document.getElementById("stockStatus");
+
+    const description =
+        document.getElementById("productDescription");
+
+    const specCategory =
+        document.getElementById("specCategory");
+
+    const specSeller =
+        document.getElementById("specSeller");
+
+    const specRating =
+        document.getElementById("specRating");
+
+    const specStock =
+        document.getElementById("specStock");
+
+    /* =========================================
+       FORMAT PRICE
+    ========================================== */
+
+    function formatPrice(value) {
+        return "₹" +
+            Number(value || 0).toLocaleString("en-IN");
+    }
+
+    /* =========================================
+       STAR GENERATOR
+    ========================================== */
+
+    function createStars(value) {
+        const rounded = Math.round(Number(value) || 0);
+
+        let result = "";
+
+        for (let i = 1; i <= 5; i++) {
+            result += i <= rounded ? "★" : "☆";
+        }
+
+        return result;
+    }
+
+    /* =========================================
+       PRODUCT INFORMATION
+    ========================================== */
+
+    title.textContent = product.name;
+    category.textContent = product.category;
+
+    price.textContent = formatPrice(product.price);
+
+    oldPrice.textContent =
+        product.oldPrice
+            ? formatPrice(product.oldPrice)
+            : "";
+
+    discount.textContent =
+        product.discount
+            ? `${product.discount}% OFF`
+            : "";
+
+    rating.textContent =
+        `★ ${product.rating}`;
+
+    stars.textContent =
+        createStars(product.rating);
+
+    reviews.textContent =
+        `${Number(product.reviews || 0).toLocaleString("en-IN")} reviews`;
+
+    seller.textContent =
+        product.seller || "MARTplus Seller";
+
+    badge.textContent =
+        product.badge || "POPULAR";
+
+    mainImage.textContent =
+        product.emoji || "📦";
+
+    breadcrumb.textContent =
+        product.name;
+
+    specCategory.textContent =
+        product.category;
+
+    specSeller.textContent =
+        product.seller || "MARTplus Seller";
+
+    specRating.textContent =
+        `${product.rating} / 5`;
+
+    description.textContent =
+        product.description ||
+        `Discover the ${product.name}, a quality product available from ${product.seller || "MARTplus Seller"}. With a customer rating of ${product.rating}/5 based on ${Number(product.reviews || 0).toLocaleString("en-IN")} reviews, this product offers excellent value for your everyday needs. Shop confidently on MARTplus with secure checkout and reliable seller support.`;
+
+    /* =========================================
+       STOCK
+    ========================================== */
+
+    const stock = Number(product.stock) || 0;
+
+    if (stock <= 10 && stock > 0) {
+
+        stockStatus.classList.remove("stock-good");
+        stockStatus.classList.add("stock-low");
+
+        stockText.textContent =
+            `Only ${stock} left in stock`;
+
+    } else if (stock > 10) {
+
+        stockStatus.classList.remove("stock-low");
+        stockStatus.classList.add("stock-good");
+
+        stockText.textContent =
+            `${stock} items available`;
+
+    } else {
+
+        stockStatus.classList.remove("stock-good");
+        stockStatus.classList.add("stock-low");
+
+        stockText.textContent =
+            "Out of Stock";
+    }
+
+    specStock.textContent =
+        stock > 0 ? "In Stock" : "Out of Stock";
+
+    /* =========================================
+       THUMBNAILS
+    ========================================== */
+
+    /* =========================================
+   MULTIPLE PRODUCT IMAGES
+========================================= */
+
+const thumbnailRow =
+    document.getElementById("thumbnailRow");
+
+
+/*
+ * Support both:
+ * 1. New products -> images: []
+ * 2. Old products -> image: "" or imageUrl: ""
+ */
+
+let productImages = [];
+
+if (
+    Array.isArray(product.images) &&
+    product.images.length > 0
+) {
+    productImages = product.images.filter(Boolean);
+}
+
+if (
+    productImages.length === 0 &&
+    (product.image || product.imageUrl)
+) {
+    productImages = [product.image || product.imageUrl];
+}
+
+
+/*
+ * If no real image exists,
+ * use emoji as fallback.
+ */
+
+if (productImages.length === 0) {
+
+    productImages = [
+        product.emoji || "📦"
+    ];
+
+}
+
+
+/* =========================================
+   SHOW MAIN IMAGE
+========================================= */
+
+function showMainImage(source) {
+
+    /*
+     * Real image / Base64 image
+     */
+
+    if (
+        typeof source === "string" &&
+        (
+            source.startsWith("data:image") ||
+            source.startsWith("http://") ||
+            source.startsWith("https://") ||
+            source.startsWith("./") ||
+            source.startsWith("../") ||
+            source.startsWith("/")
+        )
+    ) {
+
+        mainImage.innerHTML = "";
+
+        const img =
+            document.createElement("img");
+
+        img.src = source;
+
+        img.alt =
+            product.name || "Product image";
+
+        img.style.width = "100%";
+        img.style.height = "100%";
+        img.style.objectFit = "contain";
+        img.style.display = "block";
+
+        mainImage.appendChild(img);
+
+    } else {
+
+        /*
+         * Emoji fallback
+         */
+
+        mainImage.textContent =
+            source || "📦";
+
+    }
+
+}
+
+
+/* =========================================
+   INITIAL MAIN IMAGE
+========================================= */
+
+showMainImage(
+    productImages[0]
+);
+
+
+/* =========================================
+   CREATE THUMBNAILS
+========================================= */
+
+thumbnailRow.innerHTML = "";
+
+
+productImages.forEach(
+    function (imageSource, index) {
+
+        const thumbnail =
+            document.createElement("button");
+
+        thumbnail.type = "button";
+
+        thumbnail.className =
+            "thumbnail" +
+            (
+                index === 0
+                    ? " active"
+                    : ""
+            );
+
+
+        /*
+         * Real image thumbnail
+         */
+
+        if (
+            typeof imageSource === "string" &&
+            (
+                imageSource.startsWith("data:image") ||
+                imageSource.startsWith("http://") ||
+                imageSource.startsWith("https://") ||
+                imageSource.startsWith("./") ||
+                imageSource.startsWith("../") ||
+                imageSource.startsWith("/")
+            )
+        ) {
+
+            const img =
+                document.createElement("img");
+
+            img.src = imageSource;
+
+            img.alt =
+                `${product.name || "Product"} image ${index + 1}`;
+
+            img.style.width = "100%";
+            img.style.height = "100%";
+            img.style.objectFit = "cover";
+            img.style.display = "block";
+
+            thumbnail.appendChild(img);
+
+        } else {
+
+            /*
+             * Emoji fallback
+             */
+
+            thumbnail.textContent =
+                imageSource || "📦";
+
+        }
+
+
+        /*
+         * Thumbnail click
+         */
+
+        thumbnail.addEventListener(
+            "click",
+            function () {
+
+                document
+                    .querySelectorAll(".thumbnail")
+                    .forEach(
+                        function (item) {
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        }
+                    );
+
+
+                thumbnail.classList.add(
+                    "active"
+                );
+
+
+                showMainImage(
+                    imageSource
+                );
+
+            }
+        );
+
+
+        thumbnailRow.appendChild(
+            thumbnail
+        );
+
+    }
+);
+
+    /* =========================================
+       QUANTITY
+    ========================================== */
+
+    let quantity = 1;
+
+    const quantityValue =
+        document.getElementById("quantityValue");
+
+    const decreaseBtn =
+        document.getElementById("decreaseQty");
+
+    const increaseBtn =
+        document.getElementById("increaseQty");
+
+    function updateQuantity() {
+        quantityValue.textContent = quantity;
+    }
+
+    decreaseBtn.addEventListener("click", () => {
+
+        if (quantity > 1) {
+            quantity--;
+            updateQuantity();
+        }
+
+    });
+
+    increaseBtn.addEventListener("click", () => {
+
+        if (stock <= 0) {
+            if (window.ShopSphere?.showToast) {
+                window.ShopSphere.showToast(
+                    "Product is out of stock."
+                );
+            }
+            return;
+        }
+
+        if (quantity < stock) {
+
+            quantity++;
+            updateQuantity();
+
+        } else {
+
+            if (window.ShopSphere?.showToast) {
+                window.ShopSphere.showToast(
+                    "Maximum available stock reached."
+                );
+            }
+        }
+
+    });
+
+    /* =========================================
+       ADD TO CART
+    ========================================== */
+
+    const addCartBtn =
+        document.getElementById("detailAddCart");
+
+    addCartBtn.addEventListener("click", () => {
+
+        if (stock <= 0) {
+
+            if (window.ShopSphere?.showToast) {
+                window.ShopSphere.showToast(
+                    "This product is currently out of stock."
+                );
+            }
+
+            return;
+        }
+
+        if (
+            window.ShopSphereProducts &&
+            typeof window.ShopSphereProducts.addToCart === "function"
+        ) {
+
+            for (let i = 0; i < quantity; i++) {
+                window.ShopSphereProducts.addToCart(product.id);
+            }
+
+            if (window.ShopSphere?.showToast) {
+                window.ShopSphere.showToast(
+                    `${quantity} × ${product.name} added to cart.`
+                );
+            }
+        }
+
+    });
+
+    /* =========================================
+       BUY NOW
+    ========================================== */
+
+    const buyNowBtn =
+        document.getElementById("buyNowBtn");
+
+    buyNowBtn.addEventListener("click", () => {
+
+        if (stock <= 0) {
+
+            if (window.ShopSphere?.showToast) {
+                window.ShopSphere.showToast(
+                    "This product is currently out of stock."
+                );
+            }
+
+            return;
+        }
+
+        if (
+            window.ShopSphereProducts &&
+            typeof window.ShopSphereProducts.addToCart === "function"
+        ) {
+
+            for (let i = 0; i < quantity; i++) {
+                window.ShopSphereProducts.addToCart(product.id);
+            }
+
+            window.location.href = "cart.html";
+        }
+
+    });
+
+    /* =========================================
+       WISHLIST
+    ========================================== */
+
+    const wishlistBtn =
+        document.getElementById("detailWishlist");
+
+    const WISHLIST_KEY =
+        "shopsphere_wishlist";
+
+    function getWishlist() {
+
+        try {
+
+            const raw =
+                localStorage.getItem(WISHLIST_KEY);
+
+            const data =
+                raw ? JSON.parse(raw) : [];
+
+            if (!Array.isArray(data)) {
+                return [];
+            }
+
+            return data
+                .map(item => {
+
+                    if (
+                        typeof item === "object" &&
+                        item !== null
+                    ) {
+                        return Number(
+                            item.productId ?? item.id
+                        );
+                    }
+
+                    return Number(item);
+                })
+                .filter(Number.isFinite);
+
+        } catch (error) {
+
+            console.error(
+                "Wishlist read error:",
+                error
+            );
+
+            return [];
+        }
+    }
+
+    function updateWishlistButton() {
+
+        const wishlist =
+            getWishlist();
+
+        const isWishlisted =
+            wishlist.includes(
+                Number(product.id)
+            );
+
+        if (isWishlisted) {
+
+            wishlistBtn.classList.add("active");
+
+            wishlistBtn.textContent = "♥";
+
+            wishlistBtn.setAttribute(
+                "aria-label",
+                "Remove from wishlist"
+            );
+
+        } else {
+
+            wishlistBtn.classList.remove("active");
+
+            wishlistBtn.textContent = "♡";
+
+            wishlistBtn.setAttribute(
+                "aria-label",
+                "Add to wishlist"
+            );
+        }
+    }
+
+    wishlistBtn.addEventListener("click", () => {
+
+        if (
+            window.ShopSphereProducts &&
+            typeof window.ShopSphereProducts.toggleWishlist === "function"
+        ) {
+
+            window.ShopSphereProducts.toggleWishlist(
+                Number(product.id)
+            );
+
+            updateWishlistButton();
+        }
+
+    });
+
+    updateWishlistButton();
+
+    /* =========================================
+       RELATED PRODUCTS
+    ========================================== */
+
+    const relatedContainer =
+        document.getElementById("relatedProducts");
+
+    function renderRelatedProducts() {
+        if (!relatedContainer) return;
+        relatedContainer.innerHTML = "";
+
+        if (
+            window.ShopSphereProducts &&
+            Array.isArray(window.ShopSphereProducts.products)
+        ) {
+            const related =
+                window.ShopSphereProducts.products
+                    .filter(item =>
+                        Number(item.id) !== Number(product.id) &&
+                        item.category === product.category
+                    )
+                    .slice(0, 4);
+
+            related.forEach(item => {
+                if (
+                    typeof window.ShopSphereProducts.createProductCard === "function"
+                ) {
+                    const card = window.ShopSphereProducts.createProductCard(item);
+                    relatedContainer.appendChild(card);
+                }
+            });
+        }
+    }
+
+    renderRelatedProducts();
+
+    if (window.ShopSphereProducts?.loadProductsFromBackend) {
+        window.ShopSphereProducts.loadProductsFromBackend().then(() => {
+            renderRelatedProducts();
+        }).catch(() => {});
+    }
+
+    /* =========================================
+       RELATED PRODUCT CLICKS
+    ========================================== */
+
+    relatedContainer.addEventListener("click", event => {
+
+        const card =
+            event.target.closest(".product-card");
+
+        const addButton =
+            event.target.closest(".add-to-cart-btn");
+
+        const wishlistButton =
+            event.target.closest(".product-wishlist");
+
+        /* ADD TO CART */
+
+        if (
+            addButton &&
+            window.ShopSphereProducts
+        ) {
+
+            window.ShopSphereProducts.addToCart(
+                Number(addButton.dataset.productId)
+            );
+
+            return;
+        }
+
+        /* WISHLIST */
+
+        if (
+            wishlistButton &&
+            window.ShopSphereProducts
+        ) {
+
+            window.ShopSphereProducts.toggleWishlist(
+                Number(wishlistButton.dataset.productId)
+            );
+
+            return;
+        }
+
+        /* PRODUCT DETAILS */
+
+        if (card) {
+
+            const id =
+                card.dataset.productId ||
+                card.getAttribute("data-product-id");
+
+            if (id) {
+
+                window.location.href =
+                    `product-details.html?id=${encodeURIComponent(id)}`;
+            }
+        }
+
+    });
+
+    /* =========================================
+       SEARCH
+    ========================================== */
+
+    const searchForm =
+        document.getElementById("detailSearchForm");
+
+    searchForm.addEventListener("submit", event => {
+
+        event.preventDefault();
+
+        const value =
+            document
+                .getElementById("detailSearchInput")
+                .value
+                .trim();
+
+        if (value) {
+
+            window.location.href =
+                `products.html?search=${encodeURIComponent(value)}`;
+        }
+
+    });
+
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MARTplus | Add Product</title>
+
+    <link rel="icon" type="image/png" href="../assets/icons/favicon.png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background: #f5f7fb;
+            color: #111827;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        .layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            background: #111827;
+            color: #fff;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar-brand-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            object-fit: contain;
+            margin-right: 11px;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: #635bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+            margin-right: 11px;
+        }
+
+        .brand-name {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .brand-subtitle {
+            color: #9ca3af;
+            font-size: 10px;
+            margin-top: 2px;
+        }
+
+        .sidebar-nav {
+            padding: 22px 14px;
+            flex: 1;
+        }
+
+        .nav-title {
+            color: #6b7280;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            padding: 0 12px 10px;
+            font-weight: 700;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 13px;
+            border-radius: 10px;
+            color: #c7cedb;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,.07);
+            color: #fff;
+        }
+
+        .nav-link.active {
+            background: #635bff;
+            color: #fff;
+        }
+
+        .nav-icon {
+            width: 21px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+
+        .seller-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #635bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .seller-info strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .seller-info span {
+            color: #9ca3af;
+            font-size: 10px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: #9ca3af;
+            padding: 10px 12px;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,.07);
+            color: #fff;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+        }
+
+        .topbar {
+            height: 72px;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar h1 {
+            font-size: 21px;
+            margin-bottom: 4px;
+        }
+
+        .topbar p {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .back-btn {
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            padding: 9px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* CONTENT */
+
+        .content {
+            padding: 28px 30px 45px;
+            max-width: 1200px;
+        }
+
+        .form-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(280px, .8fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e8ebf0;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #edf0f4;
+        }
+
+        .card-header h2 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .card-header p {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* FORM */
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 17px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 7px;
+            color: #374151;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #dfe3ea;
+            border-radius: 8px;
+            padding: 10px 12px;
+            outline: none;
+            font-size: 12px;
+            color: #111827;
+            background: #fff;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #635bff;
+            box-shadow: 0 0 0 3px rgba(99,91,255,.08);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .input-help {
+            color: #9ca3af;
+            font-size: 10px;
+            margin-top: 5px;
+        }
+
+        .price-input {
+            position: relative;
+        }
+
+        .price-symbol {
+            position: absolute;
+            left: 12px;
+            top: 10px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .price-input input {
+            padding-left: 28px;
+        }
+
+        /* IMAGE */
+
+        .image-upload {
+            border: 2px dashed #d9dde5;
+            border-radius: 11px;
+            padding: 28px 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .image-upload:hover,
+        .image-upload.dragover {
+            border-color: #635bff;
+            background: #f8f7ff;
+        }
+
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 10px;
+            border-radius: 12px;
+            background: #eef2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .image-upload strong {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .image-upload span {
+            color: #9ca3af;
+            font-size: 10px;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        .preview {
+            display: none;
+            margin-top: 14px;
+        }
+
+        .preview img {
+            width: 100%;
+            max-height: 220px;
+            object-fit: contain;
+            border-radius: 9px;
+            background: #f5f7fb;
+        }
+
+        .remove-image {
+            margin-top: 8px;
+            border: 0;
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 7px 10px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        /* SIDE INFO */
+
+        .tip {
+            background: #f8f7ff;
+            border: 1px solid #e6e3ff;
+            border-radius: 11px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .tip-title {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .tip ul {
+            padding-left: 17px;
+        }
+
+        .tip li {
+            color: #6b7280;
+            font-size: 10px;
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        .status-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px;
+            background: #f9fafb;
+            border-radius: 9px;
+            margin-bottom: 15px;
+        }
+
+        .status-box span {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .status-active {
+            color: #15803d !important;
+            font-weight: 700;
+        }
+
+        /* ACTIONS */
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 3px;
+        }
+
+        .cancel-btn {
+            border: 1px solid #dfe3ea;
+            background: #fff;
+            color: #374151;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .save-btn {
+            border: 0;
+            background: #635bff;
+            color: #fff;
+            padding: 11px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .save-btn:hover {
+            background: #5148e5;
+        }
+
+        /* TOAST */
+
+        .toast {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            background: #111827;
+            color: #fff;
+            padding: 12px 17px;
+            border-radius: 9px;
+            font-size: 12px;
+            opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+            transition: .25s;
+            z-index: 999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 950px) {
+            .form-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 72px;
+            }
+
+            .brand {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .brand-name,
+            .brand-subtitle,
+            .nav-title,
+            .nav-link span:not(.nav-icon),
+            .seller-info,
+            .logout-text {
+                display: none;
+            }
+
+            .nav-link {
+                justify-content: center;
+            }
+
+            .seller-box {
+                justify-content: center;
+                padding: 8px 0;
+            }
+
+            .main {
+                margin-left: 72px;
+                width: calc(100% - 72px);
+            }
+
+            .content {
+                padding: 22px 18px 35px;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-row .form-group {
+                margin-bottom: 17px;
+            }
+
+            .content {
+                padding: 18px 12px 30px;
+            }
+
+            .topbar h1 {
+                font-size: 18px;
+            }
+
+            .topbar p {
+                display: none;
+            }
+
+            .form-actions {
+                flex-direction: column-reverse;
+            }
+
+            .cancel-btn,
+            .save-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <img src="../assets/icons/mplus-logo.png" alt="MARTplus" class="sidebar-brand-img">
+
+            <div>
+                <div class="brand-name">
+                    MARTplus
+                </div>
+
+                <div class="brand-subtitle">
+                    Seller Center
+                </div>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-title">
+                Seller Panel
+            </div>
+
+            <a href="dashboard.html" class="nav-link">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="products.html" class="nav-link">
+                <span class="nav-icon">📦</span>
+                <span>Products</span>
+            </a>
+
+            <a href="add-product.html" class="nav-link active">
+                <span class="nav-icon">➕</span>
+                <span>Add Product</span>
+            </a>
+
+            <a href="inventory.html" class="nav-link">
+                <span class="nav-icon">🏷️</span>
+                <span>Inventory</span>
+            </a>
+
+            <a href="orders.html" class="nav-link">
+                <span class="nav-icon">🛒</span>
+                <span>Orders</span>
+            </a>
+
+            <a href="analytics.html" class="nav-link">
+                <span class="nav-icon">📈</span>
+                <span>Analytics</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="seller-box">
+
+                <div class="avatar" id="sidebarAvatar">
+                    S
+                </div>
+
+                <div class="seller-info">
+
+                    <strong id="sidebarName">
+                        Seller
+                    </strong>
+
+                    <span>
+                        Seller Account
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="logout-btn"
+                id="logoutBtn"
+            >
+                <span>↪</span>
+                <span class="logout-text">
+                    Logout
+                </span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Add Product
+                </h1>
+
+                <p>
+                    Create a new product listing for your store.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="back-btn"
+                id="backBtn"
+            >
+                ← Back to Products
+            </button>
+
+        </header>
+
+
+        <section class="content">
+
+            <form id="productForm">
+
+                <div class="form-layout">
+
+                    <!-- LEFT -->
+
+                    <div>
+
+                        <!-- BASIC INFORMATION -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <h2>
+                                    Basic Information
+                                </h2>
+
+                                <p>
+                                    Enter the main details of your product.
+                                </p>
+
+                            </div>
+
+
+                            <div class="card-body">
+
+                                <div class="form-group">
+
+                                    <label for="productName">
+                                        Product Name
+                                        <span class="required">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="productName"
+                                        placeholder="e.g. Premium Wireless Headphones"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="form-row">
+
+                                    <div class="form-group">
+
+                                        <label for="category">
+                                            Category
+                                            <span class="required">*</span>
+                                        </label>
+
+                                        <select
+                                            id="category"
+                                            required
+                                        >
+
+                                            <option value="">
+                                                Select category
+                                            </option>
+
+                                            <option value="Electronics">
+                                                Electronics
+                                            </option>
+
+                                            <option value="Fashion">
+                                                Fashion
+                                            </option>
+
+                                            <option value="Home & Living">
+                                                Home & Living
+                                            </option>
+
+                                            <option value="Beauty">
+                                                Beauty
+                                            </option>
+
+                                            <option value="Sports">
+                                                Sports
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label for="subcategory">
+                                            Subcategory
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="subcategory"
+                                            placeholder="e.g. Audio"
+                                        >
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="description">
+                                        Product Description
+                                        <span class="required">*</span>
+                                    </label>
+
+                                    <textarea
+                                        id="description"
+                                        placeholder="Describe your product, features, materials, benefits..."
+                                        required
+                                    ></textarea>
+
+                                    <div class="input-help">
+                                        Write a clear and useful description for buyers.
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PRICING -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <h2>
+                                    Pricing & Inventory
+                                </h2>
+
+                                <p>
+                                    Set product pricing and available stock.
+                                </p>
+
+                            </div>
+
+
+                            <div class="card-body">
+
+                                <div class="form-row">
+
+                                    <div class="form-group">
+
+                                        <label for="price">
+                                            Selling Price
+                                            <span class="required">*</span>
+                                        </label>
+
+                                        <div class="price-input">
+
+                                            <span class="price-symbol">
+                                                ₹
+                                            </span>
+
+                                            <input
+                                                type="number"
+                                                id="price"
+                                                min="1"
+                                                step="0.01"
+                                                placeholder="0.00"
+                                                required
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label for="oldPrice">
+                                            MRP / Original Price
+                                        </label>
+
+                                        <div class="price-input">
+
+                                            <span class="price-symbol">
+                                                ₹
+                                            </span>
+
+                                            <input
+                                                type="number"
+                                                id="oldPrice"
+                                                min="0"
+                                                step="0.01"
+                                                placeholder="0.00"
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="form-row">
+
+                                    <div class="form-group">
+
+                                        <label for="stock">
+                                            Available Stock
+                                            <span class="required">*</span>
+                                        </label>
+
+                                        <input
+                                            type="number"
+                                            id="stock"
+                                            min="0"
+                                            step="1"
+                                            placeholder="Enter quantity"
+                                            required
+                                        >
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label for="sku">
+                                            SKU
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="sku"
+                                            placeholder="e.g. SPH-1001"
+                                        >
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PRODUCT DETAILS -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <h2>
+                                    Additional Details
+                                </h2>
+
+                                <p>
+                                    Add useful information about the product.
+                                </p>
+
+                            </div>
+
+
+                            <div class="card-body">
+
+                                <div class="form-row">
+
+                                    <div class="form-group">
+
+                                        <label for="brand">
+                                            Brand
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="brand"
+                                            placeholder="e.g. Sony"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label for="color">
+                                            Color
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="color"
+                                            placeholder="e.g. Black"
+                                        >
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="form-row">
+
+                                    <div class="form-group">
+
+                                        <label for="weight">
+                                            Weight
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="weight"
+                                            placeholder="e.g. 450 g"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label for="warranty">
+                                            Warranty
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="warranty"
+                                            placeholder="e.g. 1 Year"
+                                        >
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RIGHT -->
+
+                    <div>
+
+                        <!-- IMAGE -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <h2>
+                                    Product Image
+                                </h2>
+
+                                <p>
+                                    Upload a clear product image.
+                                </p>
+
+                            </div>
+
+
+                            <div class="card-body">
+
+                                <div class="form-group" style="margin-bottom: 16px;">
+                                    <label for="imageUrlInput">Image URL</label>
+                                    <input
+                                        type="url"
+                                        id="imageUrlInput"
+                                        placeholder="https://example.com/product.jpg"
+                                    >
+                                    <div class="input-help">Paste a direct image URL or choose a file below</div>
+                                </div>
+
+                                <div
+                                    class="image-upload"
+                                    id="imageUpload"
+                                >
+
+                                    <div class="upload-icon">
+                                        🖼️
+                                    </div>
+
+                                    <strong>
+                                        Click to upload image
+                                    </strong>
+
+                                    <span>
+                                        PNG, JPG or WEBP · Max 5MB
+                                    </span>
+
+                                </div>
+
+
+                                <input
+                                    type="file"
+                                    id="imageInput"
+                                    accept="image/png,image/jpeg,image/webp"
+                                    multiple
+                                >
+
+
+                                <div
+                                    class="preview"
+                                    id="imagePreview"
+                                >
+
+                                    <img
+                                        id="previewImage"
+                                        src=""
+                                        alt="Product preview"
+                                    >
+
+                                    <button
+                                        type="button"
+                                        class="remove-image"
+                                        id="removeImageBtn"
+                                    >
+                                        Remove Image
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <h2>
+                                    Listing Status
+                                </h2>
+
+                                <p>
+                                    Choose how this product appears in your store.
+                                </p>
+
+                            </div>
+
+
+                            <div class="card-body">
+
+                                <div class="status-box">
+
+                                    <span>
+                                        Product Status
+                                    </span>
+
+                                    <span class="status-active">
+                                        ● Active
+                                    </span>
+
+                                </div>
+
+
+                                <div class="tip">
+
+                                    <div class="tip-title">
+                                        💡 Seller Tips
+                                    </div>
+
+                                    <ul>
+
+                                        <li>
+                                            Use a clear and attractive product name.
+                                        </li>
+
+                                        <li>
+                                            Add accurate pricing and stock quantity.
+                                        </li>
+
+                                        <li>
+                                            Write detailed product descriptions.
+                                        </li>
+
+                                        <li>
+                                            Use high-quality product images.
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        id="cancelBtn"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        Add Product
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/seller.js"></script>
+
+<script>
+(function () {
+    "use strict";
+
+    /* =============================
+       AUTH
+    ============================= */
+
+    const auth = window.ShopSphereAuth;
+
+    if (
+        auth &&
+        typeof auth.isLoggedIn === "function" &&
+        !auth.isLoggedIn()
+    ) {
+        window.location.href = "../login.html";
+        return;
+    }
+
+    if (
+        auth &&
+        typeof auth.getUserRole === "function"
+    ) {
+        const role = auth.getUserRole();
+
+        if (role && role !== "seller") {
+            if (typeof auth.redirectToDashboard === "function") {
+                auth.redirectToDashboard();
+            } else {
+                window.location.href = "../index.html";
+            }
+            return;
+        }
+    }
+
+
+    /* =============================
+       EDIT MODE
+    ============================= */
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const editId = urlParams.get("edit");
+
+    let isEditMode = Boolean(editId);
+    let editingProduct = null;
+
+
+    /* =============================
+       ELEMENTS
+    ============================= */
+
+    const form = document.getElementById("productForm");
+    const imageUpload = document.getElementById("imageUpload");
+    const imageInput = document.getElementById("imageInput");
+    const imagePreview = document.getElementById("imagePreview");
+    const previewImage = document.getElementById("previewImage");
+    const removeImageBtn = document.getElementById("removeImageBtn");
+    const toast = document.getElementById("toast");
+    const saveBtn = document.querySelector(".save-btn");
+    const pageTitle = document.querySelector(".topbar h1");
+    const pageDescription = document.querySelector(".topbar p");
+
+
+    /* =============================
+       IMAGE STATE
+    ============================= */
+
+    let selectedImages = [];
+
+    const MAX_IMAGES = 10;
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ];
+
+
+    /* =============================
+       USER
+    ============================= */
+
+    function getCurrentUser() {
+        try {
+            return JSON.parse(
+                localStorage.getItem("shopsphere_user") || "null"
+            );
+        } catch (error) {
+            return null;
+        }
+    }
+
+
+    function loadUser() {
+
+        const user = getCurrentUser();
+
+        if (!user) {
+            return;
+        }
+
+        const name =
+            user.name ||
+            (
+                (user.firstName || "") +
+                " " +
+                (user.lastName || "")
+            ).trim() ||
+            "Seller";
+
+        document.getElementById("sidebarName").textContent = name;
+
+        document.getElementById("sidebarAvatar").textContent =
+            name.charAt(0).toUpperCase();
+    }
+
+
+    /* =============================
+       TOAST
+    ============================= */
+
+    let toastTimer;
+
+    function showToast(message) {
+
+        toast.textContent = message;
+
+        toast.classList.add("show");
+
+        clearTimeout(toastTimer);
+
+        toastTimer = setTimeout(function () {
+            toast.classList.remove("show");
+        }, 2500);
+    }
+
+
+    /* =============================
+       GET SELLER PRODUCTS
+    ============================= */
+
+    function getSellerProducts() {
+
+        try {
+
+            const products = JSON.parse(
+                localStorage.getItem(
+                    "shopsphere_seller_products"
+                ) || "[]"
+            );
+
+            return Array.isArray(products)
+                ? products
+                : [];
+
+        } catch (error) {
+
+            return [];
+        }
+    }
+
+
+    /* =============================
+       SAVE SELLER PRODUCTS
+    ============================= */
+
+    function saveSellerProducts(products) {
+
+        localStorage.setItem(
+            "shopsphere_seller_products",
+            JSON.stringify(products)
+        );
+    }
+
+
+    /* =============================
+       FIND EDIT PRODUCT
+    ============================= */
+
+    function findEditProduct() {
+
+        if (!editId) {
+            return null;
+        }
+
+        const products = getSellerProducts();
+
+        return products.find(function (product) {
+
+            return String(product.id) === String(editId);
+
+        }) || null;
+    }
+
+
+    /* =============================
+       UPDATE PAGE FOR EDIT MODE
+    ============================= */
+
+    function setupEditMode() {
+
+        if (!isEditMode) {
+            return;
+        }
+
+        editingProduct = findEditProduct();
+
+        if (!editingProduct) {
+
+            showToast("Product not found.");
+
+            setTimeout(function () {
+                window.location.href = "products.html";
+            }, 1000);
+
+            return;
+        }
+
+
+        /* PAGE TEXT */
+
+        pageTitle.textContent = "Edit Product";
+
+        pageDescription.textContent =
+            "Update your existing product listing.";
+
+        saveBtn.textContent = "Update Product";
+
+
+        /* BASIC INFORMATION */
+
+        document.getElementById("productName").value =
+            editingProduct.name || "";
+
+        document.getElementById("category").value =
+            editingProduct.category || "";
+
+        document.getElementById("subcategory").value =
+            editingProduct.subcategory || "";
+
+        document.getElementById("description").value =
+            editingProduct.description || "";
+
+
+        /* PRICING */
+
+        document.getElementById("price").value =
+            editingProduct.price ?? "";
+
+        document.getElementById("oldPrice").value =
+            editingProduct.oldPrice || "";
+
+        document.getElementById("stock").value =
+            editingProduct.stock ?? "";
+
+        document.getElementById("sku").value =
+            editingProduct.sku || "";
+
+
+        /* ADDITIONAL DETAILS */
+
+        document.getElementById("brand").value =
+            editingProduct.brand || "";
+
+        document.getElementById("color").value =
+            editingProduct.color || "";
+
+        document.getElementById("weight").value =
+            editingProduct.weight || "";
+
+        document.getElementById("warranty").value =
+            editingProduct.warranty || "";
+
+
+        /* EXISTING IMAGES */
+
+        if (
+            Array.isArray(editingProduct.images) &&
+            editingProduct.images.length
+        ) {
+
+            selectedImages = [
+                ...editingProduct.images
+            ];
+
+        } else if (editingProduct.imageUrl || editingProduct.image) {
+
+            selectedImages = [
+                editingProduct.imageUrl || editingProduct.image
+            ];
+
+        } else {
+
+            selectedImages = [];
+        }
+
+        const urlInputEl = document.getElementById("imageUrlInput");
+        if (urlInputEl && (editingProduct.imageUrl || editingProduct.image)) {
+            const u = editingProduct.imageUrl || editingProduct.image;
+            if (typeof u === "string" && (u.startsWith("http://") || u.startsWith("https://"))) {
+                urlInputEl.value = u;
+            }
+        }
+
+        createMultiImagePreview();
+    }
+
+
+    /* =============================
+       CREATE IMAGE PREVIEW
+    ============================= */
+
+    function createMultiImagePreview() {
+
+        if (!selectedImages.length) {
+
+            imagePreview.style.display = "none";
+
+            previewImage.src = "";
+
+            return;
+        }
+
+        imagePreview.style.display = "block";
+
+        imagePreview.innerHTML = "";
+
+
+        const title = document.createElement("div");
+
+        title.style.fontSize = "11px";
+        title.style.fontWeight = "700";
+        title.style.marginBottom = "10px";
+
+        title.textContent =
+            selectedImages.length +
+            " image" +
+            (selectedImages.length > 1 ? "s" : "") +
+            " selected";
+
+        imagePreview.appendChild(title);
+
+
+        const grid = document.createElement("div");
+
+        grid.style.display = "grid";
+        grid.style.gridTemplateColumns =
+            "repeat(2, minmax(0, 1fr))";
+        grid.style.gap = "10px";
+
+
+        selectedImages.forEach(function (image, index) {
+
+            const wrapper =
+                document.createElement("div");
+
+            wrapper.style.position = "relative";
+            wrapper.style.border =
+                "1px solid #e5e7eb";
+            wrapper.style.borderRadius = "9px";
+            wrapper.style.overflow = "hidden";
+            wrapper.style.background = "#f5f7fb";
+
+
+            const img =
+                document.createElement("img");
+
+            img.src = image;
+
+            img.alt =
+                "Product image " +
+                (index + 1);
+
+            img.style.width = "100%";
+            img.style.height = "110px";
+            img.style.objectFit = "cover";
+            img.style.display = "block";
+
+
+            /* PRIMARY */
+
+            if (index === 0) {
+
+                const badge =
+                    document.createElement("span");
+
+                badge.textContent = "PRIMARY";
+
+                badge.style.position = "absolute";
+                badge.style.top = "6px";
+                badge.style.left = "6px";
+                badge.style.background = "#635bff";
+                badge.style.color = "#fff";
+                badge.style.padding = "4px 6px";
+                badge.style.borderRadius = "5px";
+                badge.style.fontSize = "8px";
+                badge.style.fontWeight = "700";
+                badge.style.zIndex = "2";
+
+                wrapper.appendChild(badge);
+            }
+
+
+            /* REMOVE */
+
+            const removeBtn =
+                document.createElement("button");
+
+            removeBtn.type = "button";
+            removeBtn.textContent = "×";
+            removeBtn.title = "Remove image";
+
+            removeBtn.style.position = "absolute";
+            removeBtn.style.top = "6px";
+            removeBtn.style.right = "6px";
+            removeBtn.style.width = "25px";
+            removeBtn.style.height = "25px";
+            removeBtn.style.border = "0";
+            removeBtn.style.borderRadius = "50%";
+            removeBtn.style.background = "#ef4444";
+            removeBtn.style.color = "#fff";
+            removeBtn.style.cursor = "pointer";
+            removeBtn.style.fontSize = "16px";
+            removeBtn.style.lineHeight = "25px";
+            removeBtn.style.padding = "0";
+            removeBtn.style.zIndex = "3";
+
+
+            removeBtn.addEventListener(
+                "click",
+                function (event) {
+
+                    event.stopPropagation();
+
+                    selectedImages.splice(index, 1);
+
+                    createMultiImagePreview();
+                }
+            );
+
+
+            wrapper.appendChild(img);
+            wrapper.appendChild(removeBtn);
+
+            grid.appendChild(wrapper);
+
+        });
+
+
+        imagePreview.appendChild(grid);
+
+
+        previewImage.src =
+            selectedImages[0] || "";
+    }
+
+
+    /* =============================
+       FILE READER
+    ============================= */
+
+    function readFileAsDataURL(file) {
+
+        return new Promise(function (resolve, reject) {
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                resolve(event.target.result);
+            };
+
+            reader.onerror = function () {
+                reject(
+                    new Error("Unable to read image.")
+                );
+            };
+
+            reader.readAsDataURL(file);
+        });
+    }
+
+
+    /* =============================
+       ADD IMAGE FILES
+    ============================= */
+
+    async function addImageFiles(files) {
+
+        const fileArray =
+            Array.from(files || []);
+
+        if (!fileArray.length) {
+            return;
+        }
+
+
+        if (
+            selectedImages.length +
+            fileArray.length >
+            MAX_IMAGES
+        ) {
+
+            showToast(
+                "You can upload maximum 10 images."
+            );
+
+            return;
+        }
+
+
+        for (const file of fileArray) {
+
+            if (!allowedTypes.includes(file.type)) {
+
+                showToast(
+                    file.name +
+                    " is not a valid image."
+                );
+
+                continue;
+            }
+
+
+            if (file.size > MAX_FILE_SIZE) {
+
+                showToast(
+                    file.name +
+                    " must be below 5MB."
+                );
+
+                continue;
+            }
+
+
+            try {
+
+                const dataURL =
+                    await readFileAsDataURL(file);
+
+                selectedImages.push(dataURL);
+
+            } catch (error) {
+
+                showToast(
+                    "Unable to read " +
+                    file.name
+                );
+            }
+        }
+
+
+        createMultiImagePreview();
+
+        imageInput.value = "";
+    }
+
+
+    /* =============================
+       IMAGE UPLOAD
+    ============================= */
+
+    imageUpload.addEventListener(
+        "click",
+        function () {
+            imageInput.click();
+        }
+    );
+
+
+    imageInput.addEventListener(
+        "change",
+        function () {
+
+            addImageFiles(
+                imageInput.files
+            );
+
+        }
+    );
+
+
+    /* =============================
+       DRAG & DROP
+    ============================= */
+
+    imageUpload.addEventListener(
+        "dragover",
+        function (event) {
+
+            event.preventDefault();
+
+            imageUpload.classList.add("dragover");
+        }
+    );
+
+
+    imageUpload.addEventListener(
+        "dragleave",
+        function () {
+
+            imageUpload.classList.remove(
+                "dragover"
+            );
+        }
+    );
+
+
+    imageUpload.addEventListener(
+        "drop",
+        function (event) {
+
+            event.preventDefault();
+
+            imageUpload.classList.remove(
+                "dragover"
+            );
+
+            addImageFiles(
+                event.dataTransfer.files
+            );
+        }
+    );
+
+
+    /* =============================
+       REMOVE ALL IMAGES
+    ============================= */
+
+    removeImageBtn.addEventListener(
+        "click",
+        function () {
+
+            selectedImages = [];
+
+            imageInput.value = "";
+
+            const urlInput = document.getElementById("imageUrlInput");
+            if (urlInput) urlInput.value = "";
+
+            previewImage.src = "";
+
+            imagePreview.style.display = "none";
+
+            imagePreview.innerHTML = "";
+        }
+    );
+
+    const imageUrlField = document.getElementById("imageUrlInput");
+    if (imageUrlField) {
+        imageUrlField.addEventListener("input", function () {
+            const val = imageUrlField.value.trim();
+            if (val && (val.startsWith("http://") || val.startsWith("https://") || val.startsWith("data:image"))) {
+                selectedImages = [val];
+                createMultiImagePreview();
+            } else if (!val && !imageInput.files?.length) {
+                selectedImages = [];
+                createMultiImagePreview();
+            }
+        });
+    }
+
+
+    /* =============================
+       SAVE / UPDATE PRODUCT
+    ============================= */
+
+    form.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document.getElementById(
+                    "productName"
+                ).value.trim();
+
+            const category =
+                document.getElementById(
+                    "category"
+                ).value;
+
+            const subcategory =
+                document.getElementById(
+                    "subcategory"
+                ).value.trim();
+
+            const description =
+                document.getElementById(
+                    "description"
+                ).value.trim();
+
+            const price =
+                Number(
+                    document.getElementById(
+                        "price"
+                    ).value
+                );
+
+            const oldPrice =
+                Number(
+                    document.getElementById(
+                        "oldPrice"
+                    ).value || 0
+                );
+
+            const stock =
+                Number(
+                    document.getElementById(
+                        "stock"
+                    ).value
+                );
+
+            const sku =
+                document.getElementById(
+                    "sku"
+                ).value.trim();
+
+            const brand =
+                document.getElementById(
+                    "brand"
+                ).value.trim();
+
+            const color =
+                document.getElementById(
+                    "color"
+                ).value.trim();
+
+            const weight =
+                document.getElementById(
+                    "weight"
+                ).value.trim();
+
+            const warranty =
+                document.getElementById(
+                    "warranty"
+                ).value.trim();
+
+
+            /* VALIDATION */
+
+            if (!name) {
+                showToast("Please enter product name.");
+                return;
+            }
+
+            if (!category) {
+                showToast("Please select a category.");
+                return;
+            }
+
+            if (!description) {
+                showToast(
+                    "Please enter product description."
+                );
+                return;
+            }
+
+            if (!Number.isFinite(price) || price <= 0) {
+                showToast(
+                    "Please enter a valid selling price."
+                );
+                return;
+            }
+
+            if (oldPrice > 0 && oldPrice < price) {
+                showToast(
+                    "MRP should be greater than selling price."
+                );
+                return;
+            }
+
+            if (!Number.isInteger(stock) || stock < 0) {
+                showToast(
+                    "Please enter a valid stock quantity."
+                );
+                return;
+            }
+
+            const urlInput = document.getElementById("imageUrlInput");
+            const enteredUrl = urlInput ? urlInput.value.trim() : "";
+            const finalImageUrl = enteredUrl || selectedImages[0] || "";
+
+            if (!finalImageUrl && !selectedImages.length) {
+                showToast(
+                    "Please provide a product image URL or upload an image."
+                );
+                return;
+            }
+
+
+            /* PRODUCTS */
+
+            const products = getSellerProducts();
+
+            const currentUser = getCurrentUser();
+
+            const sellerName =
+                currentUser?.name ||
+                (
+                    (currentUser?.firstName || "") +
+                    " " +
+                    (currentUser?.lastName || "")
+                ).trim() ||
+                "Current Seller";
+
+            const sellerEmail =
+                currentUser?.email || "";
+
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = isEditMode ? "Saving..." : "Adding Product...";
+            }
+
+
+            /* =============================
+               EDIT EXISTING
+            ============================= */
+
+            if (isEditMode && editingProduct) {
+
+                if (window.ShopSphereApi && window.ShopSphereAuth && window.ShopSphereAuth.isSeller()) {
+                    try {
+                        await window.ShopSphereApi.products.update(editingProduct.id, {
+                            name: name,
+                            description: description,
+                            price: price,
+                            stock: stock,
+                            category: category,
+                            imageUrl: finalImageUrl
+                        });
+                    } catch (err) {
+                        console.error("Backend product update error:", err);
+                        showToast(err.message || "Failed to update product on backend.");
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = "Save Changes";
+                        }
+                        return;
+                    }
+                }
+
+                const index = products.findIndex(
+                    function (product) {
+                        return String(product.id) ===
+                            String(editingProduct.id);
+                    }
+                );
+
+
+                if (index === -1) {
+
+                    showToast(
+                        "Product could not be found."
+                    );
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = "Save Changes";
+                    }
+
+                    return;
+                }
+
+
+                const oldProduct = products[index];
+
+
+                products[index] = {
+
+                    ...oldProduct,
+
+                    name: name,
+                    category: category,
+                    subcategory: subcategory,
+                    description: description,
+
+                    price: price,
+                    oldPrice: oldPrice,
+                    stock: stock,
+
+                    sku:
+                        sku ||
+                        oldProduct.sku ||
+                        "SPH-" +
+                        String(oldProduct.id).slice(-6),
+
+                    brand: brand,
+                    color: color,
+                    weight: weight,
+                    warranty: warranty,
+
+                    images: [
+                        ...selectedImages
+                    ],
+
+                    image:
+                        finalImageUrl,
+                    imageUrl:
+                        finalImageUrl,
+
+                    seller: sellerName,
+                    sellerEmail: sellerEmail,
+
+                    sellerId:
+                        currentUser?.id ||
+                        oldProduct.sellerId ||
+                        "",
+
+                    updatedAt:
+                        new Date().toISOString(),
+
+                    status:
+                        stock > 0
+                            ? "Active"
+                            : "Out of Stock"
+                };
+
+
+                saveSellerProducts(products);
+
+
+                showToast(
+                    "Product updated successfully!"
+                );
+
+
+                setTimeout(function () {
+
+                    window.location.href =
+                        "products.html";
+
+                }, 900);
+
+                return;
+            }
+
+
+            /* =============================
+               CREATE NEW PRODUCT
+            ============================= */
+
+            let createdProduct = null;
+            try {
+                if (!window.ShopSphereApi) {
+                    throw new Error("MARTplus API client not found. Please refresh page.");
+                }
+
+                createdProduct = await window.ShopSphereApi.products.create({
+                    name: name,
+                    description: description,
+                    price: price,
+                    stock: stock,
+                    category: category,
+                    imageUrl: finalImageUrl
+                });
+            } catch (err) {
+                console.error("Backend product create error:", err);
+                showToast(err.message || "Failed to create product on backend.");
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Add Product";
+                }
+                return;
+            }
+
+            if (!createdProduct || !createdProduct.id) {
+                showToast("Backend did not return saved product.");
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Add Product";
+                }
+                return;
+            }
+
+            const product = {
+
+                id: createdProduct.id,
+
+                name: createdProduct.name || name,
+
+                category: createdProduct.category || category,
+
+                subcategory: subcategory,
+
+                description: createdProduct.description || description,
+
+                price: Number(createdProduct.price) || price,
+
+                oldPrice: oldPrice,
+
+                stock: createdProduct.stock !== undefined ? createdProduct.stock : stock,
+
+                sku:
+                    sku ||
+                    "SPH-" +
+                    String(createdProduct.id).padStart(4, "0"),
+
+                brand: brand,
+
+                color: color,
+
+                weight: weight,
+
+                warranty: warranty,
+
+                images: selectedImages.length ? [...selectedImages] : (finalImageUrl ? [finalImageUrl] : []),
+
+                image:
+                    finalImageUrl,
+                imageUrl:
+                    finalImageUrl,
+
+                emoji: "📦",
+
+                seller: sellerName,
+
+                sellerEmail: sellerEmail,
+
+                sellerId:
+                    currentUser?.id || "",
+
+                createdAt:
+                    createdProduct.createdAt || new Date().toISOString(),
+
+                status:
+                    createdProduct.status || (stock > 0 ? "Active" : "Out of Stock")
+            };
+
+
+            products.unshift(product);
+
+            saveSellerProducts(products);
+
+
+            showToast("Product added successfully!");
+
+
+            setTimeout(function () {
+
+                window.location.href =
+                    "products.html";
+
+            }, 900);
+
+        }
+    );
+
+
+    /* =============================
+       NAVIGATION
+    ============================= */
+
+    document.getElementById(
+        "backBtn"
+    ).addEventListener(
+        "click",
+        function () {
+            window.location.href =
+                "products.html";
+        }
+    );
+
+
+    document.getElementById(
+        "cancelBtn"
+    ).addEventListener(
+        "click",
+        function () {
+            window.location.href =
+                "products.html";
+        }
+    );
+
+
+    document.getElementById(
+        "logoutBtn"
+    ).addEventListener(
+        "click",
+        function () {
+
+            if (
+                window.ShopSphereAuth &&
+                typeof window.ShopSphereAuth.logout ===
+                "function"
+            ) {
+
+                window.ShopSphereAuth.logout();
+
+            } else {
+
+                localStorage.removeItem(
+                    "shopsphere_user"
+                );
+
+                window.location.href =
+                    "../login.html";
+            }
+        }
+    );
+
+
+    /* =============================
+       INIT
+    ============================= */
+
+    loadUser();
+
+    setupEditMode();
+
+})();
+</script>
+
+</body>
+</html>

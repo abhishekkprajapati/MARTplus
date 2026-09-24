@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MARTplus | User Management</title>
+
+    <link rel="icon" type="image/png" href="../assets/icons/favicon.png">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            color: #111827;
+        }
+
+        .admin-layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .admin-sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            padding: 24px 16px;
+            background: #111827;
+            color: #fff;
+            z-index: 100;
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px 28px;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .sidebar-brand-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            object-fit: contain;
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .admin-brand span {
+            color: #635bff;
+        }
+
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .admin-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: #1f2937;
+            color: #fff;
+        }
+
+        .admin-nav a.active {
+            box-shadow: inset 3px 0 #635bff;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            left: 16px;
+            right: 16px;
+            bottom: 24px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 11px;
+            border: 0;
+            border-radius: 9px;
+            background: #1f2937;
+            color: #cbd5e1;
+            cursor: pointer;
+        }
+
+        .admin-main {
+            width: calc(100% - 250px);
+            margin-left: 250px;
+            min-width: 0;
+        }
+
+        .admin-topbar {
+            height: 70px;
+            padding: 0 30px;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar-title {
+            font-size: 19px;
+            font-weight: 750;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #ede9fe;
+            color: #6d28d9;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+        }
+
+        .admin-content {
+            padding: 30px;
+        }
+
+        .page-heading {
+            margin-bottom: 24px;
+        }
+
+        .page-heading h1 {
+            margin: 0 0 6px;
+            font-size: 28px;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        /* STATS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 800;
+            margin-top: 10px;
+        }
+
+        .stat-icon {
+            float: right;
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: #f3f4f6;
+            font-size: 20px;
+        }
+
+        /* TOOLBAR */
+
+        .users-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .toolbar {
+            padding: 18px;
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            width: 280px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 11px 14px 11px 38px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .search-box input:focus {
+            border-color: #635bff;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 13px;
+            top: 10px;
+            color: #9ca3af;
+        }
+
+        select {
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            background: #fff;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .add-user-btn {
+            border: 0;
+            border-radius: 9px;
+            padding: 11px 17px;
+            background: #635bff;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 650;
+        }
+
+        /* TABLE */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .users-table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
+
+        .users-table th,
+        .users-table td {
+            padding: 15px 18px;
+            border-bottom: 1px solid #f0f1f3;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .users-table th {
+            background: #fafafa;
+            color: #6b7280;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-mini-avatar {
+            width: 36px;
+            height: 36px;
+            flex: 0 0 36px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #ede9fe;
+            color: #6d28d9;
+            font-weight: 700;
+        }
+
+        .user-name {
+            font-weight: 650;
+        }
+
+        .user-email {
+            margin-top: 2px;
+            color: #9ca3af;
+            font-size: 11px;
+        }
+
+        .role-badge,
+        .status-badge {
+            display: inline-flex;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .role-badge.buyer {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .role-badge.seller {
+            background: #f5f3ff;
+            color: #7c3aed;
+        }
+
+        .role-badge.admin {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .status-badge.active {
+            background: #f0fdf4;
+            color: #15803d;
+        }
+
+        .status-badge.inactive {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .action-btn {
+            width: 34px;
+            height: 34px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background: #f9fafb;
+        }
+
+        .action-btn.delete:hover {
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+
+        .empty-state {
+            padding: 50px 20px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        /* MODAL */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, .55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 500;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 500px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, .2);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .close-modal {
+            width: 34px;
+            height: 34px;
+            border: 0;
+            border-radius: 8px;
+            background: #f3f4f6;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 650;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #635bff;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .cancel-btn,
+        .save-btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            border: 1px solid #d1d5db;
+            background: #fff;
+        }
+
+        .save-btn {
+            border: 0;
+            background: #635bff;
+            color: #fff;
+        }
+
+        /* TOAST */
+
+        .toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            background: #111827;
+            color: #fff;
+            padding: 13px 18px;
+            border-radius: 10px;
+            opacity: 0;
+            transform: translateY(15px);
+            pointer-events: none;
+            transition: .25s;
+            z-index: 999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1100px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                width: 70px;
+                padding: 20px 8px;
+            }
+
+            .admin-brand {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .admin-brand strong,
+            .admin-nav span,
+            .sidebar-bottom {
+                display: none;
+            }
+
+            .admin-nav a {
+                justify-content: center;
+                padding: 12px 8px;
+            }
+
+            .admin-main {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+            }
+
+            .admin-topbar,
+            .admin-content {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .toolbar-left {
+                width: 100%;
+            }
+
+            .toolbar-left select {
+                flex: 1;
+            }
+
+            .add-user-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-heading h1 {
+                font-size: 23px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .modal {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-brand">
+            <img src="../assets/icons/mplus-logo.png" alt="MARTplus" class="sidebar-brand-img">
+            <strong>MART<span style="color: #635bff;">plus</span></strong>
+        </div>
+
+        <nav class="admin-nav">
+
+            <a href="dashboard.html">
+                📊 <span>Dashboard</span>
+            </a>
+
+            <a href="users.html" class="active">
+                👥 <span>Users</span>
+            </a>
+
+            <a href="products.html">
+                📦 <span>Products</span>
+            </a>
+
+            <a href="orders.html">
+                🧾 <span>Orders</span>
+            </a>
+
+            <a href="activity.html">
+                ⚡ <span>Activity</span>
+            </a>
+
+            <a href="../products.html">
+                🛒 <span>View Store</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <button class="logout-btn" id="logoutBtn">
+                ↪ Logout
+            </button>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="admin-main">
+
+        <header class="admin-topbar">
+
+            <div class="topbar-title">
+                User Management
+            </div>
+
+            <div class="admin-user">
+
+                <span id="adminName">
+                    Administrator
+                </span>
+
+                <div class="admin-avatar" id="adminAvatar">
+                    A
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="admin-content">
+
+            <div class="page-heading">
+
+                <h1>
+                    User Management
+                </h1>
+
+                <p>
+                    Create, update and manage MARTplus users and roles.
+                </p>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        👥
+                    </div>
+
+                    <div class="stat-label">
+                        Total Users
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="totalUsers"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🛒
+                    </div>
+
+                    <div class="stat-label">
+                        Buyers
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="totalBuyers"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🏪
+                    </div>
+
+                    <div class="stat-label">
+                        Sellers
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="totalSellers"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ⚡
+                    </div>
+
+                    <div class="stat-label">
+                        Active Users
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="activeUsers"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- USERS -->
+
+            <div class="users-card">
+
+                <div class="toolbar">
+
+                    <div class="toolbar-left">
+
+                        <div class="search-box">
+
+                            <span class="search-icon">
+                                🔍
+                            </span>
+
+                            <input
+                                type="search"
+                                id="searchInput"
+                                placeholder="Search users..."
+                            >
+
+                        </div>
+
+
+                        <select id="roleFilter">
+
+                            <option value="all">
+                                All Roles
+                            </option>
+
+                            <option value="buyer">
+                                Buyers
+                            </option>
+
+                            <option value="seller">
+                                Sellers
+                            </option>
+
+                            <option value="admin">
+                                Admins
+                            </option>
+
+                        </select>
+
+
+                        <select id="statusFilter">
+
+                            <option value="all">
+                                All Status
+                            </option>
+
+                            <option value="active">
+                                Active
+                            </option>
+
+                            <option value="inactive">
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button
+                        class="add-user-btn"
+                        id="addUserBtn"
+                    >
+                        + Add User
+                    </button>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table class="users-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    User
+                                </th>
+
+                                <th>
+                                    Role
+                                </th>
+
+                                <th>
+                                    Phone
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Joined
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="usersTableBody">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ADD / EDIT USER MODAL -->
+
+<div
+    class="modal-overlay"
+    id="userModal"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Add User
+            </h2>
+
+            <button
+                class="close-modal"
+                id="closeModal"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="userForm">
+
+            <input
+                type="hidden"
+                id="editingUserId"
+            >
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+                        First Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="firstName"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Last Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="lastName"
+                    >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Phone
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Role
+                    </label>
+
+                    <select id="role">
+
+                        <option value="buyer">
+                            Buyer
+                        </option>
+
+                        <option value="seller">
+                            Seller
+                        </option>
+
+                        <option value="admin">
+                            Admin
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Status
+                    </label>
+
+                    <select id="status">
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelModal"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save User
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+
+<script>
+
+(function () {
+
+    const USERS_KEY =
+        "shopsphere_users";
+
+    let users = [];
+
+
+    function loadUsers() {
+
+        try {
+
+            const data =
+                JSON.parse(
+                    localStorage.getItem(
+                        USERS_KEY
+                    ) || "[]"
+                );
+
+            users =
+                Array.isArray(data)
+                    ? data
+                    : [];
+
+        } catch (error) {
+
+            users = [];
+
+        }
+
+
+        /*
+         * Create demo users only when no users
+         * have been stored yet.
+         */
+
+        if (!users.length) {
+
+            users = [
+
+                {
+                    id: 1001,
+                    firstName: "Rahul",
+                    lastName: "Sharma",
+                    name: "Rahul Sharma",
+                    email: "rahul@example.com",
+                    phone: "+91 9876543210",
+                    role: "buyer",
+                    status: "active",
+                    createdAt: "2026-08-10T10:00:00"
+                },
+
+                {
+                    id: 1002,
+                    firstName: "Aman",
+                    lastName: "Verma",
+                    name: "Aman Verma",
+                    email: "aman@example.com",
+                    phone: "+91 9876501234",
+                    role: "seller",
+                    status: "active",
+                    createdAt: "2026-08-12T11:30:00"
+                },
+
+                {
+                    id: 1003,
+                    firstName: "Priya",
+                    lastName: "Singh",
+                    name: "Priya Singh",
+                    email: "priya@example.com",
+                    phone: "+91 9876512345",
+                    role: "buyer",
+                    status: "active",
+                    createdAt: "2026-08-15T09:20:00"
+                }
+
+            ];
+
+            saveUsers();
+
+        }
+
+    }
+
+
+    function saveUsers() {
+
+        localStorage.setItem(
+            USERS_KEY,
+            JSON.stringify(users)
+        );
+
+    }
+
+
+    function formatDate(date) {
+
+        if (!date) {
+            return "—";
+        }
+
+        const value =
+            new Date(date);
+
+        if (
+            Number.isNaN(
+                value.getTime()
+            )
+        ) {
+            return "—";
+        }
+
+        return value.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    function getInitials(user) {
+
+        const first =
+            user.firstName ||
+            user.name ||
+            "U";
+
+        const last =
+            user.lastName ||
+            "";
+
+        return (
+            first.charAt(0) +
+            last.charAt(0)
+        ).toUpperCase();
+
+    }
+
+
+    function getName(user) {
+
+        return (
+            user.name ||
+            (
+                (user.firstName || "") +
+                " " +
+                (user.lastName || "")
+            ).trim() ||
+            "Unknown User"
+        );
+
+    }
+
+
+    function renderStats() {
+
+        const buyers =
+            users.filter(function (user) {
+                return user.role === "buyer";
+            }).length;
+
+        const sellers =
+            users.filter(function (user) {
+                return user.role === "seller";
+            }).length;
+
+        const active =
+            users.filter(function (user) {
+                return (
+                    !user.status ||
+                    user.status === "active"
+                );
+            }).length;
+
+
+        document.getElementById(
+            "totalUsers"
+        ).textContent =
+            users.length;
+
+        document.getElementById(
+            "totalBuyers"
+        ).textContent =
+            buyers;
+
+        document.getElementById(
+            "totalSellers"
+        ).textContent =
+            sellers;
+
+        document.getElementById(
+            "activeUsers"
+        ).textContent =
+            active;
+
+    }
+
+
+    function getFilteredUsers() {
+
+        const search =
+            document.getElementById(
+                "searchInput"
+            ).value
+            .trim()
+            .toLowerCase();
+
+        const role =
+            document.getElementById(
+                "roleFilter"
+            ).value;
+
+        const status =
+            document.getElementById(
+                "statusFilter"
+            ).value;
+
+
+        return users.filter(function (user) {
+
+            const name =
+                getName(user)
+                    .toLowerCase();
+
+            const email =
+                String(
+                    user.email || ""
+                ).toLowerCase();
+
+            const phone =
+                String(
+                    user.phone || ""
+                ).toLowerCase();
+
+
+            const matchesSearch =
+                !search ||
+                name.includes(search) ||
+                email.includes(search) ||
+                phone.includes(search);
+
+
+            const matchesRole =
+                role === "all" ||
+                user.role === role;
+
+
+            const userStatus =
+                user.status ||
+                "active";
+
+            const matchesStatus =
+                status === "all" ||
+                userStatus === status;
+
+
+            return (
+                matchesSearch &&
+                matchesRole &&
+                matchesStatus
+            );
+
+        });
+
+    }
+
+
+    function renderUsers() {
+
+        const tbody =
+            document.getElementById(
+                "usersTableBody"
+            );
+
+        const filtered =
+            getFilteredUsers();
+
+
+        if (!filtered.length) {
+
+            tbody.innerHTML =
+                '<tr>' +
+                '<td colspan="6">' +
+                '<div class="empty-state">' +
+                'No users found.' +
+                '</div>' +
+                '</td>' +
+                '</tr>';
+
+            return;
+
+        }
+
+
+        tbody.innerHTML =
+            filtered
+                .map(function (user) {
+
+                    const role =
+                        user.role ||
+                        "buyer";
+
+                    const status =
+                        user.status ||
+                        "active";
+
+                    return (
+
+                        '<tr>' +
+
+                        '<td>' +
+
+                        '<div class="user-cell">' +
+
+                        '<div class="user-mini-avatar">' +
+                        getInitials(user) +
+                        '</div>' +
+
+                        '<div>' +
+
+                        '<div class="user-name">' +
+                        getName(user) +
+                        '</div>' +
+
+                        '<div class="user-email">' +
+                        (user.email || "—") +
+                        '</div>' +
+
+                        '</div>' +
+
+                        '</div>' +
+
+                        '</td>' +
+
+
+                        '<td>' +
+
+                        '<span class="role-badge ' +
+                        role +
+                        '">' +
+
+                        role.charAt(0).toUpperCase() +
+                        role.slice(1) +
+
+                        '</span>' +
+
+                        '</td>' +
+
+
+                        '<td>' +
+                        (user.phone || "—") +
+                        '</td>' +
+
+
+                        '<td>' +
+
+                        '<span class="status-badge ' +
+                        status +
+                        '">' +
+
+                        status.charAt(0).toUpperCase() +
+                        status.slice(1) +
+
+                        '</span>' +
+
+                        '</td>' +
+
+
+                        '<td>' +
+                        formatDate(
+                            user.createdAt
+                        ) +
+                        '</td>' +
+
+
+                        '<td>' +
+
+                        '<div class="actions">' +
+
+                        '<button' +
+                        ' class="action-btn"' +
+                        ' data-action="edit"' +
+                        ' data-id="' +
+                        user.id +
+                        '"' +
+                        ' title="Edit"' +
+                        '>✏️</button>' +
+
+                        '<button' +
+                        ' class="action-btn delete"' +
+                        ' data-action="delete"' +
+                        ' data-id="' +
+                        user.id +
+                        '"' +
+                        ' title="Delete"' +
+                        '>🗑️</button>' +
+
+                        '</div>' +
+
+                        '</td>' +
+
+                        '</tr>'
+
+                    );
+
+                })
+                .join("");
+
+    }
+
+
+    function openModal(user) {
+
+        const modal =
+            document.getElementById(
+                "userModal"
+            );
+
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent =
+            user
+                ? "Edit User"
+                : "Add User";
+
+
+        document.getElementById(
+            "editingUserId"
+        ).value =
+            user
+                ? user.id
+                : "";
+
+
+        document.getElementById(
+            "firstName"
+        ).value =
+            user?.firstName || "";
+
+
+        document.getElementById(
+            "lastName"
+        ).value =
+            user?.lastName || "";
+
+
+        document.getElementById(
+            "email"
+        ).value =
+            user?.email || "";
+
+
+        document.getElementById(
+            "phone"
+        ).value =
+            user?.phone || "";
+
+
+        document.getElementById(
+            "role"
+        ).value =
+            user?.role || "buyer";
+
+
+        document.getElementById(
+            "status"
+        ).value =
+            user?.status || "active";
+
+
+        modal.classList.add(
+            "show"
+        );
+
+    }
+
+
+    function closeModal() {
+
+        document.getElementById(
+            "userModal"
+        ).classList.remove(
+            "show"
+        );
+
+        document.getElementById(
+            "userForm"
+        ).reset();
+
+        document.getElementById(
+            "editingUserId"
+        ).value = "";
+
+    }
+
+
+    function saveUser(event) {
+
+        event.preventDefault();
+
+
+        const editingId =
+            document.getElementById(
+                "editingUserId"
+            ).value;
+
+
+        const firstName =
+            document.getElementById(
+                "firstName"
+            ).value.trim();
+
+
+        const lastName =
+            document.getElementById(
+                "lastName"
+            ).value.trim();
+
+
+        const email =
+            document.getElementById(
+                "email"
+            ).value.trim();
+
+
+        const phone =
+            document.getElementById(
+                "phone"
+            ).value.trim();
+
+
+        const role =
+            document.getElementById(
+                "role"
+            ).value;
+
+
+        const status =
+            document.getElementById(
+                "status"
+            ).value;
+
+
+        const duplicate =
+            users.some(function (user) {
+
+                return (
+                    String(user.email)
+                        .toLowerCase() ===
+                    email.toLowerCase() &&
+                    String(user.id) !==
+                    String(editingId)
+                );
+
+            });
+
+
+        if (duplicate) {
+
+            showToast(
+                "Email already exists."
+            );
+
+            return;
+
+        }
+
+
+        if (editingId) {
+
+            const index =
+                users.findIndex(
+                    function (user) {
+
+                        return String(
+                            user.id
+                        ) === String(
+                            editingId
+                        );
+
+                    }
+                );
+
+
+            if (index !== -1) {
+
+                users[index] = {
+
+                    ...users[index],
+
+                    firstName:
+                        firstName,
+
+                    lastName:
+                        lastName,
+
+                    name:
+                        (
+                            firstName +
+                            " " +
+                            lastName
+                        ).trim(),
+
+                    email:
+                        email,
+
+                    phone:
+                        phone,
+
+                    role:
+                        role,
+
+                    status:
+                        status
+
+                };
+
+                showToast(
+                    "User updated successfully."
+                );
+
+            }
+
+        } else {
+
+            users.unshift({
+
+                id:
+                    Date.now(),
+
+                firstName:
+                    firstName,
+
+                lastName:
+                    lastName,
+
+                name:
+                    (
+                        firstName +
+                        " " +
+                        lastName
+                    ).trim(),
+
+                email:
+                    email,
+
+                phone:
+                    phone,
+
+                role:
+                    role,
+
+                status:
+                    status,
+
+                createdAt:
+                    new Date().toISOString()
+
+            });
+
+
+            showToast(
+                "User created successfully."
+            );
+
+        }
+
+
+        saveUsers();
+
+        renderStats();
+
+        renderUsers();
+
+        closeModal();
+
+    }
+
+
+    function deleteUser(id) {
+
+        const user =
+            users.find(
+                function (item) {
+
+                    return String(
+                        item.id
+                    ) === String(id);
+
+                }
+            );
+
+
+        if (!user) {
+            return;
+        }
+
+
+        const confirmed =
+            window.confirm(
+                "Delete " +
+                getName(user) +
+                "? This action cannot be undone."
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        users =
+            users.filter(
+                function (item) {
+
+                    return String(
+                        item.id
+                    ) !== String(id);
+
+                }
+            );
+
+
+        saveUsers();
+
+        if (window.ShopSphereAdmin && typeof window.ShopSphereAdmin.deleteUser === "function") {
+            window.ShopSphereAdmin.deleteUser(id);
+        } else if (window.ShopSphereApi && window.ShopSphereApi.admin) {
+            window.ShopSphereApi.admin.deactivateUser(id).catch(console.warn);
+        }
+
+        renderStats();
+
+        renderUsers();
+
+        showToast(
+            "User deleted successfully."
+        );
+
+    }
+
+
+    function handleTableAction(event) {
+
+        const button =
+            event.target.closest(
+                "[data-action]"
+            );
+
+        if (!button) {
+            return;
+        }
+
+
+        const id =
+            button.dataset.id;
+
+        const action =
+            button.dataset.action;
+
+
+        const user =
+            users.find(
+                function (item) {
+
+                    return String(
+                        item.id
+                    ) === String(id);
+
+                }
+            );
+
+
+        if (action === "edit") {
+
+            if (user) {
+                openModal(user);
+            }
+
+        }
+
+
+        if (action === "delete") {
+
+            deleteUser(id);
+
+        }
+
+    }
+
+
+    function showToast(message) {
+
+        const toast =
+            document.getElementById(
+                "toast"
+            );
+
+        toast.textContent =
+            message;
+
+        toast.classList.add(
+            "show"
+        );
+
+
+        setTimeout(
+            function () {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2500
+        );
+
+    }
+
+
+    function loadAdminInfo() {
+
+        let user = null;
+
+        try {
+
+            user =
+                JSON.parse(
+                    localStorage.getItem(
+                        "shopsphere_user"
+                    ) || "null"
+                );
+
+        } catch (error) {}
+
+
+        if (!user) {
+            return;
+        }
+
+
+        const name =
+            user.name ||
+            (
+                (user.firstName || "") +
+                " " +
+                (user.lastName || "")
+            ).trim() ||
+            "Administrator";
+
+
+        document.getElementById(
+            "adminName"
+        ).textContent =
+            name;
+
+
+        document.getElementById(
+            "adminAvatar"
+        ).textContent =
+            name
+                .charAt(0)
+                .toUpperCase();
+
+    }
+
+
+    function logout() {
+
+        if (
+            window.ShopSphereAuth &&
+            typeof window.ShopSphereAuth.logout ===
+            "function"
+        ) {
+
+            window.ShopSphereAuth.logout();
+
+        } else {
+
+            localStorage.removeItem(
+                "shopsphere_user"
+            );
+
+            window.location.href =
+                "../login.html";
+
+        }
+
+    }
+
+
+    document.getElementById(
+        "addUserBtn"
+    ).addEventListener(
+        "click",
+        function () {
+            openModal(null);
+        }
+    );
+
+
+    document.getElementById(
+        "closeModal"
+    ).addEventListener(
+        "click",
+        closeModal
+    );
+
+
+    document.getElementById(
+        "cancelModal"
+    ).addEventListener(
+        "click",
+        closeModal
+    );
+
+
+    document.getElementById(
+        "userForm"
+    ).addEventListener(
+        "submit",
+        saveUser
+    );
+
+
+    document.getElementById(
+        "usersTableBody"
+    ).addEventListener(
+        "click",
+        handleTableAction
+    );
+
+
+    document.getElementById(
+        "searchInput"
+    ).addEventListener(
+        "input",
+        renderUsers
+    );
+
+
+    document.getElementById(
+        "roleFilter"
+    ).addEventListener(
+        "change",
+        renderUsers
+    );
+
+
+    document.getElementById(
+        "statusFilter"
+    ).addEventListener(
+        "change",
+        renderUsers
+    );
+
+
+    document.getElementById(
+        "logoutBtn"
+    ).addEventListener(
+        "click",
+        logout
+    );
+
+
+    document.getElementById(
+        "userModal"
+    ).addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target ===
+                this
+            ) {
+                closeModal();
+            }
+
+        }
+    );
+
+
+    window.renderUsers = function () {
+        loadUsers();
+        renderStats();
+        renderUsers();
+    };
+
+    loadUsers();
+
+    loadAdminInfo();
+
+    renderStats();
+
+    renderUsers();
+
+    if (window.ShopSphereAdmin && typeof window.ShopSphereAdmin.syncAdminFromBackend === "function") {
+        window.ShopSphereAdmin.syncAdminFromBackend();
+    }
+
+})();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MARTplus | Wishlist</title>
+
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+
+    <meta
+        name="description"
+        content="View and manage your favorite products on MARTplus. Save items and shop them later."
+    >
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <!-- =========================================
+         ANNOUNCEMENT BAR
+    ========================================== -->
+    <div class="announcement-bar">
+        <div class="container announcement-content">
+            <span>🚚 Free shipping on orders above ₹999</span>
+            <span class="announcement-divider"></span>
+            <span>⚡ Flash Deals Live Now</span>
+        </div>
+    </div>
+
+
+    <!-- =========================================
+         SHARED MARTplus HEADER (ANIMATED GRADIENT)
+    ========================================== -->
+    <header class="main-header">
+
+        <div class="header-main-bar">
+            <div class="container header-content">
+
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <img src="assets/icons/mplus-logo.png" alt="MARTplus" class="logo-img">
+                    <span class="logo-text">MART<span>plus</span></span>
+                </a>
+
+                <!-- Search -->
+                <div class="search-container">
+                    <form class="search-box" id="searchForm">
+                        <span class="search-icon">⌕</span>
+                        <input
+                            type="search"
+                            id="searchInput"
+                            placeholder="Search for products, brands and more..."
+                            autocomplete="off"
+                        >
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+
+                <!-- Header Actions -->
+                <div class="header-actions">
+
+                    <!-- Wishlist -->
+                    <a href="wishlist.html" class="header-action" aria-label="Wishlist">
+                        <span class="action-icon">♡</span>
+                        <span class="action-text">
+                            <small>My</small>
+                            <strong>Wishlist</strong>
+                        </span>
+                        <span class="action-badge wishlist-count" id="wishlistCount">0</span>
+                    </a>
+
+                    <!-- Cart -->
+                    <a href="cart.html" class="header-action cart-action" aria-label="Cart">
+                        <span class="action-icon">🛒</span>
+                        <span class="action-text">
+                            <small>My</small>
+                            <strong>Cart</strong>
+                        </span>
+                        <span class="action-badge cart-count" id="cartCount">0</span>
+                    </a>
+
+                    <!-- Account -->
+                    <a href="login.html" class="header-action header-account-btn" id="headerAccountAction" aria-label="Account">
+                        <span class="action-icon">👤</span>
+                        <span class="action-text">
+                            <small>Hello, Sign in</small>
+                            <strong>Account</strong>
+                        </span>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- =====================================================
+             CATEGORY NAVIGATION — ROUNDED CARD CONTAINER
+        ====================================================== -->
+        <nav class="main-navigation" aria-label="Category Navigation">
+            <div class="container nav-card-container">
+                <div class="navigation-card">
+
+                    <button class="category-menu-btn" id="categoryMenuBtn" type="button" aria-label="All Categories">
+                        <span class="category-menu-icon">☰</span>
+                        <span class="category-menu-text">All Categories</span>
+                        <span class="category-dropdown-arrow">▾</span>
+                    </button>
+
+                    <div class="nav-divider" aria-hidden="true"></div>
+
+                    <div class="nav-links">
+                        <a href="index.html">Home</a>
+                        <a href="products.html">All Products</a>
+                        <a href="category.html?category=Electronics">Electronics</a>
+                        <a href="category.html?category=Fashion">Fashion</a>
+                        <a href="category.html?category=Home%20%26%20Living">Home & Living</a>
+                        <a href="category.html?category=Beauty">Beauty</a>
+                        <a href="category.html?category=Sports">Sports</a>
+                        <a href="category.html?category=Deals">Deals</a>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================
+         CATEGORY DRAWER
+    ========================================== -->
+    <aside class="category-drawer" id="categoryDrawer">
+        <div class="drawer-header">
+            <h3>Shop by Category</h3>
+            <button type="button" id="closeCategoryDrawer" aria-label="Close categories">×</button>
+        </div>
+        <div class="drawer-content">
+            <a href="category.html?category=Electronics"><span>📱</span> Electronics</a>
+            <a href="category.html?category=Fashion"><span>👕</span> Fashion</a>
+            <a href="category.html?category=Home%20%26%20Living"><span>🏠</span> Home & Living</a>
+            <a href="category.html?category=Beauty"><span>💄</span> Beauty</a>
+            <a href="category.html?category=Sports"><span>⚽</span> Sports</a>
+            <a href="category.html?category=Deals"><span>🔥</span> Deals</a>
+        </div>
+    </aside>
+
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+
+    <!-- =========================================
+         MAIN WISHLIST CONTENT
+    ========================================== -->
+    <main class="wishlist-page">
+
+        <div class="container">
+
+            <!-- Breadcrumb: Home → Wishlist -->
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-separator">›</li>
+                    <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
+                </ol>
+            </nav>
+
+            <!-- Hero Header Card -->
+            <div class="wishlist-hero-card">
+                <div class="wishlist-title-group">
+                    <h1>
+                        <span class="wishlist-heart-icon">♡</span>
+                        My Wishlist
+                    </h1>
+                    <p>Save your favourite items and shop them later.</p>
+                </div>
+
+                <div class="wishlist-controls">
+                    <span class="wishlist-count-badge" id="wishlistItemCount">0 Items</span>
+                    <button
+                        type="button"
+                        class="clear-wishlist-btn"
+                        id="clearWishlistBtn"
+                        style="display: none;"
+                    >
+                        🗑️ Clear Wishlist
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="wishlist-grid" id="wishlistGrid"></div>
+
+            <!-- Empty State -->
+            <div class="wishlist-empty-card" id="wishlistEmpty">
+                <div class="wishlist-empty-heart-circle">♡</div>
+                <h2>Your Wishlist is Empty</h2>
+                <p>Save products you love and come back to them anytime.</p>
+                <a href="products.html" class="btn-start-shopping">
+                    Start Shopping →
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================
+         CONFIRM MODAL
+    ========================================== -->
+    <div
+        class="wishlist-confirm-modal"
+        id="wishlistConfirm"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="wishlistConfirmTitle"
+    >
+        <div class="wishlist-confirm-box">
+            <div class="wishlist-confirm-icon">🗑️</div>
+            <h3 id="wishlistConfirmTitle">Clear Wishlist?</h3>
+            <p>This will remove all saved products from your wishlist. This action cannot be undone.</p>
+            <div class="wishlist-confirm-actions">
+                <button type="button" class="wishlist-confirm-cancel" id="confirmCancel">Cancel</button>
+                <button type="button" class="wishlist-confirm-delete" id="confirmDelete">Clear Wishlist</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+
+            <!-- Brand Column -->
+            <div class="footer-column footer-brand">
+                <a href="index.html" class="logo footer-logo">
+                    <img src="assets/icons/mplus-logo.png" alt="MARTplus" class="footer-logo-img">
+                    <span class="logo-text">MART<span>plus</span></span>
+                </a>
+                <p>
+                    Your trusted multi-vendor marketplace for quality
+                    products, great deals and a seamless shopping experience.
+                </p>
+                <div class="footer-socials">
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Instagram">◎</a>
+                    <a href="#" aria-label="Twitter">𝕏</a>
+                    <a href="#" aria-label="LinkedIn">in</a>
+                </div>
+            </div>
+
+            <!-- Shop Column -->
+            <div class="footer-column">
+                <h3>Shop</h3>
+                <a href="products.html">All Products</a>
+                <a href="category.html?category=Electronics">Electronics</a>
+                <a href="category.html?category=Fashion">Fashion</a>
+                <a href="category.html?category=Home%20%26%20Living">Home & Living</a>
+                <a href="category.html?category=Beauty">Beauty</a>
+            </div>
+
+            <!-- Customer Service -->
+            <div class="footer-column">
+                <h3>Customer Service</h3>
+                <a href="buyer/orders.html">My Orders</a>
+                <a href="buyer/tracking.html">Track Order</a>
+                <a href="wishlist.html">Wishlist</a>
+                <a href="buyer/profile.html">My Account</a>
+                <a href="#">Help Center</a>
+            </div>
+
+            <!-- Sell With Us -->
+            <div class="footer-column">
+                <h3>Sell With Us</h3>
+                <a href="seller/dashboard.html">Seller Dashboard</a>
+                <a href="seller/add-product.html">Add Product</a>
+                <a href="seller/inventory.html">Manage Inventory</a>
+                <a href="seller/analytics.html">Sales Analytics</a>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container footer-bottom-content">
+                <p>© 2026 MARTplus. All rights reserved.</p>
+                <div>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Refund Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- =========================================
+         TOAST
+    ========================================== -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            /* =====================================
+               ELEMENTS
+            ====================================== */
+            const wishlistGrid = document.getElementById("wishlistGrid");
+            const wishlistEmpty = document.getElementById("wishlistEmpty");
+            const wishlistItemCount = document.getElementById("wishlistItemCount");
+            const clearWishlistBtn = document.getElementById("clearWishlistBtn");
+            const wishlistConfirm = document.getElementById("wishlistConfirm");
+            const confirmCancel = document.getElementById("confirmCancel");
+            const confirmDelete = document.getElementById("confirmDelete");
+
+            const WISHLIST_KEY = "shopsphere_wishlist";
+
+            /* =====================================
+               GET PRODUCTS
+            ====================================== */
+            function getProducts() {
+                if (
+                    window.ShopSphereProducts &&
+                    Array.isArray(window.ShopSphereProducts.products) &&
+                    window.ShopSphereProducts.products.length > 0
+                ) {
+                    return window.ShopSphereProducts.products;
+                }
+                if (typeof defaultProducts !== "undefined" && Array.isArray(defaultProducts)) {
+                    return defaultProducts;
+                }
+                return [];
+            }
+
+            /* =====================================
+               GET WISHLIST
+            ====================================== */
+            function getWishlist() {
+                try {
+                    const raw = localStorage.getItem(WISHLIST_KEY);
+                    if (!raw) return [];
+
+                    const data = JSON.parse(raw);
+                    if (!Array.isArray(data)) return [];
+
+                    const ids = data
+                        .map(function (item) {
+                            if (item && typeof item === "object") {
+                                return Number(item.productId ?? item.id);
+                            }
+                            return Number(item);
+                        })
+                        .filter(function (id) {
+                            return Number.isFinite(id);
+                        });
+
+                    return [...new Set(ids)];
+                } catch (error) {
+                    console.error("Wishlist loading error:", error);
+                    return [];
+                }
+            }
+
+            /* =====================================
+               SAVE WISHLIST
+            ====================================== */
+            function saveWishlist(ids) {
+                const cleanIds = ids
+                    .map(id => Number(id))
+                    .filter(id => Number.isFinite(id));
+
+                localStorage.setItem(
+                    WISHLIST_KEY,
+                    JSON.stringify([...new Set(cleanIds)])
+                );
+
+                updateHeaderWishlistCount();
+            }
+
+            /* =====================================
+               UPDATE HEADER WISHLIST COUNT
+            ====================================== */
+            function updateHeaderWishlistCount() {
+                const count = getWishlist().length;
+
+                document.querySelectorAll(".wishlist-count, #wishlistCount").forEach(function (element) {
+                    element.textContent = count;
+                });
+
+                if (window.ShopSphere && typeof window.ShopSphere.updateWishlistCount === "function") {
+                    window.ShopSphere.updateWishlistCount();
+                }
+            }
+
+            /* =====================================
+               FORMAT PRICE
+            ====================================== */
+            function formatPrice(price) {
+                return new Intl.NumberFormat("en-IN", {
+                    style: "currency",
+                    currency: "INR",
+                    maximumFractionDigits: 0
+                }).format(price || 0);
+            }
+
+            /* =====================================
+               CREATE STARS
+            ====================================== */
+            function createStars(rating) {
+                const rounded = Math.round(rating || 0);
+                return "★".repeat(rounded) + "☆".repeat(Math.max(0, 5 - rounded));
+            }
+
+            /* =====================================
+               SHOW TOAST
+            ====================================== */
+            function showToast(message) {
+                if (window.ShopSphere && typeof window.ShopSphere.showToast === "function") {
+                    window.ShopSphere.showToast("Wishlist", message);
+                } else {
+                    const toastEl = document.getElementById("toast");
+                    if (toastEl) {
+                        toastEl.textContent = message;
+                        toastEl.classList.add("show");
+                        setTimeout(() => toastEl.classList.remove("show"), 2500);
+                    }
+                }
+            }
+
+            /* =====================================
+               CREATE WISHLIST CARD
+            ====================================== */
+            function createWishlistCard(product) {
+                const card = document.createElement("article");
+                card.className = "wishlist-card";
+                card.dataset.productId = product.id;
+
+                const hasImage = Boolean(product.imageUrl || product.image);
+                const imgSrc = product.imageUrl || product.image || "";
+                const mediaHtml = hasImage
+                    ? `<img src="${imgSrc}" alt="${escapeHtml(product.name || 'Product')}" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='block';">
+                       <span class="media-placeholder" style="display:none;">${product.emoji || '📦'}</span>`
+                    : `<span class="media-placeholder">${product.emoji || '📦'}</span>`;
+
+                const discountVal = Number(product.discount || 0);
+                const discountBadge = discountVal > 0
+                    ? `<span class="wishlist-discount-badge">${discountVal}% OFF</span>`
+                    : "";
+
+                const stockNum = Number(product.stock ?? 10);
+                const inStock = stockNum > 0;
+                const stockStatusHtml = inStock
+                    ? `<span class="wishlist-stock-status in-stock"><span class="wishlist-stock-dot"></span> In Stock</span>`
+                    : `<span class="wishlist-stock-status out-of-stock"><span class="wishlist-stock-dot"></span> Out of Stock</span>`;
+
+                const oldPriceHtml = (product.oldPrice && product.oldPrice > product.price)
+                    ? `<span class="wishlist-old-price">${formatPrice(product.oldPrice)}</span>`
+                    : "";
+
+                card.innerHTML = `
+                    <div class="wishlist-card-media">
+                        ${discountBadge}
+                        <button
+                            type="button"
+                            class="wishlist-heart-btn active"
+                            data-product-id="${product.id}"
+                            title="Remove from wishlist"
+                            aria-label="Remove ${escapeHtml(product.name || 'product')} from wishlist"
+                        >
+                            ♥
+                        </button>
+                        ${mediaHtml}
+                    </div>
+
+                    <div class="wishlist-card-body">
+                        <span class="wishlist-category-tag">${escapeHtml(product.category || 'Product')}</span>
+                        <a href="product-details.html?id=${encodeURIComponent(product.id)}" class="wishlist-product-name" title="${escapeHtml(product.name)}">
+                            ${escapeHtml(product.name)}
+                        </a>
+
+                        <div class="wishlist-rating-row">
+                            <span class="wishlist-stars">${createStars(product.rating)}</span>
+                            <span class="wishlist-rating-val">${product.rating || '4.5'}</span>
+                            <span class="wishlist-reviews-count">(${product.reviews || 0})</span>
+                        </div>
+
+                        <div class="wishlist-price-row">
+                            <strong class="wishlist-current-price">${formatPrice(product.price)}</strong>
+                            ${oldPriceHtml}
+                        </div>
+
+                        ${stockStatusHtml}
+
+                        <button
+                            type="button"
+                            class="wishlist-add-cart-btn add-to-cart-btn"
+                            data-product-id="${product.id}"
+                        >
+                            <span>🛒</span> Add to Cart
+                        </button>
+                    </div>
+                `;
+
+                return card;
+            }
+
+            function escapeHtml(text) {
+                if (!text) return "";
+                const div = document.createElement("div");
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            /* =====================================
+               RENDER WISHLIST
+            ====================================== */
+            function renderWishlist() {
+                const wishlist = getWishlist();
+                const products = getProducts();
+
+                wishlistGrid.innerHTML = "";
+
+                const wishlistProducts = wishlist
+                    .map(function (id) {
+                        return products.find(product => Number(product.id) === Number(id));
+                    })
+                    .filter(Boolean);
+
+                const count = wishlistProducts.length;
+                wishlistItemCount.textContent = `${count} ${count === 1 ? 'Item' : 'Items'}`;
+                updateHeaderWishlistCount();
+
+                /* Empty Wishlist State */
+                if (count === 0) {
+                    wishlistEmpty.classList.add("show");
+                    clearWishlistBtn.style.display = "none";
+                    return;
+                }
+
+                /* Show Wishlist State */
+                wishlistEmpty.classList.remove("show");
+                clearWishlistBtn.style.display = "inline-flex";
+
+                wishlistProducts.forEach(function (product) {
+                    const card = createWishlistCard(product);
+                    wishlistGrid.appendChild(card);
+                });
+            }
+
+            /* =====================================
+               REMOVE FROM WISHLIST
+            ====================================== */
+            function removeFromWishlist(productId) {
+                const id = Number(productId);
+                if (!Number.isFinite(id)) return;
+
+                const wishlist = getWishlist();
+                const updated = wishlist.filter(wishlistId => Number(wishlistId) !== id);
+
+                saveWishlist(updated);
+                renderWishlist();
+                showToast("Product removed from wishlist.");
+            }
+
+            /* =====================================
+               PRODUCT CLICK EVENTS
+            ====================================== */
+            wishlistGrid.addEventListener("click", function (event) {
+                // Heart Click (Remove)
+                const heartBtn = event.target.closest(".wishlist-heart-btn");
+                if (heartBtn) {
+                    event.stopPropagation();
+                    const id = Number(heartBtn.dataset.productId);
+                    removeFromWishlist(id);
+                    return;
+                }
+
+                // Add to Cart
+                const addCartBtn = event.target.closest(".add-to-cart-btn");
+                if (addCartBtn) {
+                    event.stopPropagation();
+                    const id = Number(addCartBtn.dataset.productId);
+
+                    if (window.ShopSphereProducts && typeof window.ShopSphereProducts.addToCart === "function") {
+                        window.ShopSphereProducts.addToCart(id);
+                    } else if (window.ShopSphere && typeof window.ShopSphere.addToCart === "function") {
+                        window.ShopSphere.addToCart(id);
+                    } else {
+                        // Direct fallback to localStorage cart
+                        const CART_KEY = "shopsphere_cart";
+                        let cart = [];
+                        try {
+                            cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+                        } catch (e) { cart = []; }
+
+                        const existing = cart.find(item => Number(item.productId) === id);
+                        if (existing) {
+                            existing.quantity = Number(existing.quantity || 1) + 1;
+                        } else {
+                            cart.push({ productId: id, quantity: 1 });
+                        }
+                        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+                        if (window.ShopSphere && typeof window.ShopSphere.updateCartCount === "function") {
+                            window.ShopSphere.updateCartCount();
+                        }
+                        showToast("Added to Cart 🛒");
+                    }
+                    return;
+                }
+
+                // Card Click (Product details)
+                const card = event.target.closest(".wishlist-card");
+                if (card && !event.target.closest("button") && !event.target.closest("a")) {
+                    const id = card.dataset.productId;
+                    if (id) {
+                        window.location.href = "product-details.html?id=" + encodeURIComponent(id);
+                    }
+                }
+            });
+
+            /* =====================================
+               CLEAR WISHLIST MODAL
+            ====================================== */
+            clearWishlistBtn.addEventListener("click", function () {
+                wishlistConfirm.classList.add("show");
+            });
+
+            confirmCancel.addEventListener("click", function () {
+                wishlistConfirm.classList.remove("show");
+            });
+
+            confirmDelete.addEventListener("click", function () {
+                saveWishlist([]);
+                wishlistConfirm.classList.remove("show");
+                renderWishlist();
+                showToast("Wishlist cleared.");
+            });
+
+            wishlistConfirm.addEventListener("click", function (event) {
+                if (event.target === wishlistConfirm) {
+                    wishlistConfirm.classList.remove("show");
+                }
+            });
+
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape" && wishlistConfirm.classList.contains("show")) {
+                    wishlistConfirm.classList.remove("show");
+                }
+            });
+
+            /* =====================================
+               STORAGE & BACKEND SYNC
+            ====================================== */
+            window.addEventListener("storage", function (event) {
+                if (event.key === WISHLIST_KEY) {
+                    renderWishlist();
+                }
+            });
+
+            window.addEventListener("shopsphere:productsLoaded", function () {
+                renderWishlist();
+            });
+
+            /* =====================================
+               INITIALIZE
+            ====================================== */
+            renderWishlist();
+        });
+    </script>
+
+</body>
+</html>

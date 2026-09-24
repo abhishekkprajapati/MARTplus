@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MARTplus | Cart</title>
+
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+
+    <meta
+        name="description"
+        content="Review your MARTplus shopping cart, apply coupons, and proceed to secure checkout."
+    >
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <!-- =========================================================
+         ANNOUNCEMENT BAR
+    ========================================================== -->
+    <div class="announcement-bar">
+        <div class="container announcement-content">
+            <span>🚚 Free shipping on orders over ₹999</span>
+            <span class="announcement-divider"></span>
+            <span>⚡ Flash Deals Live Now</span>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+         SHARED MARTplus HEADER (ANIMATED GRADIENT)
+    ========================================================== -->
+    <header class="main-header">
+
+        <div class="header-main-bar">
+            <div class="container header-content">
+
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <img src="assets/icons/mplus-logo.png" alt="MARTplus" class="logo-img">
+                    <span class="logo-text">MART<span>plus</span></span>
+                </a>
+
+                <!-- Search Box -->
+                <div class="search-container">
+                    <form class="search-box" id="searchForm">
+                        <span class="search-icon">⌕</span>
+                        <input
+                            type="search"
+                            id="searchInput"
+                            placeholder="Search for products, brands and more..."
+                            autocomplete="off"
+                        >
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+
+                <!-- Header Actions -->
+                <div class="header-actions">
+
+                    <!-- Wishlist -->
+                    <a href="wishlist.html" class="header-action" aria-label="Wishlist">
+                        <span class="action-icon">♡</span>
+                        <span class="action-text">
+                            <small>My</small>
+                            <strong>Wishlist</strong>
+                        </span>
+                        <span class="action-badge wishlist-count" id="wishlistCount">0</span>
+                    </a>
+
+                    <!-- Cart -->
+                    <a href="cart.html" class="header-action cart-action" aria-label="Cart">
+                        <span class="action-icon">🛒</span>
+                        <span class="action-text">
+                            <small>My</small>
+                            <strong>Cart</strong>
+                        </span>
+                        <span class="action-badge cart-count" id="cartCount">0</span>
+                    </a>
+
+                    <!-- Account -->
+                    <a href="login.html" class="header-action header-account-btn" id="headerAccountAction" aria-label="Account">
+                        <span class="action-icon">👤</span>
+                        <span class="action-text">
+                            <small>Hello, Sign in</small>
+                            <strong>Account</strong>
+                        </span>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- =====================================================
+             CATEGORY NAVIGATION — ROUNDED CARD CONTAINER
+        ====================================================== -->
+        <nav class="main-navigation" aria-label="Category Navigation">
+            <div class="container nav-card-container">
+                <div class="navigation-card">
+
+                    <button class="category-menu-btn" id="categoryMenuBtn" type="button" aria-label="All Categories">
+                        <span class="category-menu-icon">☰</span>
+                        <span class="category-menu-text">All Categories</span>
+                        <span class="category-dropdown-arrow">▾</span>
+                    </button>
+
+                    <div class="nav-divider" aria-hidden="true"></div>
+
+                    <div class="nav-links">
+                        <a href="index.html">Home</a>
+                        <a href="products.html">All Products</a>
+                        <a href="category.html?category=Electronics">Electronics</a>
+                        <a href="category.html?category=Fashion">Fashion</a>
+                        <a href="category.html?category=Home%20%26%20Living">Home & Living</a>
+                        <a href="category.html?category=Beauty">Beauty</a>
+                        <a href="category.html?category=Sports">Sports</a>
+                        <a href="category.html?category=Deals">Deals</a>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================================
+         CATEGORY DRAWER
+    ========================================================== -->
+    <aside class="category-drawer" id="categoryDrawer">
+        <div class="drawer-header">
+            <h3>Shop by Category</h3>
+            <button type="button" id="closeCategoryDrawer" aria-label="Close categories">×</button>
+        </div>
+        <div class="drawer-content">
+            <a href="category.html?category=Electronics"><span>📱</span> Electronics</a>
+            <a href="category.html?category=Fashion"><span>👕</span> Fashion</a>
+            <a href="category.html?category=Home%20%26%20Living"><span>🏠</span> Home & Living</a>
+            <a href="category.html?category=Beauty"><span>💄</span> Beauty</a>
+            <a href="category.html?category=Sports"><span>⚽</span> Sports</a>
+            <a href="category.html?category=Deals"><span>🔥</span> Deals</a>
+        </div>
+    </aside>
+
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+
+    <!-- =========================================================
+         CART PAGE
+    ========================================================== -->
+    <main class="cart-page">
+
+        <div class="container">
+
+            <!-- Breadcrumb: Home → Cart -->
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-separator">›</li>
+                    <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                </ol>
+            </nav>
+
+            <!-- Cart Header Card -->
+            <div class="cart-header-card">
+                <div>
+                    <h1>
+                        <span class="cart-header-icon">🛒</span>
+                        My Cart
+                    </h1>
+                    <p id="cartItemSummary">
+                        Review your items and proceed to checkout.
+                    </p>
+                </div>
+
+                <a href="products.html" class="cart-continue-btn" id="continueShoppingBtn">
+                    ← Continue Shopping
+                </a>
+            </div>
+
+            <!-- Cart Layout: 2 Columns on Desktop -->
+            <div class="cart-layout">
+
+                <!-- =============================================
+                     LEFT: CART ITEMS
+                ============================================== -->
+                <section class="cart-items-card">
+
+                    <div class="cart-items-header">
+                        <strong>Selected Items</strong>
+
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <label class="cart-select-all">
+                                <input
+                                    type="checkbox"
+                                    id="selectAllCart"
+                                    checked
+                                >
+                                Select all
+                            </label>
+
+                            <button
+                                type="button"
+                                class="btn-clear-cart"
+                                id="clearCartBtn"
+                                title="Clear all products from cart"
+                            >
+                                🗑️ Clear All
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Items container dynamically rendered by cart.js -->
+                    <div id="cartItems">
+                        <!-- Empty Cart Fallback -->
+                        <div class="empty-cart">
+                            <div class="empty-cart-icon">🛒</div>
+                            <h2>Your cart is empty</h2>
+                            <p>
+                                Looks like you haven't added anything to your cart yet.
+                                Explore our products and find something you love.
+                            </p>
+                            <a href="products.html" class="btn btn-primary">
+                                Start Shopping →
+                            </a>
+                        </div>
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                     RIGHT: ORDER SUMMARY
+                ============================================== -->
+                <aside class="order-summary">
+
+                    <div class="summary-header">
+                        <h2>Order Summary</h2>
+                    </div>
+
+                    <div class="summary-body">
+
+                        <!-- Subtotal -->
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <strong id="cartSubtotal">₹0</strong>
+                        </div>
+
+                        <!-- Discount -->
+                        <div class="summary-row discount">
+                            <span>Discount</span>
+                            <strong id="cartDiscount">- ₹0</strong>
+                        </div>
+
+                        <!-- Delivery Charge -->
+                        <div class="summary-row">
+                            <span>Delivery Charge</span>
+                            <strong id="cartShipping">FREE</strong>
+                        </div>
+
+                        <div class="summary-divider"></div>
+
+                        <!-- Total Amount -->
+                        <div class="summary-total">
+                            <span>Total Amount</span>
+                            <strong id="cartTotal">₹0</strong>
+                        </div>
+
+                        <!-- Checkout Button -->
+                        <a
+                            href="checkout.html"
+                            class="checkout-btn"
+                            id="checkoutButton"
+                        >
+                            Proceed to Checkout →
+                        </a>
+
+                        <!-- Small Benefit Cards -->
+                        <div class="trust-badges-grid">
+                            <div class="trust-badge-item">
+                                <span class="trust-badge-icon">✓</span>
+                                <span>Free Delivery</span>
+                            </div>
+                            <div class="trust-badge-item">
+                                <span class="trust-badge-icon">✓</span>
+                                <span>Secure Payment</span>
+                            </div>
+                            <div class="trust-badge-item">
+                                <span class="trust-badge-icon">✓</span>
+                                <span>Easy Returns</span>
+                            </div>
+                            <div class="trust-badge-item">
+                                <span class="trust-badge-icon">✓</span>
+                                <span>Fast Delivery</span>
+                            </div>
+                        </div>
+
+                        <!-- Coupon Section -->
+                        <div class="coupon-section">
+                            <h3>Have a coupon?</h3>
+                            <form class="coupon-form" id="couponForm">
+                                <input
+                                    type="text"
+                                    id="couponInput"
+                                    placeholder="Enter coupon code"
+                                    autocomplete="off"
+                                >
+                                <button type="submit">
+                                    Apply
+                                </button>
+                            </form>
+                            <p class="coupon-message" id="couponMessage"></p>
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+            <!-- =================================================
+                 RECOMMENDATIONS: "You Might Also Like"
+            ================================================== -->
+            <section class="cart-recommendations">
+                <h2>You Might Also Like</h2>
+                <p class="recommendation-subtitle">
+                    Complete your shopping with these popular picks.
+                </p>
+
+                <div
+                    class="product-grid wishlist-grid"
+                    id="cartRecommendations"
+                    style="margin-top: 22px;"
+                ></div>
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================
+         CONFIRM CLEAR CART MODAL
+    ========================================== -->
+    <div
+        class="cart-confirm-modal"
+        id="cartConfirmModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cartConfirmTitle"
+    >
+        <div class="cart-confirm-box">
+            <div class="cart-confirm-icon">🗑️</div>
+            <h3 id="cartConfirmTitle">Clear All Products?</h3>
+            <p>
+                Are you sure you want to remove all products from your cart? This action cannot be undone.
+            </p>
+            <div class="cart-confirm-actions">
+                <button
+                    type="button"
+                    class="cart-confirm-cancel"
+                    id="cartConfirmCancel"
+                >
+                    Cancel
+                </button>
+                <button
+                    type="button"
+                    class="cart-confirm-delete"
+                    id="cartConfirmDelete"
+                >
+                    Yes, Clear All
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+    <footer class="main-footer site-footer">
+        <div class="container footer-grid">
+
+            <div class="footer-brand">
+                <a href="index.html" class="logo footer-logo">
+                    <img src="assets/icons/mplus-logo.png" alt="MARTplus" class="footer-logo-img">
+                    <span class="logo-text">MART<span>plus</span></span>
+                </a>
+                <p>
+                    A smarter way to discover, shop and sell.
+                    Connecting buyers with trusted sellers.
+                </p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">◎</a>
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Twitter">𝕏</a>
+                    <a href="#" aria-label="LinkedIn">in</a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h3>Shop</h3>
+                <a href="products.html">All Products</a>
+                <a href="category.html?category=Electronics">Electronics</a>
+                <a href="category.html?category=Fashion">Fashion</a>
+                <a href="category.html?category=Home%20%26%20Living">Home & Living</a>
+                <a href="category.html?category=Beauty">Beauty</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Customer Service</h3>
+                <a href="login.html">My Account</a>
+                <a href="buyer/orders.html">Order History</a>
+                <a href="wishlist.html">Wishlist</a>
+                <a href="buyer/tracking.html">Track Order</a>
+                <a href="#">Help Center</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Sell With Us</h3>
+                <a href="register.html?role=seller">Become a Seller</a>
+                <a href="seller/dashboard.html">Seller Dashboard</a>
+                <a href="#">Seller Guidelines</a>
+                <a href="#">Seller Support</a>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container footer-bottom-content">
+                <p>© 2026 MARTplus. All rights reserved.</p>
+                <div>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- =========================================================
+         TOAST
+    ========================================================== -->
+    <div class="toast-container" id="toastContainer">
+        <div class="toast" id="toast">
+            <span class="toast-icon">✓</span>
+            <div class="toast-content">
+                <strong id="toastTitle">Success</strong>
+                <p id="toastMessage">Action completed successfully.</p>
+            </div>
+            <button id="closeToast">×</button>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+
+</body>
+
+</html>

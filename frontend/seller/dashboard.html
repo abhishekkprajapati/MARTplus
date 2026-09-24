@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MARTplus | Seller Dashboard</title>
+
+    <link rel="icon" type="image/png" href="../assets/icons/favicon.png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background: #f5f7fb;
+            color: #111827;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 250px;
+            background: #111827;
+            color: #fff;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-brand {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar-brand-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            object-fit: contain;
+            margin-right: 11px;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: #635bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 11px;
+        }
+
+        .brand-name {
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .seller-label {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+
+        .sidebar-nav {
+            padding: 22px 14px;
+            flex: 1;
+        }
+
+        .nav-title {
+            color: #6b7280;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0 12px 10px;
+            font-weight: 700;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 13px;
+            border-radius: 10px;
+            color: #c7cedb;
+            margin-bottom: 5px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.07);
+            color: #fff;
+        }
+
+        .nav-link.active {
+            background: #635bff;
+            color: #fff;
+        }
+
+        .nav-icon {
+            width: 21px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .seller-mini {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #635bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .seller-mini-info strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .seller-mini-info span {
+            display: block;
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 3px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: #9ca3af;
+            padding: 10px 12px;
+            border-radius: 9px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.07);
+            color: #fff;
+        }
+
+        /* MAIN */
+
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+        }
+
+        .topbar {
+            height: 72px;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar-title h1 {
+            font-size: 21px;
+            margin-bottom: 4px;
+        }
+
+        .topbar-title p {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .store-btn {
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            padding: 9px 14px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .store-btn:hover {
+            background: #f9fafb;
+        }
+
+        .notification {
+            width: 39px;
+            height: 39px;
+            border: 1px solid #e5e7eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            width: 7px;
+            height: 7px;
+            background: #ef4444;
+            border-radius: 50%;
+        }
+
+        /* CONTENT */
+
+        .content {
+            padding: 28px 30px 40px;
+        }
+
+        .welcome-box {
+            background: linear-gradient(135deg, #635bff, #7c3aed);
+            color: #fff;
+            border-radius: 16px;
+            padding: 25px 28px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .welcome-box h2 {
+            font-size: 23px;
+            margin-bottom: 7px;
+        }
+
+        .welcome-box p {
+            color: rgba(255,255,255,0.82);
+            font-size: 13px;
+        }
+
+        .add-product-btn {
+            border: 0;
+            background: #fff;
+            color: #4f46e5;
+            padding: 11px 17px;
+            border-radius: 9px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* STATS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 1px solid #e8ebf0;
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .stat-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 11px;
+            background: #eef2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .stat-change {
+            font-size: 11px;
+            font-weight: 700;
+            color: #16a34a;
+            background: #ecfdf3;
+            padding: 5px 7px;
+            border-radius: 6px;
+        }
+
+        .stat-card h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        /* GRID */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr);
+            gap: 20px;
+        }
+
+        .panel {
+            background: #fff;
+            border: 1px solid #e8ebf0;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #edf0f4;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-header h3 {
+            font-size: 16px;
+        }
+
+        .panel-header a {
+            color: #635bff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* ORDERS */
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table th,
+        .orders-table td {
+            text-align: left;
+            padding: 14px 20px;
+            border-bottom: 1px solid #f0f2f5;
+            font-size: 12px;
+        }
+
+        .orders-table th {
+            color: #6b7280;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .order-id {
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .buyer-name {
+            font-weight: 600;
+        }
+
+        .amount {
+            font-weight: 700;
+        }
+
+        .status {
+            display: inline-flex;
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .status.processing {
+            color: #92400e;
+            background: #fef3c7;
+        }
+
+        .status.shipped {
+            color: #1d4ed8;
+            background: #dbeafe;
+        }
+
+        .status.delivered {
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        /* PRODUCTS */
+
+        .product-row {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .product-row:last-child {
+            border-bottom: 0;
+        }
+
+        .product-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: 9px;
+            background: #f5f7fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .product-row-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .product-row-info strong {
+            display: block;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+
+        .product-row-info span {
+            color: #6b7280;
+            font-size: 11px;
+        }
+
+        .stock {
+            text-align: right;
+        }
+
+        .stock strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .stock span {
+            font-size: 10px;
+            color: #6b7280;
+        }
+
+        .low-stock {
+            color: #dc2626 !important;
+        }
+
+        /* SALES */
+
+        .sales-panel {
+            margin-top: 20px;
+        }
+
+        .chart-wrap {
+            padding: 22px 20px 18px;
+        }
+
+        .chart {
+            height: 190px;
+            display: flex;
+            align-items: flex-end;
+            gap: 13px;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0 5px;
+        }
+
+        .bar-item {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .bar {
+            width: 100%;
+            max-width: 34px;
+            background: linear-gradient(to top, #635bff, #8b83ff);
+            border-radius: 6px 6px 0 0;
+        }
+
+        .bar-label {
+            color: #6b7280;
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
+
+        /* ALERT */
+
+        .alert-list {
+            padding: 4px 0;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .alert-item:last-child {
+            border-bottom: 0;
+        }
+
+        .alert-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            background: #fef2f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .alert-info {
+            flex: 1;
+        }
+
+        .alert-info strong {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+
+        .alert-info span {
+            font-size: 10px;
+            color: #6b7280;
+        }
+
+        .alert-count {
+            font-size: 11px;
+            font-weight: 700;
+            color: #dc2626;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            padding: 30px 20px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        /* TOAST */
+
+        .toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            background: #111827;
+            color: #fff;
+            padding: 12px 17px;
+            border-radius: 9px;
+            font-size: 13px;
+            opacity: 0;
+            transform: translateY(15px);
+            pointer-events: none;
+            transition: 0.25s;
+            z-index: 999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1100px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 72px;
+            }
+
+            .sidebar-brand {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .brand-name,
+            .seller-label,
+            .nav-title,
+            .nav-link span:not(.nav-icon),
+            .seller-mini-info,
+            .logout-text {
+                display: none;
+            }
+
+            .nav-link {
+                justify-content: center;
+                padding: 13px;
+            }
+
+            .seller-mini {
+                justify-content: center;
+                padding: 8px 0;
+            }
+
+            .main-content {
+                margin-left: 72px;
+                width: calc(100% - 72px);
+            }
+
+            .content {
+                padding: 22px 18px 35px;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .orders-table {
+                min-width: 650px;
+            }
+
+            .orders-wrapper {
+                overflow-x: auto;
+            }
+
+            .topbar-title p {
+                display: none;
+            }
+
+            .store-btn {
+                display: none;
+            }
+
+            .content {
+                padding: 18px 12px 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+            <img src="../assets/icons/mplus-logo.png" alt="MARTplus" class="sidebar-brand-img">
+
+            <div>
+                <div class="brand-name">MARTplus</div>
+                <div class="seller-label">Seller Center</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-title">Seller Panel</div>
+
+            <a href="dashboard.html" class="nav-link active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="products.html" class="nav-link">
+                <span class="nav-icon">📦</span>
+                <span>Products</span>
+            </a>
+
+            <a href="add-product.html" class="nav-link">
+                <span class="nav-icon">➕</span>
+                <span>Add Product</span>
+            </a>
+
+            <a href="inventory.html" class="nav-link">
+                <span class="nav-icon">🏷️</span>
+                <span>Inventory</span>
+            </a>
+
+            <a href="orders.html" class="nav-link">
+                <span class="nav-icon">🛒</span>
+                <span>Orders</span>
+            </a>
+
+            <a href="analytics.html" class="nav-link">
+                <span class="nav-icon">📈</span>
+                <span>Analytics</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="seller-mini">
+
+                <div class="avatar" id="sidebarAvatar">
+                    S
+                </div>
+
+                <div class="seller-mini-info">
+                    <strong id="sidebarName">Seller</strong>
+                    <span>Seller Account</span>
+                </div>
+
+            </div>
+
+            <button class="logout-btn" id="logoutBtn">
+                <span>↪</span>
+                <span class="logout-text">Logout</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-title">
+
+                <h1>Seller Dashboard</h1>
+
+                <p>
+                    Manage your store and track your performance.
+                </p>
+
+            </div>
+
+            <div class="topbar-actions">
+
+                <button
+                    type="button"
+                    class="store-btn"
+                    id="viewStoreBtn"
+                >
+                    🛍️ View Store
+                </button>
+
+                <div class="notification" id="notificationBtn">
+                    🔔
+                    <span class="notification-dot"></span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE CONTENT -->
+
+        <section class="content">
+
+            <!-- WELCOME -->
+
+            <div class="welcome-box">
+
+                <div>
+
+                    <h2>
+                        Welcome back, <span id="welcomeName">Seller</span> 👋
+                    </h2>
+
+                    <p>
+                        Here's what's happening with your store today.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="add-product-btn"
+                    id="addProductBtn"
+                >
+                    + Add New Product
+                </button>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            📦
+                        </div>
+
+                        <span class="stat-change">
+                            +12.5%
+                        </span>
+
+                    </div>
+
+                    <h3 id="totalProducts">
+                        12
+                    </h3>
+
+                    <p>
+                        Total Products
+                    </p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            🛒
+                        </div>
+
+                        <span class="stat-change">
+                            +8.2%
+                        </span>
+
+                    </div>
+
+                    <h3 id="totalOrders">
+                        24
+                    </h3>
+
+                    <p>
+                        Total Orders
+                    </p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            💰
+                        </div>
+
+                        <span class="stat-change">
+                            +15.4%
+                        </span>
+
+                    </div>
+
+                    <h3 id="totalSales">
+                        ₹48,590
+                    </h3>
+
+                    <p>
+                        Total Sales
+                    </p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ⭐
+                        </div>
+
+                        <span class="stat-change">
+                            +0.3
+                        </span>
+
+                    </div>
+
+                    <h3 id="sellerRating">
+                        4.8
+                    </h3>
+
+                    <p>
+                        Store Rating
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- MAIN GRID -->
+
+            <div class="dashboard-grid">
+
+                <!-- RECENT ORDERS -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Recent Orders
+                        </h3>
+
+                        <a href="orders.html">
+                            View All
+                        </a>
+
+                    </div>
+
+                    <div class="orders-wrapper">
+
+                        <table class="orders-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Order</th>
+                                    <th>Buyer</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="ordersTableBody">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOW STOCK -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Low Stock Alerts
+                        </h3>
+
+                        <a href="inventory.html">
+                            Manage
+                        </a>
+
+                    </div>
+
+                    <div
+                        class="alert-list"
+                        id="lowStockList"
+                    >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCTS -->
+
+            <div class="panel sales-panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        Top Products
+                    </h3>
+
+                    <a href="products.html">
+                        Manage Products
+                    </a>
+
+                </div>
+
+                <div id="topProductsList">
+
+                </div>
+
+            </div>
+
+
+            <!-- SALES PERFORMANCE -->
+
+            <div class="panel sales-panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        Sales Performance
+                    </h3>
+
+                    <a href="analytics.html">
+                        Full Analytics
+                    </a>
+
+                </div>
+
+                <div class="chart-wrap">
+
+                    <div class="chart">
+
+                        <div class="bar-item">
+                            <div
+                                class="bar"
+                                style="height: 45%;"
+                            ></div>
+                            <span class="bar-label">Mon</span>
+                        </div>
+
+                        <div class="bar-item">
+                            <div
+                                class="bar"
+                                style="height: 62%;"
+                            ></div>
+                            <span class="bar-label">Tue</span>
+                        </div>
+
+                        <div class="bar-item">
+                            <div
+                                class="bar"
+                                style="height: 52%;"
+                            ></div>
+                            <span class="bar-label">Wed</span>
+                        </div>
+
+                        <div class="bar-item">
+                            <div
+                                class="bar"
+                                style="height: 78%;"
+                            ></div>
+                            <span class="bar-label">Thu</span>
+                        </div>
+
+                        <div class="bar-item">
+                            <div
+                                class="bar"
+                                style="height: 66%;"
+                            ></div>
+                            <span class="bar-label">Fri</span>
+                        </div>
+
+                        <div class="bar-item">
+                            <div
+                                class="bar"
+                                style="height: 88%;"
+                            ></div>
+                            <span class="bar-label">Sat</span>
+                        </div>
+
+                        <div class="bar-item">
+                            <div
+                                class="bar"
+                                style="height: 73%;"
+                            ></div>
+                            <span class="bar-label">Sun</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/seller.js"></script>
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* -----------------------------
+       AUTH
+    ----------------------------- */
+
+    const auth =
+        window.ShopSphereAuth;
+
+    if (
+        auth &&
+        typeof auth.isLoggedIn === "function" &&
+        !auth.isLoggedIn()
+    ) {
+
+        window.location.href =
+            "../login.html";
+
+        return;
+
+    }
+
+
+    if (
+        auth &&
+        typeof auth.getUserRole === "function"
+    ) {
+
+        const role =
+            auth.getUserRole();
+
+        if (
+            role &&
+            role !== "seller"
+        ) {
+
+            if (
+                typeof auth.redirectToDashboard ===
+                "function"
+            ) {
+
+                auth.redirectToDashboard();
+
+            } else {
+
+                window.location.href =
+                    "../index.html";
+
+            }
+
+            return;
+        }
+    }
+
+
+    /* -----------------------------
+       HELPERS
+    ----------------------------- */
+
+    function getStorage(
+        key,
+        fallback
+    ) {
+
+        try {
+
+            const data =
+                JSON.parse(
+                    localStorage.getItem(key) ||
+                    JSON.stringify(fallback)
+                );
+
+            return data;
+
+        } catch (error) {
+
+            return fallback;
+
+        }
+
+    }
+
+
+    function getUser() {
+
+        return getStorage(
+            "shopsphere_user",
+            null
+        );
+
+    }
+
+
+    function formatPrice(value) {
+
+        return "₹" +
+            Number(value || 0).toLocaleString(
+                "en-IN"
+            );
+
+    }
+
+
+    /* -----------------------------
+       USER
+    ----------------------------- */
+
+    function loadUser() {
+
+        const user =
+            getUser();
+
+        if (!user) {
+            return;
+        }
+
+        const name =
+            user.name ||
+            (
+                (user.firstName || "") +
+                " " +
+                (user.lastName || "")
+            ).trim() ||
+            "Seller";
+
+        document.getElementById(
+            "welcomeName"
+        ).textContent =
+            name.split(" ")[0];
+
+        document.getElementById(
+            "sidebarName"
+        ).textContent =
+            name;
+
+        document.getElementById(
+            "sidebarAvatar"
+        ).textContent =
+            name.charAt(0).toUpperCase();
+
+    }
+
+
+    /* -----------------------------
+       PRODUCTS
+    ----------------------------- */
+
+    function loadProducts() {
+
+        let products = [];
+
+        if (
+            window.ShopSphereProducts &&
+            Array.isArray(
+                window.ShopSphereProducts.products
+            )
+        ) {
+
+            products =
+                window.ShopSphereProducts.products;
+
+        }
+
+
+        if (!products.length) {
+
+            products = [
+                {
+                    id: 1,
+                    name: "Apple iPhone 15",
+                    emoji: "📱",
+                    price: 69999,
+                    stock: 25
+                },
+                {
+                    id: 2,
+                    name: "Sony WH-1000XM5 Headphones",
+                    emoji: "🎧",
+                    price: 24999,
+                    stock: 18
+                },
+                {
+                    id: 3,
+                    name: "Nike Air Max Running Shoes",
+                    emoji: "👟",
+                    price: 8499,
+                    stock: 42
+                },
+                {
+                    id: 4,
+                    name: "Premium Smart Watch Series 5",
+                    emoji: "⌚",
+                    price: 4999,
+                    stock: 31
+                },
+                {
+                    id: 5,
+                    name: "Minimalist Leather Backpack",
+                    emoji: "🎒",
+                    price: 2199,
+                    stock: 56
+                }
+            ];
+
+        }
+
+
+        return products;
+
+    }
+
+
+    function renderProductData() {
+
+        const products =
+            loadProducts();
+
+
+        document.getElementById(
+            "totalProducts"
+        ).textContent =
+            products.length;
+
+
+        const topProducts =
+            products
+                .slice()
+                .sort(
+                    function (a, b) {
+
+                        return Number(
+                            b.reviews || 0
+                        ) -
+                        Number(
+                            a.reviews || 0
+                        );
+
+                    }
+                )
+                .slice(0, 5);
+
+
+        const topProductsList =
+            document.getElementById(
+                "topProductsList"
+            );
+
+        topProductsList.innerHTML = "";
+
+
+        topProducts.forEach(
+            function (product) {
+
+                const row =
+                    document.createElement("div");
+
+                row.className =
+                    "product-row";
+
+                row.innerHTML =
+                    '<div class="product-thumb">' +
+                        (
+                            product.emoji ||
+                            "📦"
+                        ) +
+                    '</div>' +
+
+                    '<div class="product-row-info">' +
+
+                        '<strong>' +
+                            String(
+                                product.name ||
+                                "Product"
+                            ) +
+                        '</strong>' +
+
+                        '<span>' +
+                            formatPrice(
+                                product.price
+                            ) +
+                        '</span>' +
+
+                    '</div>' +
+
+                    '<div class="stock">' +
+
+                        '<strong>' +
+                            Number(
+                                product.stock || 0
+                            ) +
+                        '</strong>' +
+
+                        '<span>In Stock</span>' +
+
+                    '</div>';
+
+
+                topProductsList.appendChild(
+                    row
+                );
+
+            }
+        );
+
+
+        const lowStockProducts =
+            products
+                .filter(
+                    function (product) {
+
+                        return Number(
+                            product.stock || 0
+                        ) <= 15;
+
+                    }
+                )
+                .slice(0, 4);
+
+
+        const lowStockList =
+            document.getElementById(
+                "lowStockList"
+            );
+
+        lowStockList.innerHTML = "";
+
+
+        if (!lowStockProducts.length) {
+
+            lowStockList.innerHTML =
+                '<div class="empty">' +
+                    'No low-stock products.' +
+                '</div>';
+
+            return;
+
+        }
+
+
+        lowStockProducts.forEach(
+            function (product) {
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "alert-item";
+
+                item.innerHTML =
+
+                    '<div class="alert-icon">' +
+                        '⚠️' +
+                    '</div>' +
+
+                    '<div class="alert-info">' +
+
+                        '<strong>' +
+                            String(
+                                product.name ||
+                                "Product"
+                            ) +
+                        '</strong>' +
+
+                        '<span>' +
+                            'Stock is running low' +
+                        '</span>' +
+
+                    '</div>' +
+
+                    '<div class="alert-count">' +
+                        Number(
+                            product.stock || 0
+                        ) +
+                        ' left' +
+                    '</div>';
+
+
+                lowStockList.appendChild(
+                    item
+                );
+
+            }
+        );
+
+    }
+
+
+    /* -----------------------------
+       ORDERS
+    ----------------------------- */
+
+    function renderOrders() {
+
+        const orders =
+            getStorage(
+                "shopsphere_orders",
+                []
+            );
+
+
+        const tableBody =
+            document.getElementById(
+                "ordersTableBody"
+            );
+
+        tableBody.innerHTML = "";
+
+
+        if (!orders.length) {
+
+            tableBody.innerHTML =
+                '<tr>' +
+                    '<td colspan="4">' +
+                        '<div class="empty">' +
+                            'No orders yet.' +
+                        '</div>' +
+                    '</td>' +
+                '</tr>';
+
+            document.getElementById(
+                "totalOrders"
+            ).textContent =
+                "0";
+
+            document.getElementById(
+                "totalSales"
+            ).textContent =
+                "₹0";
+
+            return;
+
+        }
+
+
+        let totalSales = 0;
+
+
+        orders.forEach(
+            function (order) {
+
+                totalSales += Number(
+                    order.total ||
+                    order.grandTotal ||
+                    0
+                );
+
+            }
+        );
+
+
+        document.getElementById(
+            "totalOrders"
+        ).textContent =
+            orders.length;
+
+
+        document.getElementById(
+            "totalSales"
+        ).textContent =
+            formatPrice(totalSales);
+
+
+        orders
+            .slice(0, 5)
+            .forEach(
+                function (order) {
+
+                    const row =
+                        document.createElement("tr");
+
+                    const status =
+                        String(
+                            order.status ||
+                            "Processing"
+                        ).toLowerCase();
+
+
+                    let statusClass =
+                        "processing";
+
+                    if (
+                        status.includes("ship")
+                    ) {
+
+                        statusClass =
+                            "shipped";
+
+                    } else if (
+                        status.includes("deliver")
+                    ) {
+
+                        statusClass =
+                            "delivered";
+
+                    }
+
+
+                    const buyer =
+                        order.customerName ||
+                        order.buyerName ||
+                        order.name ||
+                        "Buyer";
+
+
+                    const orderNumber =
+                        order.orderId ||
+                        order.id ||
+                        "ORD-" +
+                        Math.floor(
+                            Math.random() * 10000
+                        );
+
+
+                    const amount =
+                        order.total ||
+                        order.grandTotal ||
+                        0;
+
+
+                    row.innerHTML =
+
+                        '<td>' +
+
+                            '<span class="order-id">' +
+                                String(
+                                    orderNumber
+                                ) +
+                            '</span>' +
+
+                        '</td>' +
+
+                        '<td>' +
+
+                            '<span class="buyer-name">' +
+                                String(
+                                    buyer
+                                ) +
+                            '</span>' +
+
+                        '</td>' +
+
+                        '<td>' +
+
+                            '<span class="amount">' +
+                                formatPrice(
+                                    amount
+                                ) +
+                            '</span>' +
+
+                        '</td>' +
+
+                        '<td>' +
+
+                            '<span class="status ' +
+                                statusClass +
+                            '">' +
+
+                                String(
+                                    order.status ||
+                                    "Processing"
+                                ) +
+
+                            '</span>' +
+
+                        '</td>';
+
+
+                    tableBody.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* -----------------------------
+       BUTTONS
+    ----------------------------- */
+
+    document.getElementById(
+        "addProductBtn"
+    ).addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                "add-product.html";
+
+        }
+    );
+
+
+    document.getElementById(
+        "viewStoreBtn"
+    ).addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                "../products.html";
+
+        }
+    );
+
+
+    document.getElementById(
+        "notificationBtn"
+    ).addEventListener(
+        "click",
+        function () {
+
+            showToast(
+                "You have new seller notifications."
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "logoutBtn"
+    ).addEventListener(
+        "click",
+        function () {
+
+            if (
+                window.ShopSphereAuth &&
+                typeof window.ShopSphereAuth.logout ===
+                "function"
+            ) {
+
+                window.ShopSphereAuth.logout();
+
+            } else {
+
+                localStorage.removeItem(
+                    "shopsphere_user"
+                );
+
+                window.location.href =
+                    "../login.html";
+
+            }
+
+        }
+    );
+
+
+    /* -----------------------------
+       TOAST
+    ----------------------------- */
+
+    let toastTimer;
+
+    function showToast(message) {
+
+        const toast =
+            document.getElementById(
+                "toast"
+            );
+
+        toast.textContent =
+            message;
+
+        toast.classList.add(
+            "show"
+        );
+
+        clearTimeout(
+            toastTimer
+        );
+
+        toastTimer =
+            setTimeout(
+                function () {
+
+                    toast.classList.remove(
+                        "show"
+                    );
+
+                },
+                2200
+            );
+
+    }
+
+
+    async function updateDashboardProducts() {
+        if (window.ShopSphereApi && window.ShopSphereAuth && typeof window.ShopSphereAuth.isSeller === "function" && window.ShopSphereAuth.isSeller()) {
+            try {
+                const backendList = await window.ShopSphereApi.products.getMyProducts();
+                if (Array.isArray(backendList)) {
+                    const totalEl = document.getElementById("totalProducts");
+                    if (totalEl) totalEl.textContent = backendList.length;
+
+                    const topProductsList = document.getElementById("topProductsList");
+                    if (topProductsList && backendList.length > 0) {
+                        topProductsList.innerHTML = "";
+                        backendList.slice(0, 5).forEach(product => {
+                            const row = document.createElement("div");
+                            row.className = "product-row";
+                            const thumbHtml = product.imageUrl
+                                ? `<img src="${product.imageUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" onerror="this.outerHTML='📦'">`
+                                : (product.emoji || "📦");
+                            row.innerHTML = `
+                                <div class="product-thumb">${thumbHtml}</div>
+                                <div class="product-row-info">
+                                    <strong>${product.name || 'Product'}</strong>
+                                    <span>${formatPrice(product.price)}</span>
+                                </div>
+                                <div class="stock">
+                                    <strong>${Number(product.stock || 0)}</strong>
+                                    <span>In Stock</span>
+                                </div>
+                            `;
+                            topProductsList.appendChild(row);
+                        });
+                    }
+                }
+            } catch (err) {
+                console.warn("Seller dashboard products notice:", err);
+            }
+        }
+    }
+
+    /* -----------------------------
+       INIT
+    ----------------------------- */
+
+    loadUser();
+    renderProductData();
+    updateDashboardProducts();
+    renderOrders();
+
+})();
+
+</script>
+
+</body>
+</html>
