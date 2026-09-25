@@ -53,8 +53,18 @@ public class UserService {
         String normalizedEmail = user.getEmail().trim().toLowerCase();
         user.setEmail(normalizedEmail);
 
-        if (userRepository.existsByEmail(normalizedEmail)) {
-            throw new RuntimeException("Email already registered");
+        String role = user.getRole();
+        if (role == null || role.isBlank()) {
+            role = "BUYER";
+        }
+        role = role.trim().toUpperCase();
+        if (!role.equals("BUYER") && !role.equals("SELLER")) {
+            role = "BUYER";
+        }
+        user.setRole(role);
+
+        if (userRepository.existsByEmailAndRole(normalizedEmail, role)) {
+            throw new RuntimeException("Email already registered for " + role.toLowerCase() + " account");
         }
 
         // 2. Phone normalization and validation
@@ -64,8 +74,8 @@ public class UserService {
         String normalizedPhone = smsOtpService.normalizeIndianPhone(user.getPhone());
         user.setPhone(normalizedPhone);
 
-        if (userRepository.existsByPhone(normalizedPhone)) {
-            throw new RuntimeException("Phone number already registered");
+        if (userRepository.existsByPhoneAndRole(normalizedPhone, role)) {
+            throw new RuntimeException("Phone number already registered for " + role.toLowerCase() + " account");
         }
 
         if (user.getPassword() == null || user.getPassword().isBlank()) {
@@ -75,9 +85,6 @@ public class UserService {
         user.setPassword(
                 passwordEncoder.encode(user.getPassword())
         );
-
-        // Public registration strictly creates BUYER accounts only
-        user.setRole("BUYER");
 
         // Standard direct registration without OTP blocking
         user.setEmailVerified(true);
@@ -116,16 +123,22 @@ public class UserService {
             throw new RuntimeException("Email is required.");
         }
         String normalizedEmail = email.trim().toLowerCase();
-        User user = userRepository.findByEmail(normalizedEmail)
-                .orElseThrow(() -> new RuntimeException("User not found with email: " + normalizedEmail));
+        List<User> users = userRepository.findAllByEmail(normalizedEmail);
+        if (users.isEmpty()) {
+            throw new RuntimeException("User not found with email: " + normalizedEmail);
+        }
+        User user = users.get(0);
 
         otpService.verifyOtp(normalizedEmail, "EMAIL_VERIFICATION", otp);
 
-        user.setEmailVerified(true);
-        if (Boolean.TRUE.equals(user.getPhoneVerified())) {
-            user.setStatus("ACTIVE");
+        for (User u : users) {
+            u.setEmailVerified(true);
+            if (Boolean.TRUE.equals(u.getPhoneVerified())) {
+                u.setStatus("ACTIVE");
+            }
+            userRepository.save(u);
         }
-        return userRepository.save(user);
+        return user;
     }
 
     // =========================
@@ -173,8 +186,11 @@ public class UserService {
             throw new RuntimeException("Email is required.");
         }
         String normalizedEmail = email.trim().toLowerCase();
-        User user = userRepository.findByEmail(normalizedEmail)
-                .orElseThrow(() -> new RuntimeException("User not found with email: " + normalizedEmail));
+        List<User> users = userRepository.findAllByEmail(normalizedEmail);
+        if (users.isEmpty()) {
+            throw new RuntimeException("User not found with email: " + normalizedEmail);
+        }
+        User user = users.get(0);
 
         if (Boolean.TRUE.equals(user.getEmailVerified())) {
             throw new RuntimeException("Email is already verified.");
@@ -198,8 +214,11 @@ public class UserService {
         Long userId = null;
 
         if (clean.contains("@")) {
-            User user = userRepository.findByEmail(clean.toLowerCase())
-                    .orElseThrow(() -> new RuntimeException("User not found with email: " + clean));
+            List<User> users = userRepository.findAllByEmail(clean.toLowerCase());
+            if (users.isEmpty()) {
+                throw new RuntimeException("User not found with email: " + clean);
+            }
+            User user = users.get(0);
             if (Boolean.TRUE.equals(user.getPhoneVerified())) {
                 throw new RuntimeException("Mobile number is already verified.");
             }
@@ -228,15 +247,18 @@ public class UserService {
 
     public User createAdminManagedUser(User user) {
 
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Email already registered");
+        String role = user.getRole() != null ? user.getRole().toUpperCase() : "BUYER";
+        user.setRole(role);
+
+        if (userRepository.existsByEmailAndRole(user.getEmail(), role)) {
+            throw new RuntimeException("Email already registered for " + role.toLowerCase() + " account");
         }
 
         if (user.getPhone() != null
                 && !user.getPhone().isBlank()
-                && userRepository.existsByPhone(user.getPhone())) {
+                && userRepository.existsByPhoneAndRole(user.getPhone(), role)) {
 
-            throw new RuntimeException("Phone number already registered");
+            throw new RuntimeException("Phone number already registered for " + role.toLowerCase() + " account");
         }
 
         user.setPassword(
@@ -258,7 +280,16 @@ public class UserService {
 
     public User getUserByEmail(String email) {
 
-        return userRepository.findByEmail(email)
+        List<User> users = userRepository.findAllByEmail(email);
+        if (users.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+        return users.get(0);
+    }
+
+    public User getUserByEmailAndRole(String email, String role) {
+
+        return userRepository.findByEmailAndRole(email, role)
                 .orElseThrow(
                         () -> new RuntimeException("User not found")
                 );
@@ -554,13 +585,13 @@ public class UserService {
             throw new RuntimeException("Please enter a valid email address.");
         }
 
-        Optional<User> userOpt = userRepository.findByEmail(cleanEmail);
-        if (userOpt.isEmpty()) {
+        List<User> users = userRepository.findAllByEmail(cleanEmail);
+        if (users.isEmpty()) {
             // Account Enumeration Protection: silently return without revealing account status
             return;
         }
 
-        User user = userOpt.get();
+        User user = users.get(0);
         String rawOtp = otpService.generate6DigitOtp();
 
         // createOtp enforces cooldown (60s) and max requests per hour (5)
@@ -633,8 +664,10 @@ public class UserService {
             throw new RuntimeException("Password reset authorization has expired. Please request a new code.");
         }
 
-        User user = userRepository.findByEmail(cleanEmail)
-                .orElseThrow(() -> new RuntimeException("User not found."));
+        List<User> users = userRepository.findAllByEmail(cleanEmail);
+        if (users.isEmpty()) {
+            throw new RuntimeException("User not found.");
+        }
 
         // Single-use guarantee: Invalidate reset authorization token immediately
         record.setPurpose("PASSWORD_RESET_USED");
@@ -642,12 +675,15 @@ public class UserService {
         otpVerificationRepository.save(record);
 
         // Hash new password using BCrypt PasswordEncoder
-        user.setPassword(passwordEncoder.encode(newPassword));
-        user.setEmailVerified(true);
-        if (Boolean.TRUE.equals(user.getPhoneVerified())) {
-            user.setStatus("ACTIVE");
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        for (User user : users) {
+            user.setPassword(encodedPassword);
+            user.setEmailVerified(true);
+            if (Boolean.TRUE.equals(user.getPhoneVerified())) {
+                user.setStatus("ACTIVE");
+            }
+            userRepository.save(user);
         }
-        userRepository.save(user);
     }
 
     // =========================

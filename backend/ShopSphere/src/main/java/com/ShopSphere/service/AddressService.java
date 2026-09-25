@@ -24,14 +24,8 @@ public class AddressService {
     }
 
     private User getBuyer(String email) {
-        User buyer = userRepository.findByEmail(email)
+        return userRepository.findByEmailAndRole(email, "BUYER")
                 .orElseThrow(() -> new RuntimeException("Buyer not found"));
-
-        if (!"BUYER".equalsIgnoreCase(buyer.getRole())) {
-            throw new RuntimeException("Only buyers can manage addresses");
-        }
-
-        return buyer;
     }
 
     public List<AddressResponse> getAddresses(String buyerEmail) {

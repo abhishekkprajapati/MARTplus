@@ -41,14 +41,18 @@ function getUserRoleUpper() {
 ================================ */
 
 function createSession(userData) {
-    const roleUpper = (userData.role || "BUYER").toUpperCase();
+    const rawRole = userData ? (userData.role || (userData.user && userData.user.role)) : null;
+    if (!rawRole) {
+        console.warn("createSession called without a role from server:", userData);
+    }
+    const roleUpper = rawRole ? String(rawRole).trim().toUpperCase() : "BUYER";
     const roleLower = roleUpper.toLowerCase();
-    const id = userData.userId || userData.id;
-    const name = userData.name || (
+    const id = userData ? (userData.userId || userData.id) : null;
+    const name = userData ? (userData.name || (
         ((userData.firstName || "") + " " + (userData.lastName || "")).trim() ||
         userData.email ||
         "User"
-    );
+    )) : "User";
     const session = {
         ...userData,
         id: id,
@@ -596,7 +600,14 @@ window.ShopSphereAuth = {
    Centralized API Client fallback
 ================================ */
 if (!window.ShopSphereApi) {
-    const API_BASE = "http://localhost:8080/api";
+    const isLocalhost = typeof window !== "undefined" && (
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1" ||
+        window.location.protocol === "file:"
+    );
+    const API_BASE = isLocalhost
+        ? "http://localhost:8080/api"
+        : "https://martplus-backend.onrender.com/api";
 
     async function apiFetch(endpoint, options = {}) {
         const url = endpoint.startsWith("http") ? endpoint : `${API_BASE}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
@@ -654,7 +665,7 @@ if (!window.ShopSphereApi) {
         getCurrentUser,
         request: apiFetch,
         auth: {
-            login: (email, password) => apiFetch("/auth/login", { method: "POST", body: { email, password } }),
+            login: (email, password, role) => apiFetch("/auth/login", { method: "POST", body: { email, password, role } }),
             register: (userData) => apiFetch("/auth/register", { method: "POST", body: userData }),
             getCurrentUser: () => apiFetch("/users/me")
         },

@@ -54,8 +54,20 @@ public class AuthService {
 
         String email = request.getEmail().trim().toLowerCase();
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+       String role = request.getRole();
+
+if (role == null || role.isBlank()) {
+    throw new RuntimeException("Please select an account type.");
+}
+
+role = role.trim().toUpperCase();
+
+if (!role.equals("BUYER") && !role.equals("SELLER") && !role.equals("ADMIN")) {
+    throw new RuntimeException("Invalid account type.");
+}
+
+User user = userRepository.findByEmailAndRole(email, role)
+        .orElseThrow(() -> new RuntimeException("Invalid email, password or account type"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid email or password");

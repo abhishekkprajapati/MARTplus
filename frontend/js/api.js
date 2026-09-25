@@ -6,7 +6,14 @@
 (function () {
     "use strict";
 
-    const API_BASE = "https://martplus-backend.onrender.com/api";
+    const isLocalhost = typeof window !== "undefined" && (
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1" ||
+        window.location.protocol === "file:"
+    );
+    const API_BASE = isLocalhost
+        ? "http://localhost:8080/api"
+        : "https://martplus-backend.onrender.com/api";
     const AUTH_KEY = "shopsphere_user";
     
     function getToken() {
@@ -89,10 +96,14 @@
 
         // ==================== AUTH ====================
         auth: {
-            login: (email, password) => request("/auth/login", {
-                method: "POST",
-                body: { email, password }
-            }),
+            login: (email, password, role) => request("/auth/login", {
+    method: "POST",
+    body: {
+        email,
+        password,
+        role
+    }
+}),
             register: (userData) => request("/auth/register", {
                 method: "POST",
                 body: userData

@@ -29,16 +29,10 @@ public class ActivityLogService {
             String description
     ) {
 
-        User admin = userRepository.findByEmail(adminEmail)
+        User admin = userRepository.findByEmailAndRole(adminEmail, "ADMIN")
                 .orElseThrow(() ->
                         new RuntimeException("Admin not found")
                 );
-
-        if (!"ADMIN".equalsIgnoreCase(admin.getRole())) {
-            throw new RuntimeException(
-                    "Only admins can create activity logs"
-            );
-        }
 
         ActivityLog log = new ActivityLog();
 
@@ -62,7 +56,7 @@ public class ActivityLogService {
             String adminEmail
     ) {
 
-        User admin = userRepository.findByEmail(adminEmail)
+        User admin = userRepository.findByEmailAndRole(adminEmail, "ADMIN")
                 .orElseThrow(() ->
                         new RuntimeException("Admin not found")
                 );

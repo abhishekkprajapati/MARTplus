@@ -24,8 +24,17 @@ public class UserController {
     ) {
 
         String email = authentication.getName();
+        String role = authentication.getAuthorities().stream()
+                .findFirst()
+                .map(a -> a.getAuthority().replace("ROLE_", ""))
+                .orElse(null);
 
-        User user = userService.getUserByEmail(email);
+        User user;
+        if (role != null && !role.isBlank()) {
+            user = userService.getUserByEmailAndRole(email, role);
+        } else {
+            user = userService.getUserByEmail(email);
+        }
 
         user.setPassword(null);
 

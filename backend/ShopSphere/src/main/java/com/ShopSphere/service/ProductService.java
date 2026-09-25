@@ -25,7 +25,7 @@ public class ProductService {
 
     public Product createProduct(Product product, String sellerEmail) {
 
-        User seller = userRepository.findByEmail(sellerEmail)
+        User seller = userRepository.findByEmailAndRole(sellerEmail, "SELLER")
                 .orElseThrow(() ->
                         new RuntimeException("Seller not found")
                 );
@@ -89,7 +89,7 @@ public class ProductService {
             String sellerEmail
     ) {
 
-        User seller = userRepository.findByEmail(sellerEmail)
+        User seller = userRepository.findByEmailAndRole(sellerEmail, "SELLER")
                 .orElseThrow(() ->
                         new RuntimeException("Seller not found")
                 );
@@ -112,7 +112,7 @@ public class ProductService {
 
         Product existingProduct = getProductById(productId);
 
-        User seller = userRepository.findByEmail(sellerEmail)
+        User seller = userRepository.findByEmailAndRole(sellerEmail, "SELLER")
                 .orElseThrow(() ->
                         new RuntimeException("Seller not found")
                 );
@@ -181,7 +181,7 @@ public class ProductService {
 
         Product product = getProductById(productId);
 
-        User seller = userRepository.findByEmail(sellerEmail)
+        User seller = userRepository.findByEmailAndRole(sellerEmail, "SELLER")
                 .orElseThrow(() ->
                         new RuntimeException("Seller not found")
                 );
@@ -222,7 +222,7 @@ public class ProductService {
 
         Product product = getProductById(productId);
 
-        User seller = userRepository.findByEmail(sellerEmail)
+        User seller = userRepository.findByEmailAndRole(sellerEmail, "SELLER")
                 .orElseThrow(() ->
                         new RuntimeException("Seller not found")
                 );
@@ -252,7 +252,7 @@ public class ProductService {
             );
         }
 
-        User seller = userRepository.findByEmail(sellerEmail)
+        User seller = userRepository.findByEmailAndRole(sellerEmail, "SELLER")
                 .orElseThrow(() ->
                         new RuntimeException("Seller not found")
                 );

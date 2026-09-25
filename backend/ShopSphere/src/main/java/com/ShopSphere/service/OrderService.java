@@ -62,34 +62,18 @@ public class OrderService {
 
     private User getBuyer(String email) {
 
-        User buyer = userRepository.findByEmail(email)
+        return userRepository.findByEmailAndRole(email, "BUYER")
                 .orElseThrow(() ->
                         new RuntimeException("Buyer not found")
                 );
-
-        if (!"BUYER".equalsIgnoreCase(buyer.getRole())) {
-            throw new RuntimeException(
-                    "Only buyers can place orders"
-            );
-        }
-
-        return buyer;
     }
 
     private User getSeller(String email) {
 
-        User seller = userRepository.findByEmail(email)
+        return userRepository.findByEmailAndRole(email, "SELLER")
                 .orElseThrow(() ->
                         new RuntimeException("Seller not found")
                 );
-
-        if (!"SELLER".equalsIgnoreCase(seller.getRole())) {
-            throw new RuntimeException(
-                    "Only sellers can view seller orders"
-            );
-        }
-
-        return seller;
     }
 
     // ==========================================

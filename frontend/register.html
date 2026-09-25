@@ -1007,7 +1007,7 @@
     </div>
 
     <div class="role-notice-tip">
-        💡 You can choose your account type now.
+        
     </div>
 
 </div>
@@ -1310,25 +1310,31 @@ document.addEventListener("DOMContentLoaded", function () {
     const verificationGlobalSuccess = document.getElementById("verificationGlobalSuccess");
 
 const roleOptions = document.querySelectorAll(".role-pill-option");
+const roleInputs = document.querySelectorAll('input[name="role"]');
+
+function updateRegisterRoleUI() {
+    roleOptions.forEach(function (option) {
+        const radio = option.querySelector('input[type="radio"]');
+        if (radio && radio.checked) {
+            option.classList.add("active");
+        } else {
+            option.classList.remove("active");
+        }
+    });
+}
 
 roleOptions.forEach(function (option) {
-
     option.addEventListener("click", function () {
-
-        roleOptions.forEach(function (item) {
-            item.classList.remove("active");
-        });
-
-        option.classList.add("active");
-
-        const radio = option.querySelector(
-            'input[type="radio"]'
-        );
-
-        radio.checked = true;
-
+        const radio = option.querySelector('input[type="radio"]');
+        if (radio) {
+            radio.checked = true;
+            updateRegisterRoleUI();
+        }
     });
+});
 
+roleInputs.forEach(function (radio) {
+    radio.addEventListener("change", updateRegisterRoleUI);
 });
 
 
@@ -1665,9 +1671,8 @@ roleOptions.forEach(function (option) {
         const phoneVal = phone.value.trim();
         const passwordVal = password.value;
         const confirmPasswordVal = confirmPassword.value;
-        const roleVal = document.querySelector(
-           'input[name="role"]:checked'
-        ).value;
+        const roleChecked = document.querySelector('input[name="role"]:checked');
+        const roleVal = (roleChecked ? roleChecked.value : "BUYER").toUpperCase();
 
         // Validations
         if (!firstNameVal || !lastNameVal) {
@@ -1735,7 +1740,7 @@ roleOptions.forEach(function (option) {
             showSuccess("Account created successfully! Redirecting to sign in...");
             btnText.textContent = "Account Created!";
             setTimeout(function () {
-                window.location.href = "login.html";
+                window.location.href = "login.html?role=" + encodeURIComponent(roleVal) + "&email=" + encodeURIComponent(emailVal);
             }, 1200);
         } catch (error) {
             console.error("Registration error:", error);

@@ -29,19 +29,10 @@ public class OrderTrackingService {
     }
 
     private User getBuyer(String email) {
-
-        User buyer = userRepository.findByEmail(email)
+        return userRepository.findByEmailAndRole(email, "BUYER")
                 .orElseThrow(() ->
                         new RuntimeException("Buyer not found")
                 );
-
-        if (!"BUYER".equalsIgnoreCase(buyer.getRole())) {
-            throw new RuntimeException(
-                    "Only buyers can view order tracking"
-            );
-        }
-
-        return buyer;
     }
 
     public List<OrderTrackingResponse> getTracking(
