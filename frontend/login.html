@@ -969,6 +969,26 @@
             >
             <span style="font-weight: 600;">🏪 Seller</span>
         </label>
+
+        <label id="adminRoleLabel" style="
+            flex: 1;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            transition: all 0.2s ease;
+        ">
+            <input
+                type="radio"
+                name="role"
+                value="ADMIN"
+            >
+            <span style="font-weight: 600;">⚙️ Admin</span>
+        </label>
     </div>
 </div>
 
@@ -2038,23 +2058,17 @@ function initLoginPage() {
         const roleRadios = document.querySelectorAll('input[name="role"]');
         const buyerRoleLabel = document.getElementById("buyerRoleLabel");
         const sellerRoleLabel = document.getElementById("sellerRoleLabel");
+        const adminRoleLabel = document.getElementById("adminRoleLabel");
 
         function updateRoleSelection() {
             const roleEl = document.querySelector('input[name="role"]:checked');
             const selected = roleEl ? roleEl.value : "BUYER";
-            if (buyerRoleLabel && sellerRoleLabel) {
-                if (selected === "BUYER") {
-                    buyerRoleLabel.style.borderColor = "#635bff";
-                    buyerRoleLabel.style.background = "#f5f3ff";
-                    sellerRoleLabel.style.borderColor = "#e5e7eb";
-                    sellerRoleLabel.style.background = "#ffffff";
-                } else {
-                    sellerRoleLabel.style.borderColor = "#635bff";
-                    sellerRoleLabel.style.background = "#f5f3ff";
-                    buyerRoleLabel.style.borderColor = "#e5e7eb";
-                    buyerRoleLabel.style.background = "#ffffff";
-                }
-            }
+            [buyerRoleLabel, sellerRoleLabel, adminRoleLabel].forEach(label => {
+                if (!label) return;
+                const isSelected = label.querySelector('input').value === selected;
+                label.style.borderColor = isSelected ? "#635bff" : "#e5e7eb";
+                label.style.background = isSelected ? "#f5f3ff" : "#ffffff";
+            });
         }
         roleRadios.forEach(r => r.addEventListener("change", updateRoleSelection));
 
@@ -2076,6 +2090,15 @@ function initLoginPage() {
                 }
             });
         }
+        if (adminRoleLabel) {
+            adminRoleLabel.addEventListener("click", function () {
+                const r = document.querySelector('input[name="role"][value="ADMIN"]');
+                if (r) {
+                    r.checked = true;
+                    updateRoleSelection();
+                }
+            });
+        }
 
         // Support URL parameters (e.g. login.html?role=SELLER&email=user@example.com)
         try {
@@ -2091,6 +2114,11 @@ function initLoginPage() {
                 const sellerRadio = document.querySelector('input[name="role"][value="SELLER"]');
                 if (sellerRadio) {
                     sellerRadio.checked = true;
+                }
+            } else if (paramRole === "ADMIN") {
+                const adminRadio = document.querySelector('input[name="role"][value="ADMIN"]');
+                if (adminRadio) {
+                    adminRadio.checked = true;
                 }
             } else if (paramRole === "BUYER") {
                 const buyerRadio = document.querySelector('input[name="role"][value="BUYER"]');
